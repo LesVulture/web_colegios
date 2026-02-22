@@ -17,14 +17,18 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Navigation
 
 - [ ] **NAV-01**: Header global con logo Lafayette visible en todas las páginas (esquina superior izquierda, 12px offset del borde superior)
-- [ ] **NAV-02**: Menú principal con las 8 categorías de uso + enlaces a Tecnologías, Personalización, Cuellos
+- [ ] **NAV-02**: Menú principal con 4 items: Usos, Tecnologías, Personalización, Cuellos
 - [ ] **NAV-03**: Navegación responsive (desktop: full nav bar, tablet: hamburger menu o nav compacta)
 
 ### Home
 
 - [ ] **HOME-01**: Hero section con branding "Lafayette Uni For Me Colegios" y visual impactante
-- [ ] **HOME-02**: Grid de 8 cards de categoría, cada una con su color distintivo e imagen representativa, enlace a la página de la categoría
-- [ ] **HOME-03**: Acceso visible a secciones secundarias: Tecnologías, Personalización, Cuellos
+- [ ] **HOME-02**: Grid visual de 4 items principales (Usos, Tecnologías, Personalización, Cuellos), cada uno con imagen/icono representativo y enlace a su sección
+- [ ] **HOME-03**: Los 4 items del menú principal son la única navegación de contenido desde la home (no hay secciones "secundarias", todo es igual de prominente)
+
+### Usos (Intermediate Page)
+
+- [ ] **USOS-01**: Página intermedia `/usos` con grid de 8 cards de categoría de uso, cada una con su color distintivo e imagen representativa, enlace a `/uso/[slug]`
 
 ### Category Pages
 
@@ -99,39 +103,40 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase ? | Pending |
-| FOUND-02 | Phase ? | Pending |
-| FOUND-03 | Phase ? | Pending |
-| FOUND-04 | Phase ? | Pending |
-| NAV-01 | Phase ? | Pending |
-| NAV-02 | Phase ? | Pending |
-| NAV-03 | Phase ? | Pending |
-| HOME-01 | Phase ? | Pending |
-| HOME-02 | Phase ? | Pending |
-| HOME-03 | Phase ? | Pending |
-| CAT-01 | Phase ? | Pending |
-| CAT-02 | Phase ? | Pending |
-| CAT-03 | Phase ? | Pending |
-| CAT-04 | Phase ? | Pending |
-| TEL-01 | Phase ? | Pending |
-| TEL-02 | Phase ? | Pending |
-| TEL-03 | Phase ? | Pending |
-| FILT-01 | Phase ? | Pending |
-| FILT-02 | Phase ? | Pending |
-| FILT-03 | Phase ? | Pending |
-| TECH-01 | Phase ? | Pending |
-| PERS-01 | Phase ? | Pending |
-| CUEL-01 | Phase ? | Pending |
-| DES-01 | Phase ? | Pending |
-| DES-02 | Phase ? | Pending |
-| DES-03 | Phase ? | Pending |
-| DES-04 | Phase ? | Pending |
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Pending |
+| DES-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 2 | Pending |
+| FOUND-03 | Phase 2 | Pending |
+| NAV-01 | Phase 3 | Pending |
+| NAV-02 | Phase 3 | Pending |
+| NAV-03 | Phase 3 | Pending |
+| HOME-01 | Phase 3 | Pending |
+| HOME-02 | Phase 3 | Pending |
+| HOME-03 | Phase 3 | Pending |
+| USOS-01 | Phase 3 | Pending |
+| CAT-01 | Phase 4 | Pending |
+| CAT-02 | Phase 4 | Pending |
+| CAT-03 | Phase 4 | Pending |
+| CAT-04 | Phase 4 | Pending |
+| TEL-01 | Phase 5 | Pending |
+| TEL-02 | Phase 5 | Pending |
+| TEL-03 | Phase 5 | Pending |
+| TECH-01 | Phase 6 | Pending |
+| PERS-01 | Phase 6 | Pending |
+| CUEL-01 | Phase 6 | Pending |
+| DES-02 | Phase 6 | Pending |
+| DES-03 | Phase 6 | Pending |
+| DES-04 | Phase 6 | Pending |
+| FILT-01 | Phase 7 | Pending |
+| FILT-02 | Phase 7 | Pending |
+| FILT-03 | Phase 7 | Pending |
 
 **Coverage:**
-- v1 requirements: 27 total
-- Mapped to phases: 0
-- Unmapped: 27 ⚠️
+- v1 requirements: 28 total
+- Mapped to phases: 28
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-21*
-*Last updated: 2026-02-21 after initial definition*
+*Last updated: 2026-02-21 after roadmap revision (navigation hierarchy corrected)*
