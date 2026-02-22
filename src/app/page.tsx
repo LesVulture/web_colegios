@@ -1,148 +1,82 @@
-const categories = [
-  { name: 'Sudaderas', slug: 'sudaderas', hex: '#1B3A5C' },
-  { name: 'Camisetas', slug: 'camisetas', hex: '#3FA9D5' },
-  { name: 'Deportivo', slug: 'deportivo', hex: '#6CB33F' },
-  { name: 'Diario', slug: 'diario', hex: '#E91E8C' },
-  { name: 'Buzos', slug: 'buzos', hex: '#F7C948' },
-  { name: 'Chaquetas Prom', slug: 'chaquetas-prom', hex: '#C42034' },
-  { name: 'Blusas', slug: 'blusas', hex: '#7B4B94' },
-  { name: 'Delantales', slug: 'delantales', hex: '#F7941D' },
-] as const
+import Image from 'next/image'
+import Link from 'next/link'
+import { LayoutGrid, Cpu, Palette, Shirt } from 'lucide-react'
+import { NAV_ITEMS } from '@/lib/nav'
+import type { LucideIcon } from 'lucide-react'
 
-const categoryColorMap: Record<string, { bg: string; fg: string }> = {
-  sudaderas: { bg: 'bg-cat-sudaderas', fg: 'text-cat-sudaderas-fg' },
-  camisetas: { bg: 'bg-cat-camisetas', fg: 'text-cat-camisetas-fg' },
-  deportivo: { bg: 'bg-cat-deportivo', fg: 'text-cat-deportivo-fg' },
-  diario: { bg: 'bg-cat-diario', fg: 'text-cat-diario-fg' },
-  buzos: { bg: 'bg-cat-buzos', fg: 'text-cat-buzos-fg' },
-  'chaquetas-prom': { bg: 'bg-cat-chaquetas-prom', fg: 'text-cat-chaquetas-prom-fg' },
-  blusas: { bg: 'bg-cat-blusas', fg: 'text-cat-blusas-fg' },
-  delantales: { bg: 'bg-cat-delantales', fg: 'text-cat-delantales-fg' },
+const iconMap: Record<string, LucideIcon> = {
+  LayoutGrid,
+  Cpu,
+  Palette,
+  Shirt,
+}
+
+/** Maps each nav section href to its representative background image */
+const sectionImages: Record<string, string> = {
+  '/usos': '/images/content/page14-45.webp',
+  '/tecnologias': '/images/content/page13-43.webp',
+  '/personalizacion': '/images/content/page13-38.webp',
+  '/cuellos': '/images/content/page16-103.webp',
 }
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background p-8 lg:p-16">
-      <div className="mx-auto max-w-6xl">
-        {/* Header */}
-        <header className="mb-16">
-          <h1 className="text-4xl font-semibold text-brand-primary">
-            Lafayette Uni For Me - Colegios
+    <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
+      {/* Hero Section */}
+      <section className="relative h-[400px] overflow-hidden rounded-lg lg:h-[500px]">
+        <Image
+          src="/images/content/page17-105.webp"
+          alt="Uniformes escolares Lafayette"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          preload
+        />
+        <div className="absolute inset-0 bg-brand-primary/60" />
+        <div className="relative z-10 flex h-full flex-col items-center justify-center">
+          <h1 className="text-center font-heading text-4xl font-bold text-white lg:text-6xl">
+            Lafayette Uni For Me
           </h1>
-          <h2 className="mt-2 text-2xl font-semibold text-foreground">
-            Design System Preview
-          </h2>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
-            Esta pagina muestra todos los tokens del design system funcionando:
-            colores de categoria, paleta de marca, tipografia y border-radius.
-            Es temporal y sera reemplazada por la home real en Phase 3.
+          <p className="mt-2 text-center font-heading text-3xl font-bold text-white lg:text-5xl">
+            Colegios
           </p>
-        </header>
+          <p className="mt-4 text-center text-lg text-white/80">
+            Soluciones textiles para uniformes escolares
+          </p>
+        </div>
+      </section>
 
-        {/* 8 Category Colors */}
-        <section className="mb-16">
-          <h3 className="mb-6 text-xl font-medium text-foreground">
-            Colores de Categoria (8)
-          </h3>
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {categories.map((cat) => {
-              const colors = categoryColorMap[cat.slug]
-              return (
-                <div
-                  key={cat.slug}
-                  className={`${colors.bg} ${colors.fg} flex flex-col items-center justify-center rounded-lg p-6`}
-                >
-                  <span className="text-lg font-semibold">{cat.name}</span>
-                  <span className="mt-1 text-sm opacity-80">{cat.hex}</span>
-                </div>
-              )
-            })}
-          </div>
-        </section>
+      {/* Grid de 4 Secciones */}
+      <div className="mt-8 grid grid-cols-2 gap-4 lg:mt-12 lg:grid-cols-4 lg:gap-6">
+        {NAV_ITEMS.map((item) => {
+          const Icon = iconMap[item.icon]
+          const bgImage = sectionImages[item.href]
 
-        {/* Brand Colors */}
-        <section className="mb-16">
-          <h3 className="mb-6 text-xl font-medium text-foreground">
-            Paleta de Marca
-          </h3>
-          <div className="flex gap-4">
-            <div className="flex flex-col items-center justify-center rounded-lg bg-brand-primary p-6 text-brand-primary-foreground">
-              <span className="text-lg font-semibold">Primary</span>
-              <span className="mt-1 text-sm opacity-80">#1B3A5C</span>
-            </div>
-            <div className="flex flex-col items-center justify-center rounded-lg bg-brand-accent p-6 text-brand-accent-foreground">
-              <span className="text-lg font-semibold">Accent</span>
-              <span className="mt-1 text-sm opacity-80">#C42034</span>
-            </div>
-            <div className="flex flex-col items-center justify-center rounded-lg bg-surface p-6 text-foreground ring-1 ring-border">
-              <span className="text-lg font-semibold">Surface</span>
-              <span className="mt-1 text-sm opacity-80">#FAFAFA</span>
-            </div>
-            <div className="flex flex-col items-center justify-center rounded-lg bg-muted p-6 text-muted-foreground ring-1 ring-border">
-              <span className="text-lg font-semibold">Muted</span>
-              <span className="mt-1 text-sm opacity-80">#F5F5F5</span>
-            </div>
-          </div>
-        </section>
-
-        {/* Border Radius Tokens */}
-        <section className="mb-16">
-          <h3 className="mb-6 text-xl font-medium text-foreground">
-            Border Radius Tokens
-          </h3>
-          <div className="flex gap-6">
-            <div className="flex flex-col items-center gap-2">
-              <div className="size-24 rounded-sm bg-brand-primary" />
-              <span className="text-sm text-muted-foreground">
-                rounded-sm (0.5rem)
-              </span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="size-24 rounded-md bg-brand-primary" />
-              <span className="text-sm text-muted-foreground">
-                rounded-md (0.75rem)
-              </span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="size-24 rounded-lg bg-brand-primary" />
-              <span className="text-sm text-muted-foreground">
-                rounded-lg (1rem)
-              </span>
-            </div>
-          </div>
-        </section>
-
-        {/* Typography Preview */}
-        <section className="mb-16">
-          <h3 className="mb-6 text-xl font-medium text-foreground">
-            Tipografia
-          </h3>
-          <div className="space-y-4 rounded-lg bg-surface p-8 ring-1 ring-border">
-            <h1 className="text-4xl font-semibold">
-              h1 - Raleway SemiBold 2.5rem
-            </h1>
-            <h2 className="text-3xl font-semibold">
-              h2 - Raleway SemiBold 2rem
-            </h2>
-            <h3 className="text-2xl font-medium">
-              h3 - Raleway Medium 1.5rem
-            </h3>
-            <h4 className="text-xl font-medium">
-              h4 - Raleway Medium 1.25rem
-            </h4>
-            <hr className="border-border" />
-            <p className="text-base leading-relaxed">
-              Body - Montserrat Regular 1rem. Este es un parrafo de ejemplo
-              para verificar que la tipografia del cuerpo de texto se renderiza
-              correctamente con Montserrat. Las especificaciones tecnicas de
-              las telas se mostraran en este estilo.
-            </p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
-              Body Small - Montserrat Regular 0.875rem. Texto secundario para
-              metadatos y descripciones complementarias.
-            </p>
-          </div>
-        </section>
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="group relative h-48 cursor-pointer overflow-hidden rounded-lg transition-transform duration-300 hover:scale-[1.02] lg:h-56"
+            >
+              {bgImage ? (
+                <Image
+                  src={bgImage}
+                  alt={item.label}
+                  fill
+                  sizes="(min-width: 1024px) 25vw, 50vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-brand-primary" />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 flex items-center gap-3 p-4 text-white">
+                {Icon && <Icon size={24} />}
+                <span className="text-lg font-semibold">{item.label}</span>
+              </div>
+            </Link>
+          )
+        })}
       </div>
     </div>
   )
