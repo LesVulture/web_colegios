@@ -12,7 +12,7 @@ El catálogo web de Lafayette reemplaza un PDF de 37MB como herramienta de venta
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Project Foundation** - Scaffolding Next.js 16, design system con tokens de 8 colores de categoría, configuración Tailwind v4
+- [x] **Phase 1: Project Foundation** - Scaffolding Next.js 16, design system con tokens de 8 colores de categoría, configuración Tailwind v4
 - [ ] **Phase 2: Data Layer & Assets** - Modelos TypeScript del catálogo completo, extracción y optimización de imágenes del PDF
 - [ ] **Phase 3: Global Navigation & Home** - Header con logo Lafayette, menú de 4 items principales, home page con hero y grid de 4 secciones, página intermedia `/usos` con 8 categorías
 - [ ] **Phase 4: Category Pages** - 8 páginas de categoría con routing dinámico `/uso/[slug]`, grid de product cards y theming por color
@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 1 plan
 
 Plans:
-- [ ] 01-01-PLAN.md — Scaffold Next.js 16 + design system completo (tokens de color, tipografia, estilos base)
+- [x] 01-01-PLAN.md — Scaffold Next.js 16 + design system completo (tokens de color, tipografia, estilos base)
 
 ### Phase 2: Data Layer & Assets
 **Goal**: Todo el contenido del catálogo está modelado como datos TypeScript tipados y las imágenes del PDF están extraídas y listas para uso con next/image
@@ -131,7 +131,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Project Foundation | 0/? | Not started | - |
+| 1. Project Foundation | 1/1 | Complete | 2026-02-22 |
 | 2. Data Layer & Assets | 0/? | Not started | - |
 | 3. Global Navigation & Home | 0/? | Not started | - |
 | 4. Category Pages | 0/? | Not started | - |
