@@ -1,27 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { icons } from 'lucide-react'
 import { getTechnologyById } from '@/lib/content'
+import { TechIcon } from '@/components/tech-icon'
 import type { Fabric } from '@/lib/content/types'
-
-function TechIcon({ icon }: { icon: string }) {
-  if (!icon) return null
-
-  if (icon.startsWith('/')) {
-    return (
-      <img
-        src={icon}
-        alt=""
-        width={14}
-        height={14}
-        className="inline-block"
-      />
-    )
-  }
-
-  const LucideIcon = icons[icon as keyof typeof icons]
-  return LucideIcon ? <LucideIcon size={14} /> : null
-}
 
 export function FabricCard({
   fabric,
