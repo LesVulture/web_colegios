@@ -26,7 +26,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 ### v1.1 Catalogo Completo
 
 - [x] **Phase 5: Tech Debt & Data Foundation** - Resolver 404 de imagenes, bugs de nav, dependencias muertas; crear modelos de datos para personalizacion y cuellos
-- [ ] **Phase 6: Fabric Detail Pages** - Fichas tecnicas completas de cada tela con specs, imagen, tooltips, badges y navegacion cruzada
+- [x] **Phase 6: Fabric Detail Pages** - Fichas tecnicas completas de cada tela con specs, imagen, tooltips, badges y navegacion cruzada
 - [ ] **Phase 7: Content Section Pages** - Paginas de Tecnologias, Personalizacion y Cuellos con contenido real del PDF
 - [ ] **Phase 8: Search, Filter & Sort** - Filtrado por tecnologia, ordenamiento por peso/ancho, busqueda fuzzy con fuse.js
 - [ ] **Phase 9: Responsive Polish & Deploy** - Verificacion responsive lg/md, deploy Vercel, performance SSG < 2s
@@ -62,7 +62,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 06-01-PLAN.md — Ficha técnica completa: TechIcon compartido, specs table, tooltips CSS-only, badge Nuevo, navegación cruzada
+- [x] 06-01-PLAN.md — Ficha técnica completa: TechIcon compartido, specs table, tooltips CSS-only, badge Nuevo, navegación cruzada
 
 ### Phase 7: Content Section Pages
 **Goal**: Los 3 items restantes del menu principal (Tecnologias, Personalizacion, Cuellos) muestran contenido real del PDF en lugar de paginas placeholder

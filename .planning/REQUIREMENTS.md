@@ -24,11 +24,11 @@ Requirements for milestone v1.1 — Catalogo Completo. Each maps to roadmap phas
 
 ### Fichas Tecnicas
 
-- [ ] **DETAIL-01**: Ficha tecnica completa de cada tela con specs (composicion, gramaje, ancho, tejido, base)
-- [ ] **DETAIL-02**: Imagen de tela integrada con next/image en ficha de detalle
-- [ ] **DETAIL-03**: Tooltips de tecnologia CSS-only (group-hover) en ficha de tela
-- [ ] **DETAIL-04**: Badge "Nuevo" en telas marcadas como nuevas
-- [ ] **DETAIL-05**: Navegacion cruzada entre categorias para telas compartidas (usar getCategoriesByFabric)
+- [x] **DETAIL-01**: Ficha tecnica completa de cada tela con specs (composicion, gramaje, ancho, tejido, base)
+- [x] **DETAIL-02**: Imagen de tela integrada con next/image en ficha de detalle
+- [x] **DETAIL-03**: Tooltips de tecnologia CSS-only (group-hover) en ficha de tela
+- [x] **DETAIL-04**: Badge "Nuevo" en telas marcadas como nuevas
+- [x] **DETAIL-05**: Navegacion cruzada entre categorias para telas compartidas (usar getCategoriesByFabric)
 
 ### Secciones de Contenido
 
@@ -93,11 +93,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-01 | Phase 5 | Complete |
 | DATA-02 | Phase 5 | Complete |
 | DATA-03 | Phase 5 | Complete |
-| DETAIL-01 | Phase 6 | Pending |
-| DETAIL-02 | Phase 6 | Pending |
-| DETAIL-03 | Phase 6 | Pending |
-| DETAIL-04 | Phase 6 | Pending |
-| DETAIL-05 | Phase 6 | Pending |
+| DETAIL-01 | Phase 6 | Complete |
+| DETAIL-02 | Phase 6 | Complete |
+| DETAIL-03 | Phase 6 | Complete |
+| DETAIL-04 | Phase 6 | Complete |
+| DETAIL-05 | Phase 6 | Complete |
 | SECTION-01 | Phase 7 | Pending |
 | SECTION-02 | Phase 7 | Pending |
 | SECTION-03 | Phase 7 | Pending |

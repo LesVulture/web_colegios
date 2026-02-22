@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-22)
 
 **Core value:** El vendedor puede presentar toda la oferta de telas para uniformes escolares de forma visual, organizada y profesional, navegando fluidamente entre categorias de producto durante una reunion comercial.
-**Current focus:** Phase 5 — Tech Debt & Data Foundation
+**Current focus:** Phase 6 — Fabric Detail Pages
 
 ## Current Position
 
-Phase: 5 of 9 (Tech Debt & Data Foundation)
-Plan: 2 of 2 in current phase (PHASE COMPLETE)
-Status: Phase 5 complete
-Last activity: 2026-02-22 — Completed 05-02 (Data Models & Tech Icons)
+Phase: 6 of 9 (Fabric Detail Pages)
+Plan: 1 of 1 in current phase (PHASE COMPLETE)
+Status: Phase 6 complete
+Last activity: 2026-02-22 — Completed 06-01 (Fabric Detail Pages)
 
-Progress: [██████████░░░░░░░░░░] 50% (v1.0 8/8 plans complete; v1.1 2/2 phase 5 plans)
+Progress: [████████████░░░░░░░░] 60% (v1.0 8/8 plans complete; v1.1 3/3 phase 5-6 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10 (v1.0: 8, v1.1: 2)
+- Total plans completed: 11 (v1.0: 8, v1.1: 3)
 - Average duration: 2 min
-- Total execution time: 0.35 hours
+- Total execution time: 0.38 hours
 
 **By Phase:**
 
@@ -32,6 +32,7 @@ Progress: [██████████░░░░░░░░░░] 50% (v1
 | 3. Global Navigation & Home | 3/3 | 3 min | 1 min |
 | 4. Category Pages | 2/2 | 3 min | 1.5 min |
 | 5. Tech Debt & Data Foundation | 2/2 | 6 min | 3 min |
+| 6. Fabric Detail Pages | 1/1 | 2 min | 2 min |
 
 ## Accumulated Context
 
@@ -49,6 +50,8 @@ Recent decisions affecting current work:
 - [05-02]: Lucide fallback icons for 3 technologies (PDF extraction produces circle-background icons inconsistent with existing style)
 - [05-02]: expandedDescription equals description (PDF p.14 has no expanded text per technology)
 - [05-02]: Dual icon format in Technology.icon: image path (starts with /) or Lucide icon name string
+- [06-01]: Used 'in' operator for isNew type narrowing due to as-const satisfies pattern in fabrics.ts
+- [06-01]: Centered single-column layout (max-w-3xl) since no individual fabric image per user decision
 
 ### Pending Todos
 
@@ -63,5 +66,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 05-02-PLAN.md — Phase 5 complete
+Stopped at: Completed 06-01-PLAN.md — Phase 6 complete
 Resume file: None
