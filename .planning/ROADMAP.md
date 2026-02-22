@@ -61,11 +61,12 @@ Plans:
   3. En tablet, la navegación se adapta a un formato compacto (hamburger menu o nav colapsada) sin perder acceso a ninguna sección
   4. La home page muestra un hero con branding "Lafayette Uni For Me Colegios" y un grid visual de 4 items principales, cada uno igualmente prominente, enlazando a su sección correspondiente
   5. Al hacer clic en "Usos" (desde el menú o desde la home), el vendedor llega a `/usos` donde ve un grid de 8 cards de categoría, cada una con su color distintivo e imagen, enlazando a `/uso/[slug]`
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
+- [ ] 03-01-PLAN.md — Header global con logo, navegación 4 items con iconos, hamburger menu responsive
+- [ ] 03-02-PLAN.md — Home page con hero branding y grid de 4 secciones principales
+- [ ] 03-03-PLAN.md — Página intermedia /usos con grid de 8 categorías + placeholders para otras secciones
 
 ### Phase 4: Category Pages
 **Goal**: El vendedor puede navegar a cualquier categoría de uso y ver todas las telas disponibles en esa categoría presentadas en un grid visual con color-coding
