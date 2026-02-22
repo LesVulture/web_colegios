@@ -1,0 +1,88 @@
+import type { Technology } from './types';
+
+export const TECHNOLOGIES = [
+  {
+    id: 'proteccion-solar',
+    name: 'Proteccion Solar',
+    icon: '/images/tech/proteccion-solar.png',
+    description: 'Proteccion contra rayos UV',
+  },
+  {
+    id: 'impermeabilidad',
+    name: 'Impermeabilidad',
+    icon: '/images/tech/impermeabilidad.png',
+    description: 'Resistencia al agua',
+  },
+  {
+    id: 'durabilidad',
+    name: 'Durabilidad',
+    icon: '/images/tech/durabilidad.png',
+    description: 'Resistencia al desgaste y rasgado',
+  },
+  {
+    id: 'antifluido-repelencia',
+    name: 'Antifluido/Repelencia',
+    icon: '/images/tech/antifluido.png',
+    description: 'Repelencia de fluidos',
+  },
+  {
+    id: 'libertad-de-movimiento',
+    name: 'Libertad de Movimiento',
+    icon: '/images/tech/elasticidad-stretch.png',
+    description: 'Elasticidad y comodidad de movimiento',
+  },
+  {
+    id: 'algodon',
+    name: 'Algodon',
+    icon: '',
+    description: 'Mezcla con algodon natural',
+  },
+  {
+    id: 'desempeno',
+    name: 'Desempeno',
+    icon: '/images/tech/desempeno.png',
+    description: 'Alto rendimiento textil',
+  },
+  {
+    id: 'control-humedad',
+    name: 'Control de Humedad',
+    icon: '/images/tech/secado-rapido.png',
+    description: 'Gestion de humedad y secado rapido',
+  },
+  {
+    id: 'antibacterial',
+    name: 'Antibacterial',
+    icon: '/images/tech/antibacterial.png',
+    description: 'Proteccion antibacteriana',
+  },
+  {
+    id: 'antimanchas',
+    name: 'Antimanchas',
+    icon: '',
+    description: 'Resistencia a manchas',
+  },
+  {
+    id: 'clororresistente',
+    name: 'Clororresistente',
+    icon: '/images/tech/clororresistente.png',
+    description: 'Resistencia al cloro',
+  },
+  {
+    id: 'termico',
+    name: 'Termico',
+    icon: '/images/tech/termico.png',
+    description: 'Regulacion termica',
+  },
+  {
+    id: 'solidez-a-la-luz',
+    name: 'Solidez a la Luz',
+    icon: '',
+    description: 'Resistencia a la decoloracion por luz',
+  },
+  {
+    id: 'sostenible',
+    name: 'Sostenible',
+    icon: '/images/tech/sostenible-hilos-reciclados.png',
+    description: 'Elaborado con hilos reciclados',
+  },
+] as const satisfies readonly Technology[];
