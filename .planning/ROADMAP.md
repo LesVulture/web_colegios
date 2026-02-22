@@ -6,13 +6,13 @@ El catalogo web de Lafayette reemplaza un PDF de 37MB como herramienta de ventas
 
 ## Milestones
 
-- ✅ **v1.0 MVP** — Phases 1-4 (shipped 2026-02-22)
+- ✅ **v1.0 MVP** — Phases 1-4 (shipped 2009-02-22)
 - **v1.1 Catalogo Completo** — Phases 5-10 (in progress)
 
 ## Phases
 
 <details>
-<summary>v1.0 MVP (Phases 1-4) — SHIPPED 2026-02-22</summary>
+<summary>v1.0 MVP (Phases 1-4) — SHIPPED 2009-02-22</summary>
 
 - [x] **Phase 1: Project Foundation** - Next.js + Tailwind v4 scaffold (1/1 plans)
 - [x] **Phase 2: Data Layer & Assets** - TypeScript models, assets extraction (2/2 plans)
@@ -29,8 +29,6 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 - [x] **Phase 6: Fabric Detail Pages** - Fichas tecnicas completas de cada tela con specs, imagen, tooltips, badges y navegacion cruzada
 - [x] **Phase 7: Content Section Pages** - Paginas de Tecnologias, Personalizacion y Cuellos con contenido real del PDF
 - [x] **Phase 8: Search, Filter & Sort** - Filtrado por tecnologia, ordenamiento por peso/ancho, busqueda fuzzy con fuse.js
-- [ ] **Phase 9: Responsive Polish & Deploy** - Verificacion responsive lg/md, deploy Vercel, performance SSG < 2s
-- [ ] **Phase 10: Tech Debt Cleanup** - Eliminar dead code, corregir props invalidos, actualizar barrel exports
 
 ## Phase Details
 
@@ -92,53 +90,3 @@ Plans:
 
 Plans:
 - [x] 08-01-PLAN.md — FilterableFabricGrid: fuse.js fuzzy search, tech chips multi-select filter, sort by gramaje/ancho, client island preservando SSG
-
-### Phase 9: Responsive Polish & Deploy
-**Goal**: El catalogo completo esta desplegado en produccion, se ve correctamente en laptop y tablet, y carga rapido para uso en reuniones de ventas
-**Depends on**: Phase 5, Phase 6, Phase 7, Phase 8
-**Requirements**: DEPLOY-01, DEPLOY-02, DEPLOY-03
-**Success Criteria** (what must be TRUE):
-  1. Todas las paginas (home, categorias, fichas tecnicas, tecnologias, personalizacion, cuellos) se ven correctamente en breakpoints lg (desktop) y md (tablet) sin overflow horizontal ni elementos rotos
-  2. El sitio esta accesible en una URL publica de Vercel con todas las rutas SSG funcionando
-  3. La carga inicial de cualquier pagina es menor a 2 segundos (SSG verificado con icono estatico en build log, no lambda)
-**Plans**: 2 plans
-
-Plans:
-- [ ] 09-01-PLAN.md — Responsive polish md breakpoint: home, usos, categorias, fichas, cuellos + touch targets en componentes interactivos
-- [ ] 09-02-PLAN.md — Static export config + deploy Vercel + verificacion performance SSG
-
-### Phase 10: Tech Debt Cleanup
-**Goal**: Eliminar dead code acumulado, corregir props invalidos y actualizar exports para que el codebase quede limpio antes del cierre del milestone
-**Depends on**: Phase 8
-**Requirements**: None (tech debt, no new requirements)
-**Gap Closure:** Closes integration gap (SkeletonCard dead code) and 9 tech debt items from audit
-**Success Criteria** (what must be TRUE):
-  1. SkeletonCard component y .skeleton-shimmer CSS eliminados (dead code confirmado por audit)
-  2. getFabricByBase helper eliminado o tiene al menos un consumidor
-  3. Hero Image en Home usa priority={true} en lugar de preload invalido
-  4. CATEGORY_STYLE_MAP re-exportado por barrel @/lib/content
-  5. expandedDescription consolidado (eliminar campo duplicado o documentar decision)
-  6. Zero dead exports verificado con build limpio
-**Plans**: TBD
-
-Plans:
-- [ ] 10-01: TBD
-
-## Progress
-
-**Execution Order:**
-Phases execute in numeric order: 5 -> 6 -> 7 -> 8 -> 9 -> 10
-Note: Phase 7 only depends on Phase 5 (not Phase 6), so could theoretically run after Phase 5. For a solo developer, sequential after Phase 6 for simplicity. Phase 10 (tech debt) can run after Phase 8 but recommended after Phase 9 to close gaps first.
-
-| Phase | Milestone | Plans Complete | Status | Completed |
-|-------|-----------|----------------|--------|-----------|
-| 1. Project Foundation | v1.0 | 1/1 | Complete | 2026-02-22 |
-| 2. Data Layer & Assets | v1.0 | 2/2 | Complete | 2026-02-22 |
-| 3. Global Navigation & Home | v1.0 | 3/3 | Complete | 2026-02-22 |
-| 4. Category Pages | v1.0 | 2/2 | Complete | 2026-02-22 |
-| 5. Tech Debt & Data Foundation | v1.1 | 2/2 | Complete | 2026-02-22 |
-| 6. Fabric Detail Pages | v1.1 | 1/1 | Complete | 2026-02-22 |
-| 7. Content Section Pages | v1.1 | 2/2 | Complete | 2026-02-22 |
-| 8. Search, Filter & Sort | v1.1 | 1/1 | Complete | 2026-02-22 |
-| 9. Responsive Polish & Deploy | v1.1 | 0/? | Not started | - |
-| 10. Tech Debt Cleanup | v1.1 | 0/? | Not started | - |
