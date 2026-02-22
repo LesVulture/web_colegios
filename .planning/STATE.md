@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** El vendedor puede presentar toda la oferta de telas para uniformes escolares de forma visual, organizada y profesional, navegando fluidamente entre categorías de producto durante una reunión comercial.
-**Current focus:** Phase 2 - Data Layer & Assets
+**Current focus:** Phase 3 - Global Navigation & Home
 
 ## Current Position
 
-Phase: 2 of 7 (Data Layer & Assets)
-Plan: 2 of 2 in current phase (COMPLETE)
-Status: Phase 2 complete - ready for Phase 3
-Last activity: 2026-02-22 — Phase 2 Plan 2 executed: 31 fabrics, 8 categories, 14 technologies TypeScript data model
+Phase: 3 of 7 (Global Navigation & Home)
+Plan: 1 of 3 in current phase (COMPLETE)
+Status: Plan 03-01 complete - ready for Plan 03-02
+Last activity: 2026-02-22 — Phase 3 Plan 1 executed: sticky header, nav links, mobile menu, lucide-react icons
 
-Progress: [##░░░░░░░░] 28%
+Progress: [###░░░░░░░] 33%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
+- Total plans completed: 4
 - Average duration: 3 min
-- Total execution time: 0.15 hours
+- Total execution time: 0.18 hours
 
 **By Phase:**
 
@@ -29,9 +29,10 @@ Progress: [##░░░░░░░░] 28%
 |-------|-------|-------|----------|
 | 1. Project Foundation | 1/1 | 3 min | 3 min |
 | 2. Data Layer & Assets | 2/2 | 6 min | 3 min |
+| 3. Global Navigation & Home | 1/3 | 2 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3 min), 02-01 (3 min), 02-02 (3 min)
+- Last 5 plans: 01-01 (3 min), 02-01 (3 min), 02-02 (3 min), 03-01 (2 min)
 - Trend: stable
 
 *Updated after each plan completion*
@@ -57,6 +58,9 @@ Recent decisions affecting current work:
 - [02-02]: Placeholder image para todas las telas; mapeo real requiere inspeccion visual post-extraccion
 - [02-02]: Resistencia (Universal Ripstop) = durabilidad tech ID (misma tecnologia, diferente nombre en PDF)
 - [02-02]: ReadonlyArray<string> cast para resolver includes() con tuples readonly de as-const-satisfies
+- [03-01]: Sticky header with backdrop blur (bg-background/95 backdrop-blur-sm) for quick menu access during sales meetings
+- [03-01]: Sidebar slide-in from right for mobile menu (most familiar modern pattern)
+- [03-01]: Body scroll lock when mobile menu is open (auto-fix Rule 2)
 
 ### Pending Todos
 
@@ -70,5 +74,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 02-02-PLAN.md (Phase 2 complete)
+Stopped at: Completed 03-01-PLAN.md
 Resume file: None

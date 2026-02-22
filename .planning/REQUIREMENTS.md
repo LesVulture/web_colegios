@@ -16,9 +16,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Navigation
 
-- [ ] **NAV-01**: Header global con logo Lafayette visible en todas las páginas (esquina superior izquierda, 12px offset del borde superior)
-- [ ] **NAV-02**: Menú principal con 4 items: Usos, Tecnologías, Personalización, Cuellos
-- [ ] **NAV-03**: Navegación responsive (desktop: full nav bar, tablet: hamburger menu o nav compacta)
+- [x] **NAV-01**: Header global con logo Lafayette visible en todas las páginas (esquina superior izquierda, 12px offset del borde superior)
+- [x] **NAV-02**: Menú principal con 4 items: Usos, Tecnologías, Personalización, Cuellos
+- [x] **NAV-03**: Navegación responsive (desktop: full nav bar, tablet: hamburger menu o nav compacta)
 
 ### Home
 
@@ -108,9 +108,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DES-01 | Phase 1 | Complete |
 | FOUND-02 | Phase 2 | Complete |
 | FOUND-03 | Phase 2 | Complete |
-| NAV-01 | Phase 3 | Pending |
-| NAV-02 | Phase 3 | Pending |
-| NAV-03 | Phase 3 | Pending |
+| NAV-01 | Phase 3 | Complete |
+| NAV-02 | Phase 3 | Complete |
+| NAV-03 | Phase 3 | Complete |
 | HOME-01 | Phase 3 | Pending |
 | HOME-02 | Phase 3 | Pending |
 | HOME-03 | Phase 3 | Pending |
