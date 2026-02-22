@@ -32,7 +32,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Category Pages
 
-- [ ] **CAT-01**: Página individual por cada categoría de uso accesible via `/uso/[slug]` (8 páginas totales)
+- [x] **CAT-01**: Página individual por cada categoría de uso accesible via `/uso/[slug]` (8 páginas totales)
 - [x] **CAT-02**: Product cards de tela en grid responsive (3 columnas desktop, 2 columnas tablet)
 - [x] **CAT-03**: Cada card de tela muestra: nombre, imagen del producto, chips de tecnologías aplicables
 - [x] **CAT-04**: Header de categoría con nombre, color de fondo distintivo e imagen hero
@@ -115,7 +115,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | HOME-02 | Phase 3 | Complete |
 | HOME-03 | Phase 3 | Complete |
 | USOS-01 | Phase 3 | Complete |
-| CAT-01 | Phase 4 | Pending |
+| CAT-01 | Phase 4 | Complete |
 | CAT-02 | Phase 4 | Complete |
 | CAT-03 | Phase 4 | Complete |
 | CAT-04 | Phase 4 | Complete |
