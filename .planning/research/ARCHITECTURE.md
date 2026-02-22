@@ -1,537 +1,626 @@
-# Architecture Research
+# Architecture Patterns: v1.1 Integration
 
-**Domain:** Sales enablement web catalog (Next.js App Router static site)
-**Researched:** 2026-02-21
+**Domain:** Sales enablement web catalog -- extending existing Next.js App Router SSG site
+**Researched:** 2026-02-22
 **Confidence:** HIGH
+**Scope:** How fabric detail pages, search/filter/sort, and 3 content sections integrate with existing v1.0 architecture
 
-## Standard Architecture
-
-### System Overview
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                       Presentation Layer                            │
-│  ┌──────────┐  ┌───────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │ Layouts   │  │ Pages     │  │ UI Components│  │ Design System│  │
-│  │ (shared   │  │ (route    │  │ (cards,grids │  │ (tokens,     │  │
-│  │  nav/hdr) │  │  segments)│  │  detail view)│  │  primitives) │  │
-│  └─────┬─────┘  └─────┬─────┘  └──────┬───────┘  └──────┬───────┘  │
-│        │              │               │                 │          │
-├────────┴──────────────┴───────────────┴─────────────────┴──────────┤
-│                        Data Layer                                   │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐  │
-│  │ Content Module   │  │ Category Config  │  │ Technology Data  │  │
-│  │ (TS data files)  │  │ (colors, slugs,  │  │ (tech specs,     │  │
-│  │                  │  │  metadata)       │  │  icons mapping)  │  │
-│  └──────────────────┘  └──────────────────┘  └──────────────────┘  │
-├─────────────────────────────────────────────────────────────────────┤
-│                       Asset Layer                                   │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐  │
-│  │ Product Images   │  │ Technology Logos  │  │ Brand Assets     │  │
-│  │ (extracted from  │  │ (from Assets/)   │  │ (Lafayette logo) │  │
-│  │  PDF → /public)  │  │                  │  │                  │  │
-│  └──────────────────┘  └──────────────────┘  └──────────────────┘  │
-└─────────────────────────────────────────────────────────────────────┘
-```
-
-### Component Responsibilities
-
-| Component | Responsibility | Typical Implementation |
-|-----------|----------------|------------------------|
-| Root Layout | `<html>`, `<body>`, global font, metadata, wraps all pages | `app/layout.tsx` — Server Component, imports global CSS |
-| Global Header | Logo Lafayette top-left, navigation links to 8 categories + secciones | `components/header.tsx` — Client Component (interactive nav) |
-| Category Layout | Category-specific color theming via CSS variable override, optional sub-nav | `app/categoria/[slug]/layout.tsx` — Server Component |
-| Home Page | Hero de marca, grid de 8 categorias con cards visuales | `app/page.tsx` — Server Component |
-| Category Page | Grid de fichas tecnicas de telas de esa categoria | `app/categoria/[slug]/page.tsx` — Server Component |
-| Product Card | Imagen de tela, nombre, specs clave, tags de tecnologias | `components/product-card.tsx` — Server Component |
-| Technology Section | Grid de 12 tecnologias con iconos y descripciones | `app/tecnologias/page.tsx` — Server Component |
-| Personalization Section | 4 opciones de personalizacion con fotos | `app/personalizacion/page.tsx` — Server Component |
-| Collars Section | Colores, tallas, info comercial de cuellos | `app/cuellos/page.tsx` — Server Component |
-| Content Module | Centraliza todos los datos del catalogo en TypeScript tipado | `lib/content/` — Pure TypeScript data + getter functions |
-| Design System | Tokens Tailwind v4, colores por categoria, tipografia, spacing | `app/globals.css` con `@theme` + component primitives |
-
-## Recommended Project Structure
+## Existing Architecture (v1.0 Baseline)
 
 ```
 src/
-├── app/                          # Next.js App Router routes
-│   ├── layout.tsx                # Root layout (html/body, header, fonts)
-│   ├── page.tsx                  # Home — hero + category grid
-│   ├── globals.css               # Tailwind imports + @theme tokens
-│   ├── categoria/
-│   │   └── [slug]/
-│   │       ├── layout.tsx        # Category layout (color theme override)
-│   │       └── page.tsx          # Category detail — fabric grid
-│   ├── tecnologias/
-│   │   └── page.tsx              # Textile technologies page
-│   ├── personalizacion/
-│   │   └── page.tsx              # Customization options page
-│   └── cuellos/
-│       └── page.tsx              # Collars page
-├── components/                   # Shared UI components
-│   ├── header.tsx                # Global header with nav
-│   ├── category-card.tsx         # Card for home grid (links to category)
-│   ├── product-card.tsx          # Fabric product card
-│   ├── product-grid.tsx          # Responsive grid container for product cards
-│   ├── technology-badge.tsx      # Small icon+label for technology tags
-│   ├── technology-card.tsx       # Full technology card for /tecnologias
-│   ├── section-header.tsx        # Reusable section title + description
-│   └── footer.tsx                # Optional footer
-├── lib/                          # Data layer and utilities
-│   ├── content/
-│   │   ├── categories.ts         # Category definitions (slug, name, color, desc)
-│   │   ├── fabrics.ts            # All fabric data (per-category, specs, techs)
-│   │   ├── technologies.ts       # 12+ technology definitions
-│   │   ├── customization.ts      # 4 personalization options
-│   │   ├── collars.ts            # Collar data (colors, sizes)
-│   │   └── types.ts              # Shared TypeScript interfaces
-│   └── utils.ts                  # Helper functions (slug generation, etc.)
-└── public/                       # Static assets served at /
-    ├── images/
-    │   ├── categories/           # Hero/banner images per category
-    │   ├── fabrics/              # Individual fabric product photos
-    │   ├── technologies/         # Technology icons (from Assets/)
-    │   ├── customization/        # Personalization photos
-    │   └── collars/              # Collar product photos
-    └── logo-lafayette.png        # Brand logo
+├── app/
+│   ├── layout.tsx              # RootLayout: Raleway + Montserrat fonts, Header, main
+│   ├── page.tsx                # Home: hero + 4-section grid (Server Component)
+│   ├── globals.css             # Tailwind v4 @theme: 8 cat colors, brand, surfaces
+│   ├── usos/page.tsx           # Grid of 8 category cards
+│   ├── uso/[slug]/
+│   │   └── page.tsx            # Category page: breadcrumb + header + sidebar + fabric grid
+│   ├── uso/[slug]/[fabricId]/
+│   │   └── page.tsx            # PLACEHOLDER: "Ficha tecnica en construccion"
+│   ├── tecnologias/page.tsx    # PLACEHOLDER: "en construccion"
+│   ├── personalizacion/page.tsx # PLACEHOLDER: "en construccion"
+│   └── cuellos/page.tsx        # PLACEHOLDER: "en construccion"
+├── components/
+│   ├── header.tsx              # Sticky header, logo, desktop nav, mobile menu
+│   ├── nav-links.tsx           # 'use client' - 4 nav items with active state
+│   ├── mobile-menu.tsx         # 'use client' - slide-in sidebar
+│   ├── breadcrumb.tsx          # Server Component - configurable breadcrumb trail
+│   ├── category-header.tsx     # Server Component - colored header bar
+│   ├── category-sidebar.tsx    # 'use client' - sidebar nav + tablet scroll bar
+│   ├── fabric-card.tsx         # Server Component - product card with tech chips
+│   └── skeleton-card.tsx       # ORPHANED - never imported
+├── lib/
+│   ├── nav.ts                  # NAV_ITEMS constant (4 items)
+│   ├── utils.ts                # cn() helper (clsx + tailwind-merge)
+│   └── content/
+│       ├── types.ts            # Fabric, Category, Technology, WeaveType, PrintRoute
+│       ├── fabrics.ts          # 31 FABRICS (as const satisfies)
+│       ├── categories.ts       # 8 CATEGORIES with fabricIds refs
+│       ├── technologies.ts     # 14 TECHNOLOGIES with icons
+│       ├── helpers.ts          # 6 getter functions
+│       ├── styles.ts           # CATEGORY_STYLE_MAP (bg/fg class pairs)
+│       └── index.ts            # Barrel re-exports
+└── public/images/
+    ├── products/               # 14 real images (unmapped) + placeholder.webp (missing)
+    ├── tech/                   # 12 tech logos (PNG)
+    ├── content/                # 22 content images (WebP)
+    └── logo-lafayette.png
 ```
 
-### Structure Rationale
+**Key patterns already established:**
+- SSG with `generateStaticParams` + `dynamicParams = false` on all dynamic routes
+- TypeScript `as const satisfies` data layer with barrel exports
+- Server Components by default; `'use client'` only for interactive nav
+- Tailwind v4 `@theme` tokens for category colors
+- `CATEGORY_STYLE_MAP` for Tailwind class lookup by category ID
+- Breadcrumb component reused across category and detail pages
 
-- **`app/`:** Minimal route files. Cada archivo page/layout es delgado — importa componentes y datos, no implementa logica de negocio. Las rutas reflejan la navegacion del vendedor: home, categoria, tecnologias, personalizacion, cuellos.
-- **`components/`:** Flat folder (no subdirs innecesarios para ~10 componentes). Componentes reutilizables que se comparten entre rutas. Todos Server Components por defecto excepto header (necesita interactividad para nav mobile/tablet).
-- **`lib/content/`:** Capa de datos completamente separada de la UI. TypeScript puro con tipado fuerte. Sin database, sin API — los datos son constantes importables. Un archivo por dominio para mantener archivos manejables.
-- **`public/images/`:** Organizado por dominio de contenido. Las imagenes se extraen del PDF una vez (script de build) y se colocan aqui. `next/image` las sirve optimizadas automaticamente.
+## v1.1 Integration Map
 
-## Architectural Patterns
+### What Changes vs What Stays
 
-### Pattern 1: TypeScript Content Files as Data Layer
+| Area | Status | Details |
+|------|--------|---------|
+| `app/layout.tsx` | NO CHANGE | Root layout, fonts, Header wrapper stay identical |
+| `app/page.tsx` | NO CHANGE | Home page stays as-is |
+| `app/usos/page.tsx` | NO CHANGE | Category grid stays as-is |
+| `app/uso/[slug]/page.tsx` | MODIFY | Add search/filter/sort UI (client component wrapper) |
+| `app/uso/[slug]/[fabricId]/page.tsx` | REWRITE | Replace placeholder with full fabric detail page |
+| `app/tecnologias/page.tsx` | REWRITE | Replace placeholder with 12 technology cards |
+| `app/personalizacion/page.tsx` | REWRITE | Replace placeholder with 4 customization options |
+| `app/cuellos/page.tsx` | REWRITE | Replace placeholder with collar info sections |
+| `components/fabric-card.tsx` | MODIFY | Fix image paths, add "isNew" badge |
+| `components/nav-links.tsx` | FIX | Change `/usos` to `/uso` for active state |
+| `lib/content/types.ts` | EXTEND | Add Personalization, Collar types |
+| `lib/content/fabrics.ts` | FIX | Map real product images to fabric records |
+| `lib/content/helpers.ts` | EXTEND | Add filter/search helpers |
+| `lib/content/index.ts` | EXTEND | Export new data modules |
+| `globals.css` | NO CHANGE | Existing tokens sufficient |
+| 7 NEW components | CREATE | See Component Inventory below |
+| 2 NEW data files | CREATE | `personalization.ts`, `collars.ts` |
 
-**What:** Definir todo el contenido del catalogo como objetos TypeScript tipados en `lib/content/`, exportando constantes y funciones getter. No usar JSON, no usar MDX, no usar CMS.
-**When to use:** Contenido estatico conocido al 100% en build time, sin editors no-tecnicos, sin contenido dinamico.
-**Trade-offs:**
-- PRO: Type safety completo, autocompletion en IDE, refactoring seguro, zero runtime overhead, import directo sin parsing
-- PRO: No necesita librerias adicionales (MDX, Contentlayer, etc.)
-- PRO: Validacion en compile time — si un campo falta, TypeScript lo detecta
-- CON: Editar contenido requiere tocar TypeScript (aceptable porque el equipo es tecnico)
-- CON: No tiene preview de markdown (no relevante — este contenido son specs tecnicas, no prosa)
+## Recommended Architecture
 
-**Por que NO usar JSON:** JSON no tiene type safety sin schema adicional, no permite constantes computadas, no permite comments.
-**Por que NO usar MDX:** El contenido son fichas tecnicas estructuradas (nombre, composicion, peso, ancho, tecnologias), no texto largo con formato. MDX agrega complejidad innecesaria.
+### System Overview (v1.1)
 
-**Example:**
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                         Presentation Layer                                    │
+│                                                                              │
+│  ┌──────────────┐  ┌──────────────────┐  ┌──────────────────────────────┐   │
+│  │ Pages        │  │ New Pages        │  │ Interactive Layer             │   │
+│  │ (existing    │  │ (fabric detail,  │  │ ('use client' components     │   │
+│  │  unchanged)  │  │  tech, personal, │  │  for search/filter only)     │   │
+│  │              │  │  collars)        │  │                              │   │
+│  └──────┬───────┘  └──────┬───────────┘  └──────────┬───────────────────┘   │
+│         │                 │                          │                       │
+│  ┌──────┴─────────────────┴──────────────────────────┴───────────────────┐   │
+│  │                    Component Library                                   │   │
+│  │  existing: header, nav-links, breadcrumb, category-header,            │   │
+│  │           category-sidebar, fabric-card                               │   │
+│  │  NEW:     fabric-detail, fabric-specs-table, technology-card,         │   │
+│  │           technology-tooltip, personalization-card, collar-section,    │   │
+│  │           fabric-filter-bar (client)                                   │   │
+│  └──────┬────────────────────────────────────────────────────────────────┘   │
+│         │                                                                    │
+├─────────┴────────────────────────────────────────────────────────────────────┤
+│                         Data Layer                                            │
+│  ┌────────────────┐  ┌──────────────┐  ┌───────────┐  ┌──────────────────┐  │
+│  │ fabrics.ts     │  │ categories.ts│  │ techs.ts  │  │ NEW:             │  │
+│  │ (31 records,   │  │ (8 cats,     │  │ (14 techs │  │ personalization.ts│ │
+│  │  images FIXED) │  │  unchanged)  │  │  unchanged│  │ collars.ts       │  │
+│  └────────────────┘  └──────────────┘  └───────────┘  └──────────────────┘  │
+│  ┌────────────────────────────────────────────────────────────────────────┐  │
+│  │ helpers.ts (EXTENDED: filterFabrics, sortFabrics, searchFabrics)       │  │
+│  └────────────────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Component Boundaries
+
+| Component | Responsibility | New/Modify | Communicates With |
+|-----------|---------------|------------|-------------------|
+| `FabricDetailPage` | Full fabric specs page at `/uso/[slug]/[fabricId]` | REWRITE route page | helpers.ts, FabricSpecsTable, TechnologyTooltip, Breadcrumb |
+| `FabricSpecsTable` | Renders fabric specs (composition, weight, width, weave, routes) | NEW component | Receives `Fabric` via props |
+| `TechnologyTooltip` | Icon + tooltip with tech name/description on fabric detail | NEW component | Receives `Technology` via props |
+| `FabricFilterBar` | Search input + tech filter chips + sort dropdown | NEW component (`'use client'`) | Reads TECHNOLOGIES for filter options; emits filter state up |
+| `FilterableFabricGrid` | Wrapper that holds filter state + renders filtered FabricCards | NEW component (`'use client'`) | Contains FabricFilterBar + FabricCard children |
+| `TechnologyCard` | Full card for /tecnologias page (icon, name, description, fabric count) | NEW component | Receives `Technology` via props |
+| `PersonalizationCard` | Card for /personalizacion (image, title, description) | NEW component | Receives `Personalization` via props |
+| `CollarSection` | Section for /cuellos (colors grid, sizes table) | NEW component | Receives collar data via props |
+
+## Data Flow Changes
+
+### Current Flow (v1.0): Category Page
+
+```
+[Build Time]
+CATEGORIES → generateStaticParams → 8 routes pre-rendered
+FABRICS + CATEGORIES → getFabricsByCategory(slug) → Fabric[]
+  └→ Each Fabric → FabricCard (Server Component, rendered to HTML)
+       └→ FabricCard links to /uso/[slug]/[fabricId] (placeholder)
+```
+
+### New Flow (v1.1): Category Page with Client-Side Filtering
+
+```
+[Build Time]
+CATEGORIES → generateStaticParams → 8 routes pre-rendered (unchanged)
+FABRICS + CATEGORIES → getFabricsByCategory(slug) → Fabric[]
+  └→ Full Fabric[] passed as props to FilterableFabricGrid
+
+[Runtime — Client]
+FilterableFabricGrid ('use client')
+  ├→ FabricFilterBar
+  │    ├→ Search input (controlled, debounced)
+  │    ├→ Technology filter chips (multi-select toggle)
+  │    └→ Sort dropdown (weight asc/desc, width asc/desc, name A-Z)
+  │
+  └→ Filtered + sorted Fabric[] → FabricCard[] (rendered client-side)
+       └→ FabricCard links to /uso/[slug]/[fabricId] (real detail page)
+```
+
+**Critical design decision:** The category page (`/uso/[slug]/page.tsx`) remains a Server Component. It fetches all fabrics for the category at build time and passes them as serialized props to the `FilterableFabricGrid` client component. The full dataset is embedded in the static HTML. Filtering/sorting happens entirely in the browser -- no server round-trips, no `searchParams` (which would break SSG).
+
+This works because the dataset is tiny (max 9 fabrics per category, 31 total). Embedding the full list in the page HTML adds negligible weight.
+
+### New Flow (v1.1): Fabric Detail Page
+
+```
+[Build Time]
+CATEGORIES x FABRICS → generateStaticParams → ~43 routes pre-rendered (unchanged)
+
+FabricDetailPage (Server Component)
+  ├→ getFabricBySlug(fabricId) → Fabric
+  ├→ getCategoryBySlug(slug) → Category (for breadcrumb + color theming)
+  ├→ getCategoriesByFabric(fabricId) → Category[] (cross-ref: "also in these categories")
+  ├→ fabric.technologies.map(getTechnologyById) → Technology[] (for tooltips)
+  │
+  └→ Renders:
+       ├→ Breadcrumb (Usos > Category > Fabric Name)
+       ├→ Product image (next/image, real mapped image)
+       ├→ FabricSpecsTable (composition, weight, width, weave, base code)
+       ├→ Print routes chips
+       ├→ Technology icons with TechnologyTooltip
+       ├→ "isNew" badge (conditional)
+       └→ Cross-category links (if fabric appears in multiple categories)
+```
+
+**Note:** `getCategoriesByFabric()` already exists in helpers.ts but has no consumer. v1.1 is its first real use case -- it powers the "also available in" cross-links on fabric detail pages.
+
+### New Flow (v1.1): Content Section Pages
+
+```
+[Build Time — no generateStaticParams needed, these are single static pages]
+
+/tecnologias → TecnologiasPage (Server Component)
+  ├→ TECHNOLOGIES (14 items) → TechnologyCard grid
+  └→ Each TechnologyCard shows: icon, name, description, fabric count
+       └→ Count via: FABRICS.filter(f => f.technologies.includes(tech.id)).length
+
+/personalizacion → PersonalizacionPage (Server Component)
+  ├→ PERSONALIZATION_OPTIONS (4 items, NEW data) → PersonalizationCard grid
+  └→ Each card: image, title, description
+
+/cuellos → CuellosPage (Server Component)
+  ├→ COLLAR_DATA (NEW data) → CollarSection
+  └→ Sections: available colors, sizes table (ninos vs adolescentes/adultos)
+```
+
+## Patterns to Follow
+
+### Pattern 1: Client Island for Filtering (Preserving SSG)
+
+**What:** Keep the category page as a Server Component that renders a `'use client'` FilterableFabricGrid. The full fabric list for that category is serialized into the static HTML as props. All filtering, sorting, and searching happen in the browser.
+
+**Why:** Using `searchParams` in a page component would force dynamic rendering and break SSG. With only 4-9 fabrics per category, the data is trivially small. Client-side filtering gives instant UX with zero server cost.
+
+**When:** Any time you need interactive filtering on a statically generated page with a small dataset.
 
 ```typescript
-// lib/content/types.ts
-export interface Category {
-  slug: string;
-  name: string;
-  color: string;       // hex color token
-  description: string;
-  heroImage: string;   // path in /public/images/categories/
-}
+// app/uso/[slug]/page.tsx — Server Component (unchanged export pattern)
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const category = getCategoryBySlug(slug)
+  if (!category) notFound()
+  const fabrics = getFabricsByCategory(slug)
+  const technologies = TECHNOLOGIES // pass full list for filter chip labels
 
-export interface Fabric {
-  slug: string;
-  name: string;
-  categorySlug: string;
-  image: string;
-  composition: string;
-  weight: string;
-  width: string;
-  technologies: string[];  // slugs referencing Technology
-  features: string[];
-}
-
-export interface Technology {
-  slug: string;
-  name: string;
-  icon: string;       // path to logo in /public/images/technologies/
-  description: string;
+  return (
+    <div className="mx-auto max-w-7xl px-4 lg:px-8 py-6 lg:py-10">
+      <Breadcrumb items={[{ label: 'Usos', href: '/usos' }, { label: category.name }]} />
+      <div className="mt-4">
+        <CategoryHeader category={category} fabricCount={fabrics.length} />
+      </div>
+      <div className="mt-8 lg:flex lg:gap-8">
+        <CategorySidebar />
+        <div className="flex-1">
+          {/* Client island: receives static data, handles interaction */}
+          <FilterableFabricGrid
+            fabrics={fabrics}
+            technologies={technologies}
+            categorySlug={slug}
+          />
+        </div>
+      </div>
+    </div>
+  )
 }
 ```
 
 ```typescript
-// lib/content/categories.ts
-import type { Category } from './types';
+// components/filterable-fabric-grid.tsx
+'use client'
 
-export const categories: Category[] = [
-  {
-    slug: 'sudaderas-chaquetas-pantalones',
-    name: 'Sudaderas - Chaquetas - Pantalones',
-    color: '#1B3A5C',
-    description: 'Telas para prendas exteriores...',
-    heroImage: '/images/categories/sudaderas-chaquetas.webp',
-  },
-  // ... 7 mas
-];
+import { useState, useMemo } from 'react'
+import { FabricCard } from './fabric-card'
+import { FabricFilterBar } from './fabric-filter-bar'
+import type { Fabric, Technology } from '@/lib/content/types'
 
-export function getCategoryBySlug(slug: string): Category | undefined {
-  return categories.find(c => c.slug === slug);
+interface Props {
+  fabrics: Fabric[]
+  technologies: Technology[]
+  categorySlug: string
 }
 
-export function getAllCategorySlugs(): string[] {
-  return categories.map(c => c.slug);
-}
-```
+export function FilterableFabricGrid({ fabrics, technologies, categorySlug }: Props) {
+  const [search, setSearch] = useState('')
+  const [selectedTechs, setSelectedTechs] = useState<string[]>([])
+  const [sortBy, setSortBy] = useState<string>('name')
 
-```typescript
-// lib/content/fabrics.ts
-import type { Fabric } from './types';
+  const filtered = useMemo(() => {
+    let result = [...fabrics]
 
-export const fabrics: Fabric[] = [
-  {
-    slug: 'vendaval-crushed-r',
-    name: 'Vendaval Crushed R',
-    categorySlug: 'sudaderas-chaquetas-pantalones',
-    image: '/images/fabrics/vendaval-crushed-r.webp',
-    composition: '100% Poliéster',
-    weight: '220 g/m²',
-    width: '150 cm',
-    technologies: ['resistencia', 'desempeno'],
-    features: ['Textura crushed', 'Alta durabilidad'],
-  },
-  // ... todas las telas
-];
+    // Search by name (case-insensitive substring match)
+    if (search) {
+      const q = search.toLowerCase()
+      result = result.filter(f => f.name.toLowerCase().includes(q))
+    }
 
-export function getFabricsByCategory(categorySlug: string): Fabric[] {
-  return fabrics.filter(f => f.categorySlug === categorySlug);
-}
-```
+    // Filter by technologies (AND logic: fabric must have ALL selected techs)
+    if (selectedTechs.length > 0) {
+      result = result.filter(f =>
+        selectedTechs.every(t => f.technologies.includes(t))
+      )
+    }
 
-### Pattern 2: Static Generation with `generateStaticParams` + `dynamicParams = false`
+    // Sort
+    result.sort((a, b) => {
+      switch (sortBy) {
+        case 'weight-asc': return parseFloat(a.weight) - parseFloat(b.weight)
+        case 'weight-desc': return parseFloat(b.weight) - parseFloat(a.weight)
+        case 'width-asc': return parseFloat(a.width) - parseFloat(b.width)
+        case 'width-desc': return parseFloat(b.width) - parseFloat(a.width)
+        default: return a.name.localeCompare(b.name)
+      }
+    })
 
-**What:** Pre-renderizar TODAS las paginas de categoria en build time. Bloquear rutas no definidas con 404 automatico.
-**When to use:** Cuando el catalogo es finito y conocido (8 categorias, ~40 telas). Cero contenido dinamico.
-**Trade-offs:**
-- PRO: Paginas instantaneas — HTML servido desde CDN sin server processing
-- PRO: Deploy en Vercel como static export sin server functions
-- PRO: Seguridad — no hay endpoints dinamicos que atacar
-- CON: Rebuild necesario para cambiar contenido (aceptable — contenido cambia rara vez)
-
-**Example:**
-
-```typescript
-// app/categoria/[slug]/page.tsx
-import { getAllCategorySlugs, getCategoryBySlug } from '@/lib/content/categories';
-import { getFabricsByCategory } from '@/lib/content/fabrics';
-import { ProductGrid } from '@/components/product-grid';
-import { notFound } from 'next/navigation';
-
-// Pre-render all 8 categories at build time
-export async function generateStaticParams() {
-  return getAllCategorySlugs().map(slug => ({ slug }));
-}
-
-// 404 for any slug not in the list
-export const dynamicParams = false;
-
-export default async function CategoryPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const category = getCategoryBySlug(slug);
-  if (!category) notFound();
-
-  const fabrics = getFabricsByCategory(slug);
+    return result
+  }, [fabrics, search, selectedTechs, sortBy])
 
   return (
     <div>
-      <h1>{category.name}</h1>
-      <ProductGrid fabrics={fabrics} />
+      <FabricFilterBar
+        technologies={technologies}
+        selectedTechs={selectedTechs}
+        onTechToggle={(id) => /* toggle logic */}
+        search={search}
+        onSearchChange={setSearch}
+        sortBy={sortBy}
+        onSortChange={setSortBy}
+        resultCount={filtered.length}
+        totalCount={fabrics.length}
+      />
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-4">
+        {filtered.map((fabric) => (
+          <FabricCard key={fabric.id} fabric={fabric} categorySlug={categorySlug} />
+        ))}
+      </div>
+      {filtered.length === 0 && (
+        <p className="text-muted-foreground text-center py-8">
+          No se encontraron telas con esos filtros.
+        </p>
+      )}
     </div>
-  );
+  )
 }
 ```
 
-### Pattern 3: Nested Layouts with Category Color Theming
+### Pattern 2: Fabric Detail as Server Component with Cross-References
 
-**What:** Usar el sistema de layouts de Next.js App Router para inyectar CSS custom properties por categoria, permitiendo que todos los componentes hijos hereden el color de esa categoria sin props drilling.
-**When to use:** Cuando multiples paginas comparten UI y theming contextual (header global + color de categoria).
-**Trade-offs:**
-- PRO: El color de la categoria se propaga automaticamente a todos los componentes dentro del layout
-- PRO: Zero JavaScript — CSS variables funcionan sin hydration
-- PRO: El header global persiste entre navegaciones (no se re-renderiza)
-- CON: Un nivel adicional de nesting en la ruta
+**What:** The fabric detail page is a pure Server Component. It resolves all data at build time: the fabric itself, its parent category (for color theming and breadcrumb), all categories that reference this fabric (for cross-links), and resolved technology objects (for tooltips).
 
-**Example:**
+**Why:** No interactivity needed on the detail page. Everything is informational. Pure Server Component = zero client JS, faster load.
 
 ```typescript
-// app/categoria/[slug]/layout.tsx
-import { getCategoryBySlug } from '@/lib/content/categories';
-import { notFound } from 'next/navigation';
-
-export default async function CategoryLayout({
-  children,
+// app/uso/[slug]/[fabricId]/page.tsx
+export default async function FabricDetailPage({
   params,
 }: {
-  children: React.ReactNode;
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; fabricId: string }>
 }) {
-  const { slug } = await params;
-  const category = getCategoryBySlug(slug);
-  if (!category) notFound();
+  const { slug, fabricId } = await params
+  const category = getCategoryBySlug(slug)
+  const fabric = getFabricBySlug(fabricId)
+  if (!category || !fabric) notFound()
+
+  const allCategories = getCategoriesByFabric(fabricId)
+  const otherCategories = allCategories.filter(c => c.id !== slug)
+  const resolvedTechs = fabric.technologies
+    .map(getTechnologyById)
+    .filter(Boolean)
 
   return (
-    <div
-      style={{ '--category-color': category.color } as React.CSSProperties}
-      className="min-h-screen"
-    >
-      {/* Optional: category sub-header or breadcrumb */}
-      {children}
+    <div className="mx-auto max-w-7xl px-4 lg:px-8 py-6 lg:py-10">
+      <Breadcrumb items={[
+        { label: 'Usos', href: '/usos' },
+        { label: category.name, href: `/uso/${slug}` },
+        { label: fabric.name },
+      ]} />
+
+      <div className="mt-8 lg:grid lg:grid-cols-2 lg:gap-12">
+        {/* Left: product image */}
+        <div className="relative aspect-square rounded-lg overflow-hidden">
+          <Image src={fabric.image} alt={fabric.name} fill className="object-cover" />
+          {fabric.isNew && <NewBadge />}
+        </div>
+
+        {/* Right: specs */}
+        <div>
+          <h1 className="text-2xl lg:text-3xl font-heading font-bold">{fabric.name}</h1>
+          <p className="text-sm text-muted-foreground mt-1">Base {fabric.base}</p>
+          <FabricSpecsTable fabric={fabric} />
+          <TechnologyRow technologies={resolvedTechs} />
+          <PrintRoutesChips routes={fabric.printRoutes} />
+          {otherCategories.length > 0 && (
+            <CrossCategoryLinks categories={otherCategories} fabricId={fabricId} />
+          )}
+        </div>
+      </div>
+
+      <BackLink href={`/uso/${slug}`} label={category.name} />
     </div>
-  );
+  )
 }
 ```
 
-```css
-/* In globals.css — utilities that respond to category color */
-@layer utilities {
-  .category-accent {
-    color: var(--category-color);
-  }
-  .category-bg {
-    background-color: var(--category-color);
-  }
-  .category-border {
-    border-color: var(--category-color);
-  }
+### Pattern 3: No External Search Library
+
+**What:** For search/filter, use plain JavaScript -- no Fuse.js, no MiniSearch.
+
+**Why:** The dataset is 31 fabrics, max 9 per category page. A case-insensitive `String.includes()` is more than sufficient for "fuzzy-enough" search. Adding a library for 31 items adds bundle size for zero practical benefit. The `weight` and `width` fields need `parseFloat()` for numeric sorting, which is trivial.
+
+**When to reconsider:** If the catalog grows beyond ~200 items OR if users need typo-tolerant search (unlikely for a salesperson who knows the product names).
+
+```typescript
+// Simple search -- no library needed
+function matchesFabric(fabric: Fabric, query: string): boolean {
+  const q = query.toLowerCase().trim()
+  return (
+    fabric.name.toLowerCase().includes(q) ||
+    fabric.base.includes(q) ||
+    fabric.composition.toLowerCase().includes(q)
+  )
 }
 ```
 
-### Pattern 4: Tailwind v4 @theme Design System with Category Color Tokens
+### Pattern 4: New Data Files Follow Existing Convention
 
-**What:** Definir todos los colores de las 8 categorias como tokens en `@theme`, mas tokens semanticos para la marca Lafayette. Usar CSS-first config de Tailwind v4 (no `tailwind.config.js`).
-**When to use:** Tailwind v4 en proyecto nuevo. Color palette conocida desde el PDF.
-**Trade-offs:**
-- PRO: Un solo archivo CSS define todo el design system
-- PRO: Tokens disponibles como CSS variables Y como utility classes automaticamente
-- PRO: Builds 5x mas rapidos que Tailwind v3
-- CON: Tailwind v4 es relativamente nuevo (enero 2025), menor cantidad de tutoriales legacy
+**What:** New data files (`personalization.ts`, `collars.ts`) follow the exact same pattern as existing files: export a `const` array with `as const satisfies readonly Type[]`, define types in `types.ts`, add getters in `helpers.ts`, re-export from `index.ts`.
 
-**Example:**
+```typescript
+// lib/content/types.ts — ADD these interfaces
+export interface PersonalizationOption {
+  readonly id: string
+  readonly name: string
+  readonly description: string
+  readonly image: string
+}
 
-```css
-/* app/globals.css */
-@import "tailwindcss";
+export interface CollarColor {
+  readonly name: string
+  readonly hex: string
+}
 
-@theme {
-  /* Brand */
-  --color-lafayette-dark: #1B3A5C;
-  --color-lafayette-red: #C42034;
-  --color-lafayette-white: #FFFFFF;
-
-  /* Category colors — named by usage, not by color name */
-  --color-cat-sudaderas: #1B3A5C;
-  --color-cat-camisetas: #3FA9D5;
-  --color-cat-deportivo: #6CB33F;
-  --color-cat-diario: #E91E8C;
-  --color-cat-buzos: #F7C948;
-  --color-cat-prom: #C42034;
-  --color-cat-blusas: #7B4B94;
-  --color-cat-delantales: #F7941D;
-
-  /* Semantic */
-  --color-surface: #FFFFFF;
-  --color-surface-alt: #F8FAFC;
-  --color-text-primary: #1E293B;
-  --color-text-secondary: #64748B;
-  --color-border: #E2E8F0;
-
-  /* Typography */
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-heading: 'Inter', ui-sans-serif, system-ui, sans-serif;
-
-  /* Spacing overrides (if needed) */
-  --radius-card: 12px;
-  --radius-badge: 6px;
+export interface CollarData {
+  readonly colors: readonly CollarColor[]
+  readonly sizesChildren: readonly string[]
+  readonly sizesAdult: readonly string[]
+  readonly description: string
 }
 ```
 
-Genera automaticamente: `bg-cat-sudaderas`, `text-cat-camisetas`, `border-cat-deportivo`, etc.
+```typescript
+// lib/content/personalization.ts — NEW file
+import type { PersonalizationOption } from './types'
 
-## Data Flow
-
-### Content Rendering Flow (Build Time)
-
-```
-TypeScript Content Files (lib/content/*.ts)
-    │
-    ├─→ generateStaticParams()    → Defines all valid routes
-    │
-    ├─→ Page Server Component     → Imports data, passes to UI components
-    │       │
-    │       ├─→ getCategoryBySlug()  → Returns typed Category object
-    │       └─→ getFabricsByCategory() → Returns typed Fabric[] array
-    │
-    ├─→ Layout Server Component   → Sets --category-color CSS variable
-    │
-    └─→ UI Components (Server)    → Render HTML with Tailwind classes
-            │
-            └─→ next/image        → Optimizes images from /public at serve time
-                    │
-                    └─→ CDN (Vercel) → Serves optimized WebP/AVIF to client
+export const PERSONALIZATION_OPTIONS = [
+  {
+    id: 'dibujos-exclusivos',
+    name: 'Dibujos Exclusivos',
+    description: 'Disenos unicos para la identidad de cada colegio',
+    image: '/images/content/personalizacion-dibujos.webp',
+  },
+  // ... 3 more
+] as const satisfies readonly PersonalizationOption[]
 ```
 
-### Image Pipeline Flow (One-time Pre-build)
+## Anti-Patterns to Avoid
 
-```
-PDF (Uniformes_Colegios.pdf, 37MB)
-    │
-    ├─→ pdfimages (poppler)        → Extracts embedded images losslessly
-    │       │
-    │       └─→ Raw images (JPEG/PNG) in temp directory
-    │
-    ├─→ sharp (Node.js script)     → Converts to WebP, resizes for web
-    │       │
-    │       ├─→ /public/images/categories/*.webp   (hero images)
-    │       ├─→ /public/images/fabrics/*.webp       (product photos)
-    │       └─→ /public/images/customization/*.webp (personalization photos)
-    │
-    └─→ Technology logos (Assets/) → Copied/optimized to /public/images/technologies/
-```
+### Anti-Pattern 1: Using searchParams for Filtering
 
-### Navigation Flow (Runtime — Client)
+**What:** Reading `searchParams` in the category page component to drive filter state.
+**Why bad:** Any page that accepts `searchParams` becomes dynamically rendered. This breaks SSG entirely -- the page would need a server function on every request. The build would no longer produce static HTML for category pages.
+**Instead:** Use `useState` in a client component. Filter state lives in React state, not in the URL. For this internal tool, URL-shareable filters are unnecessary.
 
-```
-User clicks category in Header
-    │
-    └─→ next/link prefetch    → Prefetches the static HTML/RSC payload
-            │
-            └─→ Client-side navigation (no full page reload)
-                    │
-                    ├─→ Root Layout persists (header stays, no re-render)
-                    └─→ Category Layout + Page swap
-                            │
-                            └─→ --category-color CSS var updates
-                                    │
-                                    └─→ All category-themed elements
-                                        update color instantly via CSS
-```
+### Anti-Pattern 2: Separate Filter Route
 
-### Key Data Flows
+**What:** Creating `/uso/[slug]/filter` or using route groups to separate filtered vs unfiltered views.
+**Why bad:** Over-engineering for 31 total fabrics. Creates maintenance burden (two route files for the same page) and confuses navigation.
+**Instead:** Single category page with a client component island that handles all filtering inline.
 
-1. **Content → Page render:** TypeScript files are imported at build time by Server Components. No runtime fetching, no API calls, no database. Data flows unidirectionally from `lib/content/` → page component → child UI components via props.
-2. **Category color theming:** The category layout reads the slug from route params, looks up the color from content data, injects it as a CSS custom property on a wrapper div. All descendants use `var(--category-color)` — no prop drilling needed.
-3. **Image serving:** Static images in `/public` are referenced by path in content data. `next/image` adds optimization layer at serve time (resize, format conversion, CDN caching). No build-time image processing by Next.js — images are pre-processed by our extraction script.
+### Anti-Pattern 3: Global Search Page
 
-## Scaling Considerations
+**What:** Building a dedicated `/buscar` page with cross-category search.
+**Why bad:** The sales tool is category-driven. The salesperson navigates to a category first, then explores fabrics. A global search page fights the navigation model and is out of scope.
+**Instead:** Search is scoped per-category within the FilterableFabricGrid on each `/uso/[slug]` page.
 
-| Scale | Architecture Adjustments |
-|-------|--------------------------|
-| Current (1-50 vendedores) | Full static site on Vercel free/pro tier. Zero server costs. All content in TypeScript files. Rebuild + deploy on content changes. |
-| 50-500 users | Identical architecture. Static sites scale horizontally via CDN without changes. |
-| Content growth (50+ telas) | Split `fabrics.ts` into per-category files (`fabrics-sudaderas.ts`, etc.) to keep files manageable. No architectural change. |
-| CMS requirement (eventual) | Add headless CMS (Sanity/Contentful) as data source. Replace `lib/content/` imports with API calls in Server Components. `generateStaticParams` pulls slugs from CMS. Structure stays identical. |
+### Anti-Pattern 4: TechnologyTooltip as Client Component
 
-### Scaling Priorities
+**What:** Making tooltips interactive with hover state managed by React state.
+**Why bad:** Adds unnecessary `'use client'` boundary and JS to the fabric detail page. CSS-only tooltips work perfectly for desktop/tablet hover.
+**Instead:** Use CSS `:hover` with `group` and hidden tooltip div. Pure CSS, zero JS, works on all target devices (laptop/tablet with hover support).
 
-1. **First bottleneck: Content maintenance.** Si Lafayette agrega muchas telas frecuentemente, editar TypeScript files se vuelve tedioso. Mitigacion: crear un script CLI que genere los objetos TypeScript desde un CSV/spreadsheet. Esto mantiene la arquitectura pero mejora el workflow.
-2. **Second bottleneck: Image management.** Si hay muchas imagenes nuevas, el proceso manual de extraccion de PDF se vuelve lento. Mitigacion: script automatizado que recibe un PDF y extrae/optimiza/nombra imagenes automaticamente.
-
-## Anti-Patterns
-
-### Anti-Pattern 1: Usar API Routes para Contenido Estatico
-
-**What people do:** Crear `app/api/categories/route.ts` y `app/api/fabrics/route.ts`, luego hacer `fetch()` desde los componentes.
-**Why it's wrong:** Agrega latencia innecesaria (request HTTP a si mismo), complejidad (serialization/deserialization JSON), y impide que Next.js pre-renderice las paginas como estaticas. Las paginas se vuelven dinamicas sin razon.
-**Do this instead:** Importar directamente los datos desde `lib/content/` en los Server Components. Es un import de modulo — zero overhead, full type safety.
-
-### Anti-Pattern 2: Client Components para Todo
-
-**What people do:** Poner `'use client'` en todos los componentes porque "es mas facil" o porque estan acostumbrados a React SPA.
-**Why it's wrong:** Envia JavaScript innecesario al cliente, aumenta bundle size, pierde la ventaja de Server Components (zero JS, render en server). Para un catalogo informativo que no tiene interactividad compleja, casi todo puede ser Server Component.
-**Do this instead:** Solo marcar como `'use client'` los componentes que realmente necesitan interactividad: el header (navigation toggle para tablet), y cualquier componente con hover animations complejas o estado local. Todo lo demas es Server Component por defecto.
-
-### Anti-Pattern 3: Un Solo Archivo Monolitico de Contenido
-
-**What people do:** Poner todas las categorias, telas, tecnologias y personalizacion en un solo archivo `data.ts` gigante.
-**Why it's wrong:** El archivo se vuelve inmanejable rapido (el catalogo tiene ~40 telas x ~5 campos cada una + 8 categorias + 12 tecnologias). Merge conflicts, scroll infinito, dificil encontrar lo que buscas.
-**Do this instead:** Un archivo por dominio de datos: `categories.ts`, `fabrics.ts`, `technologies.ts`, `customization.ts`, `collars.ts`. Importar selectivamente donde se necesite.
-
-### Anti-Pattern 4: Replicar el Diseno del PDF en la Web
-
-**What people do:** Intentar que la web sea pixel-perfect identica al PDF de 24 paginas.
-**Why it's wrong:** El PDF fue disenado para impresion (CMYK, layout fijo, paginas). La web tiene interactividad, responsive, animaciones, y un paradigma de navegacion completamente diferente. Replicar el PDF produce un sitio rigido y poco usable.
-**Do this instead:** Extraer los DATOS y la PALETA del PDF, pero disenar la web como producto digital moderno. Cards, grids, navegacion, hover states, transiciones suaves — nada de esto existe en el PDF.
-
-## Integration Points
-
-### External Services
-
-| Service | Integration Pattern | Notes |
-|---------|---------------------|-------|
-| Vercel | Deploy target — `next build` + Vercel CLI or Git integration | Static output mode. Zero server functions needed. Free tier sufficient para uso interno. |
-| Poppler (pdfimages) | Pre-build CLI tool — extrae imagenes del PDF | Solo en dev machine, no en CI. Se ejecuta una vez. `brew install poppler` en macOS. |
-| Sharp | Pre-build Node.js script — optimiza imagenes extraidas | Convierte a WebP, resize. Tambien disponible como dependencia de Next.js para image optimization en serve time. |
-
-### Internal Boundaries
-
-| Boundary | Communication | Notes |
-|----------|---------------|-------|
-| Content Layer ↔ Pages | Direct import (`import { categories } from '@/lib/content/categories'`) | No API, no fetch. Compile-time resolution. |
-| Pages ↔ Components | Props (typed) | Unidirectional. Page pasa datos tipados a componentes via props. |
-| Layout ↔ Children | CSS custom properties + React `children` prop | Layout inyecta `--category-color`; children lo consumen via CSS. No prop drilling. |
-| Image Pipeline ↔ Content Data | Convention-based paths (`/images/fabrics/{slug}.webp`) | El content data referencia paths. El pipeline de imagenes produce archivos en esas paths. La convencion de naming es el contrato. |
-| Header ↔ Content | Import de `categories` para generar nav links | Header importa la lista de categorias para construir el menu dinamicamente. |
-
-## Build Order (Dependencies Between Components)
-
-El siguiente orden respeta dependencias — cada fase solo requiere lo que la anterior ya construyo:
-
-```
-Phase 1: Foundation (no dependencies)
-├── Tailwind v4 @theme tokens (globals.css)
-├── TypeScript type definitions (lib/content/types.ts)
-├── Root layout + global header skeleton
-└── Image extraction script (PDF → /public/images/)
-
-Phase 2: Data Layer (depends on Phase 1: types)
-├── categories.ts (needs types.ts)
-├── technologies.ts (needs types.ts)
-├── fabrics.ts (needs types.ts + categories for slugs)
-├── customization.ts (needs types.ts)
-└── collars.ts (needs types.ts)
-
-Phase 3: Core Components (depends on Phase 1: tokens + Phase 2: types)
-├── product-card.tsx (needs Fabric type + Tailwind tokens)
-├── product-grid.tsx (needs product-card)
-├── category-card.tsx (needs Category type + Tailwind tokens)
-├── technology-badge.tsx (needs Technology type)
-├── technology-card.tsx (needs Technology type)
-└── section-header.tsx (pure UI, needs tokens only)
-
-Phase 4: Pages + Routing (depends on Phase 2 + 3)
-├── Home page (needs category-card + categories data)
-├── Category pages with [slug] + generateStaticParams (needs product-grid + fabrics data)
-├── Category layout with color theming (needs categories data)
-├── Technologies page (needs technology-card + technologies data)
-├── Personalization page (needs customization data)
-└── Collars page (needs collars data)
-
-Phase 5: Polish (depends on Phase 4)
-├── Header navigation (needs all routes defined)
-├── Loading/error states
-├── Responsive tablet adjustments
-├── Image optimization fine-tuning
-└── Vercel deploy configuration
+```tsx
+// TechnologyTooltip — Server Component, CSS-only hover
+export function TechnologyTooltip({ tech }: { tech: Technology }) {
+  return (
+    <div className="group relative inline-flex items-center">
+      {tech.icon && (
+        <Image src={tech.icon} alt={tech.name} width={32} height={32} />
+      )}
+      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2
+                       hidden group-hover:block bg-foreground text-background
+                       text-xs rounded px-2 py-1 whitespace-nowrap z-10">
+        <p className="font-semibold">{tech.name}</p>
+        <p className="opacity-80">{tech.description}</p>
+      </div>
+    </div>
+  )
+}
 ```
 
-**Rationale:** Tokens y types primero porque todo depende de ellos. Data layer antes de componentes porque los componentes necesitan saber la forma de los datos para renderizar. Componentes antes de paginas porque las paginas componen componentes. Polish al final porque requiere el sitio funcional completo.
+## New Component Inventory
+
+### Components to CREATE (7)
+
+| Component | File | Client? | Props | Purpose |
+|-----------|------|---------|-------|---------|
+| `FilterableFabricGrid` | `components/filterable-fabric-grid.tsx` | YES | `fabrics, technologies, categorySlug` | Wrapper: search + filter + sort state + renders FabricCard grid |
+| `FabricFilterBar` | `components/fabric-filter-bar.tsx` | YES | `technologies, selectedTechs, search, sortBy, callbacks, counts` | UI: search input, tech filter chips, sort dropdown, result count |
+| `FabricSpecsTable` | `components/fabric-specs-table.tsx` | No | `fabric: Fabric` | Table/grid showing composition, weight, width, weave, base |
+| `TechnologyTooltip` | `components/technology-tooltip.tsx` | No | `tech: Technology` | Icon with CSS hover tooltip |
+| `TechnologyCard` | `components/technology-card.tsx` | No | `tech: Technology, fabricCount: number` | Full card for /tecnologias grid |
+| `PersonalizationCard` | `components/personalization-card.tsx` | No | `option: PersonalizationOption` | Card with image + text for /personalizacion grid |
+| `CollarSection` | `components/collar-section.tsx` | No | `data: CollarData` | Colors grid + sizes table for /cuellos |
+
+### Components to MODIFY (2)
+
+| Component | Change | Reason |
+|-----------|--------|--------|
+| `fabric-card.tsx` | Add `isNew` badge rendering, accept possibly updated image paths | Support new badge feature, fix placeholder image issue |
+| `nav-links.tsx` | Change `pathname.startsWith('/usos')` to `pathname.startsWith('/uso')` | Fix active state bug on category pages (known tech debt) |
+
+### Data Files to CREATE (2)
+
+| File | Contents | Pattern |
+|------|----------|---------|
+| `lib/content/personalization.ts` | `PERSONALIZATION_OPTIONS` array (4 items from PDF p.15) | Same `as const satisfies` pattern |
+| `lib/content/collars.ts` | `COLLAR_DATA` object (colors, sizes from PDF p.16-17) | Same typed constant pattern |
+
+### Data Files to MODIFY (3)
+
+| File | Change |
+|------|--------|
+| `lib/content/types.ts` | Add `PersonalizationOption`, `CollarColor`, `CollarData` interfaces |
+| `lib/content/fabrics.ts` | Map real product images to 31 fabric records (replace `placeholder.webp`) |
+| `lib/content/index.ts` | Add exports for `PERSONALIZATION_OPTIONS`, `COLLAR_DATA`, new types |
+
+## Route Inventory (v1.1)
+
+| Route | SSG Params | Status | Client JS? |
+|-------|------------|--------|------------|
+| `/` | N/A (static) | No change | Minimal (nav only) |
+| `/usos` | N/A (static) | No change | Minimal (nav only) |
+| `/uso/[slug]` | 8 params from CATEGORIES | **Modified** (add FilterableFabricGrid) | YES (filter/search/sort) |
+| `/uso/[slug]/[fabricId]` | ~43 params from CATEGORIES x fabricIds | **Rewritten** (full detail) | Minimal (nav only) |
+| `/tecnologias` | N/A (static) | **Rewritten** (full content) | Minimal (nav only) |
+| `/personalizacion` | N/A (static) | **Rewritten** (full content) | Minimal (nav only) |
+| `/cuellos` | N/A (static) | **Rewritten** (full content) | Minimal (nav only) |
+
+**Total routes:** 51 (unchanged -- same generateStaticParams output)
+**Client JS impact:** Only `/uso/[slug]` pages gain meaningful client JS (FilterableFabricGrid + FabricFilterBar). All other pages remain Server Component-only with JS limited to existing nav components.
+
+## Build Order (Dependency-Respecting)
+
+The following order ensures each step only depends on completed work:
+
+```
+Phase 1: Tech Debt + Data Foundation
+├── Fix nav-links.tsx active state ('/usos' → '/uso')
+├── Map real product images to fabrics.ts (replace placeholder.webp)
+├── Remove unused CVA dependency
+├── Add PersonalizationOption, CollarColor, CollarData to types.ts
+├── Create personalization.ts (4 items from PDF)
+├── Create collars.ts (colors + sizes from PDF)
+└── Update index.ts barrel exports
+    Dependencies: none (pure data/fix work)
+
+Phase 2: Fabric Detail Page
+├── Create FabricSpecsTable component
+├── Create TechnologyTooltip component (CSS-only)
+├── Modify fabric-card.tsx (isNew badge)
+├── Rewrite uso/[slug]/[fabricId]/page.tsx with full layout
+└── Verify: all 43 fabric detail routes render correctly
+    Dependencies: Phase 1 (needs real images, types)
+
+Phase 3: Content Section Pages
+├── Create TechnologyCard component
+├── Create PersonalizationCard component
+├── Create CollarSection component
+├── Rewrite tecnologias/page.tsx
+├── Rewrite personalizacion/page.tsx
+├── Rewrite cuellos/page.tsx
+└── Verify: 3 section pages render with real content
+    Dependencies: Phase 1 (needs new data files)
+    Note: Can run in PARALLEL with Phase 2
+
+Phase 4: Search / Filter / Sort
+├── Create FabricFilterBar component
+├── Create FilterableFabricGrid component
+├── Modify uso/[slug]/page.tsx to use FilterableFabricGrid
+├── Verify: filtering, sorting, search work on all 8 category pages
+└── Verify: SSG still works (no searchParams, no dynamic rendering)
+    Dependencies: Phase 2 (FabricCard must be finalized first)
+
+Phase 5: Responsive + Deploy
+├── Verify all new components at lg and md breakpoints
+├── Verify Vercel build succeeds with SSG < 2s
+├── Deploy to Vercel
+└── Final E2E walkthrough
+    Dependencies: Phases 1-4 complete
+```
+
+**Phase ordering rationale:**
+1. **Phase 1 first** because every subsequent phase depends on correct data (real images, new types, new data files). Tech debt fixes are quick wins that unblock everything.
+2. **Phase 2 and 3 can parallelize** because they have no mutual dependencies -- both only depend on Phase 1's data foundation. However, sequential execution is safer for a single developer.
+3. **Phase 4 after Phase 2** because FilterableFabricGrid renders FabricCard components. The FabricCard modifications (isNew badge, image fixes) must be stable before wrapping in filter logic.
+4. **Phase 5 last** because responsive polish and deploy require all features complete.
+
+## Scalability Considerations
+
+| Concern | Current (31 fabrics) | At 100 fabrics | At 500 fabrics |
+|---------|---------------------|----------------|----------------|
+| Client-side filtering | Instant. Array operations on <10 items per category. | Still instant. Even 100 items filter in <1ms. | Consider server-side filtering or Fuse.js. |
+| SSG build time | ~43 fabric detail routes, trivial. | ~150 routes, still <30s build. | May need ISR or on-demand revalidation. |
+| FilterableFabricGrid bundle | ~2KB component. | Same. | Same -- the component doesn't scale with data. |
+| Embedded data in HTML | ~5KB per category page. | ~15KB per page. | Consider fetching from API instead of embedding. |
+| Image loading on grid | 4-9 images, fine. | Consider lazy loading + pagination. | Virtualized grid needed. |
+
+**For v1.1 (31 fabrics):** Zero scaling concerns. The architecture is perfectly matched to the data size.
 
 ## Sources
 
-- [Next.js Official Docs: Layouts and Pages](https://nextjs.org/docs/app/getting-started/layouts-and-pages) — HIGH confidence (official, v16.1.6, verified 2026-02-20)
-- [Next.js Official Docs: generateStaticParams](https://nextjs.org/docs/app/api-reference/functions/generate-static-params) — HIGH confidence (official, v16.1.6, verified 2026-02-20)
-- [Next.js Official Docs: Image Optimization](https://nextjs.org/docs/app/building-your-application/optimizing/images) — HIGH confidence (official, v16.1.6, verified 2026-02-20)
-- [Tailwind CSS v4: @theme directive](https://tailwindcss.com/docs/theme) — HIGH confidence (official Tailwind docs)
-- [Poppler pdfimages](https://formulae.brew.sh/formula/poppler) — HIGH confidence (Homebrew formula, well-established tool)
-- [Sharp image processing](https://sharp.pixelplumbing.com/) — HIGH confidence (official docs, industry standard)
-- [Next.js App Router Architecture Patterns 2026](https://feature-sliced.design/blog/nextjs-app-router-guide) — MEDIUM confidence (community, well-regarded source)
-- [Tailwind CSS v4 Design Tokens Guide](https://medium.com/@sureshdotariya/tailwind-css-4-theme-the-future-of-design-tokens-at-2025-guide-48305a26af06) — MEDIUM confidence (community tutorial, cross-verified with official docs)
+- [Next.js Official: Static Site Generation](https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation) -- HIGH confidence
+- [Next.js Official: generateStaticParams](https://nextjs.org/docs/app/api-reference/functions/generate-static-params) -- HIGH confidence
+- [Next.js searchParams breaks static generation (GitHub Discussion #58884)](https://github.com/vercel/next.js/discussions/58884) -- HIGH confidence (official repo)
+- [Fix searchParams killing static generation](https://www.buildwithmatija.com/blog/nextjs-searchparams-static-generation-fix) -- MEDIUM confidence (community, verified pattern)
+- [Next.js Official: Client-side Rendering](https://nextjs.org/docs/pages/building-your-application/rendering/client-side-rendering) -- HIGH confidence
+- [Fuse.js vs MiniSearch comparison (npm-compare)](https://npm-compare.com/elasticlunr,flexsearch,fuse.js,minisearch) -- MEDIUM confidence (used to validate "no library needed" decision)
+- Existing codebase analysis (all files in `src/`) -- HIGH confidence (direct code inspection)
+- v1.0 Milestone Audit (`.planning/milestones/v1.0-MILESTONE-AUDIT.md`) -- HIGH confidence (internal document)
 
 ---
-*Architecture research for: Lafayette Uni For Me Colegios — Web Comercial*
-*Researched: 2026-02-21*
+*Architecture research for: Lafayette Uni For Me Colegios v1.1 -- Catalogo Completo*
+*Researched: 2026-02-22*

@@ -1,198 +1,205 @@
 # Project Research Summary
 
-**Project:** Lafayette Uni For Me Colegios — Web Comercial
-**Domain:** Sales enablement product catalog (catálogo textil para presentaciones B2B en reuniones con colegios)
-**Researched:** 2026-02-21
+**Project:** Lafayette Uni For Me Colegios — v1.1 Catalogo Completo
+**Domain:** Sales enablement web catalog (catálogo textil, herramienta interna de ventas B2B)
+**Researched:** 2026-02-22
 **Confidence:** HIGH
 
 ## Executive Summary
 
-Este proyecto es un catálogo digital de habilitación de ventas para uniformes escolares Lafayette. No es un e-commerce ni un sitio público — es una herramienta interna que los vendedores usan durante reuniones presenciales con colegios, en laptop o tablet. El objetivo es reemplazar un PDF de 37MB como medio de presentación. El enfoque correcto, avalado por benchmarks de Klopman y Milliken, es construir un sitio estático con navegación rápida por categorías, fichas técnicas de telas con imágenes, y una sección de tecnologías textiles como argumento de venta. Todo el contenido es estático y conocido en build time (~8 categorías, ~40 telas, 12 tecnologías).
+Este proyecto es la segunda iteración de un catálogo digital de habilitación de ventas para uniformes escolares Lafayette. El milestone v1.1 parte de una base funcional (Next.js 16 + React 19 + Tailwind v4, 51 rutas SSG, 31 telas modeladas) y tiene como objetivo completar el catálogo: convertir 4 páginas placeholder en contenido real (fichas técnicas de telas, sección de tecnologías, personalización y cuellos), añadir interactividad de búsqueda/filtrado, y desplegar la herramienta en producción. El patrón arquitectónico es claro y sin controversia: Server Components por defecto, una isla Client Component exclusivamente para los filtros interactivos, y SSG preservado en todo momento. Toda la lógica de negocio vive en el data layer TypeScript existente.
 
-El stack recomendado es Next.js 16 con App Router, Tailwind CSS v4, TypeScript y datos en archivos `.ts` tipados — sin CMS, sin base de datos, sin API routes. Toda la data vive en `lib/content/` como constantes TypeScript importadas directamente por Server Components. El deploy es en Vercel con image optimization automática via `next/image`, evitando `output: 'export'` que rompería la optimización de imágenes. Este enfoque produce páginas HTML pre-renderizadas en build time, servidas desde CDN con carga < 2 segundos — crítico para el contexto de reunión de ventas.
+El riesgo más alto del proyecto no es técnico sino de secuencia: existe tech debt concreto que bloquea o contamina las features nuevas si no se resuelve primero. Las 31 telas apuntan a `placeholder.webp` (que no existe), mientras que 14 imágenes reales están sin mapear en `/public/images/products/`. Ninguna ficha técnica de tela — la feature central de v1.1 — puede construirse con calidad antes de resolver este mapeo. Un segundo riesgo documentado es romper inadvertidamente el SSG al implementar filtros: usar `useSearchParams()` sin boundary Suspense deoptimiza páginas estáticas a renderizado cliente, degradando la velocidad de carga crítica para un contexto de reunión de ventas.
 
-Los riesgos principales son tres y deben resolverse antes de escribir una línea de UI: (1) calidad de las imágenes extraídas del PDF — si son de baja resolución, el catálogo pierde su utilidad visual; (2) la estrategia de deploy debe elegirse en Fase 1 porque determina cómo funciona `next/image`; (3) el sistema de colores por categoría debe implementarse con lookup objects estáticos (nunca clases Tailwind dinámicas) para evitar que el CSS purger elimine los colores en producción. Si estos tres riesgos se resuelven correctamente en Fase 1, el resto del desarrollo es mecánico y predecible.
+La única dependencia nueva justificada para v1.1 es `fuse.js` (~5kB) para búsqueda fuzzy tolerante a typos, compensada con creces por la eliminación de `class-variance-authority` (~6kB, instalada en v1.0 pero sin ningún consumidor). El stack base cubre todos los requisitos de las features nuevas sin adiciones. La confianza en el plan es alta porque el data layer ya existe y está tipado, las rutas SSG ya tienen `generateStaticParams` configurado, y todos los patrones de arquitectura están establecidos.
+
+---
 
 ## Key Findings
 
 ### Recommended Stack
 
-Next.js 16 con App Router es el framework correcto para este proyecto. Turbopack como bundler (incluido en Next.js 16) y React 19.2 dan el mejor rendimiento de build. Tailwind CSS v4.2.0 con configuración CSS-first (`@theme`) permite definir los 8 colores de categoría como tokens que se propagan automáticamente a utility classes. TypeScript 5.7.x con Zod 4 para validación en build time cierra el stack principal.
+El stack base de v1.0 no requiere cambios estructurales para v1.1. Las decisiones de "qué no agregar" son tan importantes como las adiciones: `nuqs` rechazado (URL state innecesario para herramienta interna sin URL sharing), Zod rechazado (`as const satisfies` cubre validación suficientemente), framer-motion rechazado (micro-interacciones se resuelven con Tailwind `transition-*`), Radix UI rechazado (tooltips CSS-only son suficientes para el caso de uso).
 
 **Core technologies:**
-- **Next.js 16 (App Router):** Framework base con SSG automático, `generateStaticParams` para rutas dinámicas, y Turbopack — deploy en Vercel sin `output: 'export'`
-- **Tailwind CSS v4.2.0:** CSS-first config con `@theme`; builds 5x más rápidos que v3; colores de categoría como tokens (`--color-cat-sudaderas`, etc.)
-- **TypeScript 5.7.x + Zod 4:** Type safety en toda la capa de datos; Zod valida en build time que el catálogo esté completo
-- **Bun:** Solo como package manager (`bun install`, `bun run`); NO usar `bun --bun next dev` — incompatibilidades NAPI con Next.js 16
-- **sharp + next/image:** `sharp` como dependencia explícita de producción; `next/image` con AVIF/WebP y optimización automática en Vercel
-- **clsx + tailwind-merge:** Utility `cn()` para composición segura de clases Tailwind en componentes
+- `fuse.js 7.1.0`: búsqueda fuzzy por nombre de tela — única dependencia nueva; ~5kB gzip, zero dependencies; justificada para tolerancia a typos en presentaciones presenciales
+- `sharp` (verificar): optimización de imágenes en Vercel — puede ya estar disponible via Next.js; añadir solo si el build genera warnings de image optimization
+- `class-variance-authority` (REMOVER): instalada en v1.0, cero imports en `src/`; eliminar para reducir bundle ~6kB y evitar patrón conflictivo con `cn()`
+- Stack existente sin cambios: Next.js 16.1.6, React 19.2.3, Tailwind v4.2.0, TypeScript, lucide-react, clsx/tailwind-merge
 
-**Lo que no usar:** `output: 'export'`, CMS headless, CSS-in-JS, Redux/Zustand, `tailwind.config.js` de v3, Pages Router, API routes para contenido estático.
+**Cambio crítico en `next.config.ts`:** Añadir `images.formats: ['image/avif', 'image/webp']` y tamaños de dispositivo para tablet/desktop. NO añadir `output: 'export'` — Vercel sirve SSG desde CDN edge automáticamente sin esa config.
 
 ### Expected Features
 
-El catálogo tiene un MVP claro basado en el modelo mental del vendedor y benchmarks de competidores (Klopman Fabric Finder, Milliken).
+**Must have (table stakes — sin estas, v1.1 no tiene sentido):**
+- TS-05: Resolver imágenes placeholder (404 en TODAS las FabricCards) — BLOCKER absoluto para el resto del milestone
+- TS-01: Ficha técnica completa de tela (`/uso/[slug]/[fabricId]`) — la promesa incumplida más visible de v1.0; todos los datos ya existen en el data layer
+- TS-02: Sección de Tecnologías Textiles (`/tecnologias`) — 1 de 4 items del menú principal sin contenido; 14 tecnologías y 12 iconos ya existen
+- TS-03: Sección de Personalización (`/personalizacion`) — diferenciador comercial, 4 opciones del PDF p.15; requiere nuevo data model
+- TS-04: Sección de Cuellos (`/cuellos`) — complemento para polos; colores y tallas del PDF pp.16-17; requiere nuevo data model
+- TS-06: Deploy funcional en Vercel — sin deploy, la herramienta nunca llega al vendedor
 
-**Debe tener (table stakes — sin esto el vendedor vuelve al PDF):**
-- Navegación por las 8 categorías de uso con color-coding distinctivo
-- Home con hero y grid de acceso a categorías
-- Fichas técnicas de tela con composición, gramaje, tecnologías aplicadas e imagen
-- Product cards en grid responsivo (desktop 3 cols, tablet 2 cols)
-- Imágenes de producto extraídas del PDF y optimizadas
-- Sección de 12 Tecnologías Textiles con iconos y descripciones
-- Sección de 4 opciones de Personalización
-- Sección de Cuellos (colores, tallas, info comercial)
-- Header global con logo Lafayette y navegación
-- Deploy en Vercel y carga < 2 segundos
+**Should have (elevan la herramienta por encima de un PDF):**
+- DF-01: Filtrado multi-select por tecnología en páginas de categoría — reduce búsqueda de minutos a segundos
+- DF-02: Ordenamiento por gramaje/ancho — casi gratuito cuando se implementa con DF-01
+- DF-03: Búsqueda fuzzy global por nombre de tela (fuse.js) — acceso directo para vendedores que saben qué buscan
+- DF-04: Tooltips de tecnología en ficha de tela (CSS-only con `group-hover`) — polish de bajo costo, alto impacto
+- DF-05: Navegación cruzada tela-categoría — `getCategoriesByFabric()` ya existe en `helpers.ts` sin consumidor
 
-**Agregar post-lanzamiento (v1.x, tras validar uso real):**
-- Filtrado client-side por tecnología/propiedad
-- Navegación cruzada tela-categoría (relación muchos-a-muchos)
-- Búsqueda fuzzy por nombre de tela (Fuse.js, ~40 telas)
-- Tooltips interactivos en iconos de tecnología
-- Galería con zoom (condicionado a calidad de imágenes del PDF)
-
-**Diferir a v2+:**
-- Modo offline / PWA (validar primero si el WiFi en colegios es realmente un problema recurrente)
-- Comparación lado a lado de telas (requiere datos cuantitativos suficientes)
-
-**Nunca construir:** e-commerce, CRM, chat widgets, autenticación, multi-idioma, SEO público, CMS/admin panel.
+**Defer (v2+):**
+- Comparación lado a lado de telas (UI compleja, valor bajo con specs limitados)
+- Galería multi-imagen con zoom (solo existe 1 imagen por tela)
+- PWA / modo offline (añadir sobre catálogo incompleto no tiene sentido)
+- Filtro por composición o tipo de tejido (datasets demasiado pequeños para justificarlo)
+- Páginas individuales por tecnología (no hay contenido único suficiente por tecnología)
 
 ### Architecture Approach
 
-La arquitectura es un sitio estático en tres capas: Presentation (Next.js App Router con Server Components), Data Layer (archivos TypeScript en `lib/content/`), y Asset Layer (imágenes en `/public/images/` pre-procesadas con sharp desde el PDF). Todas las páginas son Server Components por defecto; solo el header necesita `'use client'` para el nav interactivo en tablet. Los datos fluyen unidireccionalmente: `lib/content/*.ts` → page Server Component → child components via props. El theming de categoría se implementa con CSS custom properties (`--category-color`) inyectadas en el layout de categoría, sin prop drilling.
+La arquitectura de v1.1 extiende el modelo de v1.0 con un único cambio de patrón: introducir una "isla" Client Component (`FilterableFabricGrid`) dentro de las páginas de categoría, que permanecen como Server Components. Todos los datos se serializan como props estáticas en build time (máximo 9 telas por categoría); el filtrado/sort/búsqueda ocurren enteramente en el browser sin round-trips al servidor ni `searchParams` (que romperían el SSG). Las páginas de ficha técnica y las tres secciones de contenido son Server Components puros. El data layer nuevo (`personalization.ts`, `collars.ts`) sigue el patrón `as const satisfies readonly Type[]` establecido en v1.0.
 
-**Componentes principales:**
-1. **Data Layer (`lib/content/`):** Constantes TypeScript tipadas para categories, fabrics, technologies, customization, collars — fuente única de verdad para todo el contenido del catálogo
-2. **Category Layout (`app/categoria/[slug]/layout.tsx`):** Inyecta `--category-color` como CSS variable; todos los componentes hijos heredan el color de la categoría sin props
-3. **Product Card (`components/product-card.tsx`):** Server Component reutilizable; imagen optimizada, nombre, specs clave, technology badges
-4. **Global Header (`components/header.tsx`):** Único Client Component con `'use client'`; navegación a las 8 categorías y secciones secundarias
-5. **Design System (`app/globals.css`):** `@theme` con los 8 colores de categoría, brand tokens Lafayette, tipografía Inter
-
-**Orden de build:** Tokens/tipos → Data layer → Componentes UI → Páginas/routing → Polish y deploy.
+**Componentes a crear (7 nuevos, 2 modificaciones):**
+1. `FilterableFabricGrid` (Client) — gestiona todo el estado de búsqueda/filtro/sort; envuelve `FabricFilterBar` y el grid de `FabricCard`
+2. `FabricFilterBar` (Client) — UI del panel de filtros: input de búsqueda, chips de tecnología multi-select, dropdown de ordenamiento, contador de resultados
+3. `FabricSpecsTable` (Server) — tabla/grid de specs técnicas (composición, gramaje, ancho, tejido, base)
+4. `TechnologyTooltip` (Server) — icono con tooltip CSS-only via Tailwind `group-hover`, sin JS de React
+5. `TechnologyCard` (Server) — card completa para `/tecnologias` con icono, nombre, descripción y contador de telas
+6. `PersonalizationCard` (Server) — card con imagen + texto para `/personalizacion`
+7. `CollarSection` (Server) — grid de colores + tabla de tallas para `/cuellos`
 
 ### Critical Pitfalls
 
-1. **Calidad de imágenes del PDF** — Usar `pdfimages -all` (poppler) para extracción lossless de imágenes embebidas; auditar que cada imagen sea >= 400px de ancho antes de continuar; como fallback usar `pdftoppm -r 300` para renderizar páginas a alta resolución. Resolver en Fase 1 antes de cualquier UI.
+1. **Imágenes placeholder 404 contaminan todo el milestone** — Las 31 telas apuntan a `placeholder.webp` inexistente; 14 imágenes reales sin mapear en `/public/images/products/`. Construir fichas técnicas sin resolver esto produce demos inutilizables. Resolver PRIMERO en Phase 1, antes de cualquier feature work.
 
-2. **Deploy strategy determina image optimization** — Decidir en Fase 1: Vercel standard deploy (recomendado, `next/image` funciona out-of-the-box) vs `output: 'export'` (requiere `next-image-export-optimizer`, mayor complejidad). NO descubrir esto al momento del deploy.
+2. **`useSearchParams()` sin Suspense deoptimiza SSG completo** — Cualquier llamada a `useSearchParams()` sin `<Suspense>` convierte la página entera a CSR. Las páginas de categoría actualmente son SSG estático; perderlo degrada la experiencia crítica de velocidad. Solución: usar `useState` en React (no URL params). Verificar con `bun run build` que todas las páginas muestren icono estático (círculo), no dinámico (lambda).
 
-3. **Colores de categoría purgados por Tailwind en producción** — NUNCA construir clases Tailwind dinámicamente (`bg-[${color}]` o template literals). Usar un lookup object con strings de clase completas y estáticas que el scanner de Tailwind pueda detectar; o usar CSS custom properties via `style` attribute para valores verdaderamente dinámicos.
+3. **Fuse.js sin `useMemo` produce lag visible en iPad** — `new Fuse(data, options)` en el body del componente se ejecuta en cada keystroke. Para 31 items es inapreciable en MacBook pero perceptible en iPad. Wrap obligatorio: `useMemo(() => new Fuse(fabrics, opts), [fabrics])` + debounce de 200-300ms en el input.
 
-4. **`'use client'` mal ubicado convierte páginas estáticas en Client Components** — Mantener `'use client'` solo en leaf components (header nav toggle, gallery zoom). Nunca en `layout.tsx` o `page.tsx`. Usar el patrón wrapper para pasar `children` como Server Components a través de Client Components.
+4. **Bug NavLinks activo estado (`/usos` vs `/uso`)** — El nav item apunta a `/usos` (plural), las rutas son `/uso/[slug]` (singular). Arreglar en Phase 1 con: `pathname === item.href || pathname.startsWith(item.href + '/') || (item.href === '/usos' && pathname.startsWith('/uso/'))`.
 
-5. **Filenames con espacios en assets** — Los assets existentes tienen nombres como `LOGO_TECNOLOGIA_SECADO RAPIDO.png`. Renombrar a kebab-case en Fase 1 antes de referenciarlos en código. Los espacios en rutas URL causan 404s silenciosos en producción.
+5. **`output: 'export'` en next.config.ts rompe image optimization** — Vercel sirve SSG pages desde CDN edge sin esta config. Añadirla "por rendimiento" rompe `next/image` y requiere un custom loader. NO añadir. Verificar en Vercel build log que todas las rutas sean estáticas.
+
+---
 
 ## Implications for Roadmap
 
-La investigación revela dependencias claras que determinan el orden de fases. Los datos, los assets y las decisiones arquitectónicas deben preceder a la UI; la UI debe preceder al polish.
+Tres archivos de investigación independientes (FEATURES.md, ARCHITECTURE.md, PITFALLS.md) convergen en la misma estructura de 5 fases con las mismas dependencias, lo que aumenta significativamente la confianza en el orden propuesto.
 
-### Phase 1: Foundation — Decisiones, Assets y Data Layer
+### Phase 1: Tech Debt + Data Foundation
 
-**Rationale:** Tres decisiones críticas deben resolverse en Fase 1 porque bloquean todo lo demás: (a) estrategia de deploy (Vercel standard — ya resuelta por la investigación), (b) calidad real de imágenes del PDF (prueba de extracción con `pdfimages`), y (c) sistema de colores de categoría (lookup objects estáticos). Además, el Data Layer es la dependencia fundacional — sin tipos y datos definidos, ningún componente puede construirse correctamente.
+**Rationale:** Todo lo que viene después depende de datos correctos. Los 404 de imágenes son el único blocker real del proyecto — sin imágenes reales, ninguna demo funciona y ninguna ficha técnica tiene sentido. Los bugs y la deuda técnica existente deben resolverse antes de añadir código nuevo encima.
+**Delivers:** Data layer completo y funcional; FabricCards muestran imágenes reales; NavLinks activo en `/uso/*`; base de tipos extendida para personalización y cuellos; dependencias saneadas.
+**Addresses:** TS-05 (imágenes — blocker), prerequisito para TS-01/02/03/04
+**Avoids:** P1 (404 que contamina todo), P4 (NavLinks bug), P10 (CVA bundle bloat), P6 (color drift), P13 (ROADMAP stale)
+**Tasks concretas:**
+- Mapear 14 imágenes reales a los 31 registros en `fabrics.ts` (verificar visualmente contra PDF)
+- Fix NavLinks active state (`/usos` → `/uso`)
+- `bun remove class-variance-authority`
+- Añadir `PersonalizationOption`, `CollarColor`, `CollarData` a `types.ts`
+- Crear `personalization.ts` (4 items del PDF p.15)
+- Crear `collars.ts` (colores + tallas del PDF pp.16-17)
+- Expandir descripciones de tecnologías (del PDF p.14)
+- Actualizar barrel exports en `index.ts`
 
-**Delivers:** Proyecto scaffolded con Next.js 16 + Tailwind v4; `@theme` con 8 colores de categoría; TypeScript interfaces para Fabric, Category, Technology, CustomizationOption; archivos de datos en `lib/content/` para todas las entidades; imágenes extraídas del PDF auditadas y en `/public/images/`; assets renombrados a kebab-case.
+### Phase 2: Fabric Detail Pages
 
-**Addresses:** Navegación por categorías (prerequisito), fichas técnicas (prerequisito), imágenes de producto (prerequisito)
+**Rationale:** La feature principal del milestone. Requiere Phase 1 (imágenes reales, tipos extendidos). La ruta SSG ya existe como placeholder; solo hay que reemplazar el contenido. Con datos ya modelados en el data layer y la ruta pre-configurada, esta fase es de ejecución directa.
+**Delivers:** Las ~43 rutas `/uso/[slug]/[fabricId]` con contenido real: imagen, specs técnicas en tabla, tecnologías con tooltips CSS, rutas de estampación, badge "Nuevo", navegación cruzada entre categorías.
+**Uses:** Server Components (sin interactividad), next/image, `getCategoriesByFabric()` existente
+**Implements:** `FabricSpecsTable`, `TechnologyTooltip` (CSS-only), `FabricCard` modificada (badge isNew), rewrite completo de `/uso/[slug]/[fabricId]/page.tsx`
+**Avoids:** P3 (duplicados por telas compartidas — usar `getCategoriesByFabric()`), P9 (iconos vacíos — guard `{tech.icon && ...}` con fallback Lucide), P12 (back link context)
 
-**Avoids:** PDF image quality pitfall (P1), deploy strategy conflict (P2), Tailwind dynamic class purge (P3), asset filename issues (P11), product data coupling to UI (P6)
+### Phase 3: Content Section Pages
 
-**Research flag:** NECESITA verificación manual — la calidad de las imágenes del PDF no es predecible hasta ejecutar la extracción. Puede requerir solución alternativa (pedir assets de alta resolución a Marketing de Lafayette).
+**Rationale:** Convierte los 3 placeholders restantes del menú principal en páginas reales. Independiente de Phase 2 (ambas solo dependen de Phase 1), por lo que pueden ejecutarse en paralelo con un segundo desarrollador. Para un solo desarrollador, secuencial después de Phase 2.
+**Delivers:** Cero páginas "en construcción". Menú completo con 4/4 secciones funcionales. Argumento de venta completo (tecnologías + personalización + cuellos).
+**Uses:** Server Components puros, datos de Phase 1 (`personalization.ts`, `collars.ts`), `TECHNOLOGIES` existente
+**Implements:** `TechnologyCard`, `PersonalizationCard`, `CollarSection`; rewrites de `/tecnologias`, `/personalizacion`, `/cuellos`
+**Avoids:** P9 (3 tecnologías sin icono — fallback con `FlaskConical` de Lucide)
 
-### Phase 2: Core UI — Home, Categorías y Fichas de Tela
+### Phase 4: Search, Filter & Sort
 
-**Rationale:** Con el Data Layer completo y los assets disponibles, todos los componentes principales pueden construirse sin bloqueos. La arquitectura Server Components + CSS variable theming está definida — es ejecución directa.
+**Rationale:** La interactividad que transforma el catálogo de "PDF bonito en web" a "herramienta de ventas". Requiere Phase 2 estabilizada porque `FilterableFabricGrid` envuelve `FabricCard` — que se modifica en Phase 2. Este es el riesgo técnico más alto del proyecto (SSG deoptimization) y debe ejecutarse cuando todo lo demás está estable.
+**Delivers:** Filtrado multi-select por tecnología (AND logic), ordenamiento por gramaje/ancho (sort numérico), búsqueda fuzzy global (fuse.js). Interactividad completa.
+**Uses:** `fuse.js 7.1.0` (única dependencia nueva), React `useState` + `useMemo`, `SkeletonCard` existente como Suspense fallback
+**Implements:** `FilterableFabricGrid` (Client), `FabricFilterBar` (Client); modificación de `/uso/[slug]/page.tsx`
+**Avoids:** P2 (useSearchParams → SSG deoptimization — usar `useState`), P7 (Fuse.js sin memoización), P8 (filter state reset — `router.back()` en lugar de `<Link>`), P11 (SkeletonCard integrada como Suspense fallback)
 
-**Delivers:** Home page con hero y grid de 8 categorías; 8 páginas de categoría con `generateStaticParams`; `ProductCard` y `ProductGrid` responsivos; `CategoryLayout` con CSS variable theming; header global con navegación.
+### Phase 5: Responsive Polish & Deploy
 
-**Uses:** Next.js `generateStaticParams` + `dynamicParams = false`; `next/image` con AVIF/WebP; CSS custom properties `--category-color`; `clsx` + `tailwind-merge` en componentes
-
-**Implements:** Presentation Layer completa (layouts, pages, UI components); Navigation Flow (prefetch, client-side navigation)
-
-**Avoids:** `'use client'` boundary misplacement (P4), tablet layout breaks (P7), hydration errors on iPad (P9), missing generateStaticParams (P10)
-
-**Research flag:** Patrón estándar — no necesita investigación adicional. Next.js App Router patterns están bien documentados.
-
-### Phase 3: Secciones Secundarias y Deploy
-
-**Rationale:** Las secciones de Tecnologías, Personalización y Cuellos son más simples que las páginas de categoría (menos datos, layouts más directos). Se construyen sobre los mismos patrones establecidos en Fase 2. El deploy a Vercel cierra el MVP.
-
-**Delivers:** Página `/tecnologias` con grid de 12 tecnologías + iconos; página `/personalizacion` con 4 opciones; página `/cuellos` con tabla de tallas/colores; deploy funcional en Vercel; `noindex` configurado (herramienta interna).
-
-**Uses:** Technology badge components reutilizables; `section-header.tsx`; Vercel CLI / Git integration
-
-**Implements:** Completion del Presentation Layer; Image Pipeline completa (CDN caching via Vercel)
-
-**Research flag:** Patrón estándar — deploy Vercel bien documentado. Sin investigación adicional necesaria.
-
-### Phase 4: Enhancements — Filtros y Navegación Mejorada
-
-**Rationale:** Solo después de validar que los vendedores usan el catálogo (Fases 1-3 en producción), agregar las features que elevan la experiencia. El filtrado client-side y la búsqueda son independientes y no rompen nada existente.
-
-**Delivers:** Filtrado client-side por tecnología (multi-select chips); navegación cruzada tela-categoría (tags clickeables en fichas); búsqueda fuzzy por nombre de tela (Fuse.js); tooltips interactivos en iconos de tecnología.
-
-**Uses:** Client-side state con React hooks (mínimo); Fuse.js para fuzzy search; datos ya presentes en `lib/content/`
-
-**Research flag:** PUEDE necesitar investigación de UX para el patrón de filtros — cómo presentar los filtros en tablet sin ocupar demasiado espacio. Baymard Institute tiene guías específicas de filtering UX para productos.
+**Rationale:** Verificación final y primera entrega real a los vendedores. Sin deploy, nada de esto tiene valor. Esta fase garantiza calidad en todos los breakpoints target (lg/md) y que Vercel genere todas las rutas estáticas correctamente.
+**Delivers:** Herramienta accesible en producción para los vendedores. Build verificado (<2s SSG). 0 páginas placeholder. Responsive verificado en tablet y desktop.
+**Uses:** Vercel (zero-config Next.js deploy), `bun run build` para verificación SSG
+**Avoids:** P5 (`output: 'export'` — verificar que NO esté en `next.config.ts`), P2 (verificar que todas las páginas sean estáticas en el build log)
 
 ### Phase Ordering Rationale
 
-- **Foundation primero:** La calidad de las imágenes del PDF es la variable más incierta del proyecto. Detectarla en Fase 1 da tiempo para buscar alternativas (pedir assets a Marketing) antes de comprometerse con el diseño visual.
-- **Data Layer antes de UI:** Los interfaces TypeScript de `Fabric`, `Category`, etc. determinan los props de cada componente. Definirlos primero evita refactoring costoso.
-- **Core antes de Secundarias:** Las páginas de categoría son más complejas (routing dinámico, grid responsivo, theming) que las páginas estáticas de Tecnologías/Personalización. Establecer los patrones difíciles primero hace las páginas simples triviales.
-- **Deploy en Fase 3, no al final:** Deploy temprano valida la integración Vercel + next/image en condiciones reales antes de que haya demasiado código acumulado.
-- **Enhancements después de validación:** Los filtros y búsqueda agregan valor pero no son bloqueantes. Esperar feedback real de vendedores antes de implementarlos.
+- **Phase 1 primero** porque es el único bloqueante real: sin imágenes mapeadas y datos correctos, ninguna demo funciona. Resolverlo al inicio evita que el tech debt contamine cada nueva feature.
+- **Phase 2 antes que Phase 4** porque `FabricCard` se modifica en Phase 2 (badge isNew, paths de imagen corregidos) y `FilterableFabricGrid` en Phase 4 depende de la versión final de `FabricCard`.
+- **Phase 3 paralela a Phase 2** si hay dos desarrolladores, o secuencial después para uno solo. No existe dependencia mutua entre fichas técnicas y secciones de contenido — ambas solo dependen de Phase 1.
+- **Phase 4 después de Phase 2** por la dependencia de FabricCard estabilizada, y porque la arquitectura de filtros es el riesgo técnico más alto; conviene ejecutarla cuando el resto del sistema está verificado.
+- **Phase 5 última** por definición: requiere features completas para verificar responsive y realizar el deploy final.
 
 ### Research Flags
 
-Fases que probablemente necesitan `/gsd:research-phase` durante planning:
-- **Phase 1 (Image extraction):** La calidad real de las imágenes del PDF es desconocida. Si `pdfimages -all` produce resultados inaceptables (< 300px, artifacts visibles), hay que investigar alternativas: `pdftoppm` a 300 DPI, solicitar assets originales a Lafayette, o diseñar el UI para minimizar dependencia de fotos.
-- **Phase 4 (Filter UX):** Los patrones de filtrado para catálogos en tablet (768-1024px) tienen tradeoffs no triviales de UX. Vale investigar antes de implementar.
+Fases que pueden necesitar investigación adicional durante planning:
+
+- **Phase 1 (Image Mapping):** El mapeo exacto de las 14 imágenes reales (`page04-0.webp` a `page12-34.webp`) a los 31 fabric IDs requiere inspección visual del PDF y de las imágenes. No hay un mapeo obvio por nombre de archivo. Puede requerir que algunas telas compartan imagen.
+- **Phase 4 (Filter State Persistence):** La solución documentada para P8 (filter state reset) es `router.back()` en lugar de `<Link>`. Esto debe verificarse en el contexto del App Router con `FilterableFabricGrid` antes de commitear a la arquitectura. Si `router.back()` no preserva el estado React del componente cliente en este patrón específico, la alternativa es layout-level context en `/uso/[slug]/layout.tsx`.
 
 Fases con patrones estándar bien documentados (no necesitan investigación adicional):
-- **Phase 2 (Core UI):** Next.js App Router + Server Components + Tailwind v4 tienen documentación oficial exhaustiva. Los patrones están verificados.
-- **Phase 3 (Secondary sections + Deploy):** Vercel deploy es trivial. Las secciones secundarias replican patrones de Fase 2.
+
+- **Phase 2 (Fabric Detail Pages):** Patrón de product detail page con dos columnas es estándar B2B. Los datos ya existen. La ruta SSG ya tiene `generateStaticParams`. Implementación directa sin incertidumbres.
+- **Phase 3 (Content Sections):** Server Components puros con datos estáticos. Sin interactividad, sin complejidad arquitectónica. Replica patrones del proyecto existente.
+- **Phase 5 (Deploy):** Next.js + Vercel es el "camino feliz" documentado. Zero-config deployment. No requiere investigación.
+
+---
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | Verificado con documentación oficial de Next.js 16.1.6, Tailwind v4.2.0, Zod 4. Versiones concretas confirmadas. Única área MEDIUM: compatibilidad Bun + Next.js 16 NAPI (known issue documentado en GitHub). |
-| Features | MEDIUM-HIGH | Dominio B2B de nicho con pocas referencias directas. Las features de table stakes son sólidas (basadas en análisis de Klopman y Milliken como benchmarks primarios). Las features de v2+ son inferidas de buenas prácticas de catálogos B2B — no hay evidencia directa de su valor para Lafayette. |
-| Architecture | HIGH | Patrones de Next.js App Router con Server Components y TypeScript data files son bien establecidos. Los ejemplos de código están verificados contra la documentación oficial v16.1.6. |
-| Pitfalls | HIGH | Los pitfalls críticos (PDF image quality, next/image + static export, Tailwind dynamic class purge, use client boundaries) están verificados con fuentes oficiales y múltiples fuentes secundarias. Los pitfalls menores (iOS auto-detection, asset filenames) son conocidos y documentados. |
+| Stack | HIGH | Verificado contra documentación oficial de Next.js 16 y Vercel. fuse.js evaluado frente a 4 alternativas con criterios explícitos y datos concretos (bundle size, API complexity, download stats). Las decisiones de "qué no agregar" están tan documentadas como las adiciones. |
+| Features | HIGH | El data layer ya construido confirma viabilidad técnica de todas las features must-have. Las features differentiator son patrones estándar de catálogos B2B con baja complejidad. El árbol de dependencias entre features está explicitamente modelado en FEATURES.md. |
+| Architecture | HIGH | Basada en análisis del codebase real, no specs abstractas. Patrones validados contra documentación oficial de Next.js (SSG, generateStaticParams, searchParams limitations). El "client island" pattern para filtros es el enfoque canónico de Next.js para este caso de uso. |
+| Pitfalls | HIGH | 13 pitfalls identificados. Los más críticos tienen evidencia directa del codebase (404 de placeholder confirmado, bug NavLinks confirmado, CVA sin imports confirmado). Los pitfalls de arquitectura (useSearchParams, output:export) están respaldados por documentación oficial de Next.js y Vercel. |
 
 **Overall confidence:** HIGH
 
 ### Gaps to Address
 
-- **Calidad real de imágenes del PDF:** No es posible saber hasta ejecutar `pdfimages` si las imágenes embebidas son utilizables. Plan B: contactar a equipo de Marketing de Lafayette para obtener assets originales en alta resolución.
-- **Especificaciones completas del catálogo:** La investigación asume ~40 telas y 8 categorías basándose en PROJECT.md. La extracción del PDF puede revelar más o menos productos. El modelo de datos TypeScript está diseñado para ser flexible, pero el scope exacto afecta el esfuerzo de entrada de datos.
-- **Necesidad de offline:** No se ha validado con los vendedores si el WiFi en colegios es un problema real y recurrente. Si lo es, la PWA debe elevarse de v2+ a v1.x. Esta validación debería ocurrir antes de cerrar el roadmap.
-- **Tablets específicas usadas:** "Tablet" es amplio (iPad vs Android vs Surface). La orientación landscape/portrait y el pixel ratio varían. Si los vendedores usan iPads específicamente, el diseño debe testearse en esas dimensiones exactas.
+- **Contenido textual del PDF:** Las descripciones expandidas de tecnologías, el contenido de personalización y los datos de cuellos dependen de extraer información de `Uniformes_Colegios.pdf`. Este es un gap de contenido, no técnico. Requiere herramienta de extracción (pdftotext o similar) antes de crear los archivos de datos de Phase 1. El PDF existe en el repositorio.
+- **Mapeo imagen-tela:** Los nombres de archivo de las 14 imágenes reales no revelan a qué tela corresponden. La asignación requiere inspección visual manual correlacionando imágenes con registros de `fabrics.ts`. Algunas telas pueden quedar sin imagen dedicada si el PDF no tenía foto individual para ellas.
+- **Tecnologías sin icono (3 de 14):** `algodon`, `antimanchas`, `solidez-a-la-luz` tienen `icon: ''`. La solución documentada (fallback Lucide `FlaskConical`) es pragmática. Si existe una fuente de iconos para estas tecnologías en el PDF u otro medio, sería preferible. Verificar durante Phase 1.
+- **Comportamiento de `router.back()` con FilterableFabricGrid:** La solución a la persistencia de filtros (Pitfall 8) depende de que `router.back()` restaure el estado React del componente cliente en el App Router. Esto debe verificarse empíricamente en Phase 4 antes de decidir si se necesita la alternativa de layout-level context.
+
+---
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- [Next.js 16 Official Docs](https://nextjs.org/docs) — App Router, generateStaticParams, Image Optimization, Server/Client Components, Static Exports
-- [Tailwind CSS v4.0/v4.1/v4.2 Blog Posts + Official Docs](https://tailwindcss.com/blog/tailwindcss-v4) — CSS-first config, @theme directive, breaking changes
-- [Zod v4 Release Notes](https://zod.dev/v4) — API changes vs v3, @zod/mini
-- [Vercel Image Optimization Docs](https://vercel.com/docs/image-optimization) — CDN caching, format support
-- [Next.js PWA Guide (oficial)](https://nextjs.org/docs/app/guides/progressive-web-apps) — Service Worker patterns
-- [Next.js Hydration Error Docs](https://nextjs.org/docs/messages/react-hydration-error) — iOS auto-detection issues
+- Codebase de Lafayette (`src/`) — análisis directo de componentes, data layer, rutas, tipos, tech debt documentado
+- `.planning/milestones/v1.0-MILESTONE-AUDIT.md` — inventario verificado de tech debt y estado real post-v1.0
+- [Next.js Official: generateStaticParams](https://nextjs.org/docs/app/api-reference/functions/generate-static-params) — SSG para rutas dinámicas anidadas
+- [Next.js Official: useSearchParams](https://nextjs.org/docs/app/api-reference/functions/use-search-params) — requerimiento de Suspense, deoptimización SSG documentada
+- [Next.js: Missing Suspense Boundary Error](https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout) — comportamiento CSR fallback
+- [Next.js: Deopted into Client Rendering](https://nextjs.org/docs/messages/deopted-into-client-rendering) — página completa en CSR
+- [Next.js: Static Exports](https://nextjs.org/docs/pages/guides/static-exports) — limitaciones de `output: 'export'`, incompatibilidad con image optimization
+- [Vercel Image Optimization Docs](https://vercel.com/docs/image-optimization) — optimización automática AVIF/WebP en deploy estándar
+- [Fuse.js Official Docs](https://www.fusejs.io/) — API reference, construcción de índice, configuración de threshold
 
 ### Secondary (MEDIUM confidence)
-- [Klopman Fabric Finder](https://www.klopman.com/products) — Benchmark de catálogo textil B2B (observación directa)
-- [Milliken Textile Products](https://www.milliken.com/en-us/textiles/products) — Benchmark de catálogo textil B2B (observación directa)
-- [Baymard Institute — Product List UX 2025](https://baymard.com/blog/current-state-product-list-and-filtering) — Filtering patterns, comparison features
-- [Bun + Next.js Guide](https://bun.com/docs/guides/ecosystem/nextjs) — Compatibilidad y limitaciones conocidas
-- [pdfimages / Poppler Utils](https://formulae.brew.sh/formula/poppler) — Extracción lossless de imágenes de PDF
-- [next-image-export-optimizer GitHub](https://github.com/Niels-IO/next-image-export-optimizer) — Alternativa para static export (documentado pero no recomendado)
+- [npm-compare: fuse.js vs minisearch vs flexsearch](https://npm-compare.com/elasticlunr,flexsearch,fuse.js,minisearch) — comparación de download stats y features
+- [Baymard Institute — Product Page UX Best Practices 2025](https://baymard.com/blog/current-state-ecommerce-product-page-ux) — layout de dos columnas para product detail pages B2B
+- [Baymard Institute — Product List UX Best Practices 2025](https://baymard.com/blog/current-state-product-list-and-filtering) — chips horizontales para filtrado en datasets pequeños
+- [buildwithmatija.com — searchParams + static generation fix](https://www.buildwithmatija.com/blog/nextjs-searchparams-static-generation-fix) — patrón de separación SSG/CSR
+- [Klopman Fabric Finder](https://www.klopman.com/products) — referencia de catálogo textil B2B con filtrado por propiedades
+- [Uniformelafayette.com](https://uniformelafayette.com/colegios/) — confirmación directa de que el sitio público NO tiene catálogo técnico
 
 ### Tertiary (LOW confidence)
-- [Paperflite Sales Enablement Trends 2025](https://www.paperflite.com/blogs/sales-enablement-trends) — Contexto de sales enablement (validar si aplica al caso específico de Lafayette)
-- [App Router Pitfalls — imidef.com](https://imidef.com/en/2026-02-11-app-router-pitfalls) — Pitfalls de community, cross-verificados con docs oficiales
+- [nuqs Official Site](https://nuqs.dev/) — evaluado y descartado; documentación consultada para entender el caso de uso que NO aplica aquí
+- SparkLayer B2B Product Pages UI Guide — principios generales, no específico al caso textil
+- GitHub: uFuzzy — alternativa a fuse.js evaluada y descartada
 
 ---
-*Research completed: 2026-02-21*
+*Research completed: 2026-02-22*
 *Ready for roadmap: yes*

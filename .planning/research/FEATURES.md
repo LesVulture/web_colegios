@@ -1,214 +1,517 @@
-# Feature Research
+# Feature Landscape: v1.1 Catalogo Completo
 
-**Domain:** Catálogo de producto textil para habilitación de ventas (sales enablement) — uniformes escolares
-**Researched:** 2026-02-21
-**Confidence:** MEDIUM-HIGH (dominio B2B de nicho; pocas referencias directas de catálogos textiles para sales enablement, pero patrones UX de catálogos B2B y herramientas de ventas están bien documentados)
+**Domain:** Catalogo de producto textil para sales enablement — uniformes escolares (segundo milestone)
+**Researched:** 2026-02-22
+**Confidence:** MEDIUM-HIGH
+**Scope:** Solo features NUEVAS de v1.1. Excluye lo ya construido en v1.0 (home, nav, categorias, cards, data layer).
 
-## Feature Landscape
+---
 
-### Table Stakes (El Vendedor Espera Esto)
+## Context: What Already Exists (v1.0)
 
-Features que el vendedor asume que existen. Si faltan, la herramienta se siente incompleta y vuelve al PDF.
+Antes de definir features nuevas, inventario de lo que ya esta funcional:
 
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| **Navegación por categorías de uso** | El vendedor piensa en "¿qué necesita este colegio?" (sudaderas, camisetas, etc.), no en nombres de tela. Las 8 categorías son el modelo mental del vendedor. | LOW | Rutas estáticas `/categoria/[slug]`. Color distintivo por categoría (ya definido en PROJECT.md). Menú principal con las 8 categorías. |
-| **Fichas técnicas de tela (Product Detail)** | Cada tela necesita mostrar composición, gramaje, tecnologías, usos. El vendedor responde preguntas técnicas del cliente en la reunión. Sin esto, abre el PDF. | MEDIUM | Componente reutilizable `FabricCard` con: nombre, composición, gramaje (si disponible), tecnologías (iconos), categorías de uso. Datos estáticos del PDF. |
-| **Product cards responsivos en grid** | Dentro de cada categoría, las telas se presentan en tarjetas escaneables. El vendedor necesita ver de un vistazo todas las opciones para una categoría. | LOW | Grid responsive (3 cols desktop, 2 cols tablet). Imagen, nombre de tela, chips de tecnologías. Patrón bien documentado con CSS Grid/Tailwind. |
-| **Imágenes de producto** | Las fotos del PDF son la referencia visual que el vendedor muestra al cliente. Sin imágenes el catálogo pierde toda su utilidad como herramienta de presentación. | LOW | Extraer del PDF. next/image con optimización. Una imagen principal por tela como mínimo. |
-| **Sección de Tecnologías Textiles** | El vendedor explica ventajas competitivas de Lafayette con las 12 tecnologías (Protección Solar, Antibacterial, etc.). Es argumento de venta clave. | LOW | Página `/tecnologias` con grid de 12 cards con icono (assets ya disponibles) + descripción. |
-| **Sección de Personalización** | Las 4 opciones de personalización (estampación digital, dibujos exclusivos, etc.) son un diferenciador comercial que el vendedor debe poder mostrar. | LOW | Página `/personalizacion` con 4 bloques descriptivos + imágenes del PDF. |
-| **Sección de Cuellos** | Complemento para polos. Colores, tallas, info comercial. El vendedor necesita mostrar opciones disponibles. | LOW | Página `/cuellos` con tabla de tallas y colores disponibles. |
-| **Header global con logo y navegación** | Branding Lafayette siempre visible. Navegación rápida entre secciones. Estándar de cualquier sitio web profesional. | LOW | Logo top-left (12px offset, per PROJECT.md). Nav responsive desktop/tablet. |
-| **Home page con hero y acceso a categorías** | Punto de entrada profesional. El vendedor abre el sitio y el cliente ve marca + estructura clara. Acceso rápido a cualquier categoría. | MEDIUM | Hero de marca "Uni For Me Colegios" + grid de 8 categorías con color e imagen representativa. Primer impresión cuenta en reuniones. |
-| **Diseño desktop-first, responsive a tablet** | El vendedor usa laptop en la reunión, ocasionalmente tablet. Debe funcionar bien en ambos. No se necesita mobile phone. | LOW | Tailwind con breakpoints `lg` (desktop) y `md` (tablet). Ignorar `sm`/mobile. |
-| **Color-coding por categoría** | Cada categoría tiene su color distintivo (definido en PDF). Orientación visual inmediata para el vendedor y el cliente. | LOW | CSS variables o Tailwind config con los 8 colores del PROJECT.md. Aplicar en headers, bordes de cards, fondos de sección. |
-| **Carga rápida** | En reuniones no hay paciencia para esperas. El sitio debe cargar en < 2 segundos. | LOW | Next.js SSG (Static Site Generation) por defecto. Imágenes optimizadas. Datos estáticos = no hay fetching. |
+| Existing Feature | Status | Route/Component |
+|-----------------|--------|-----------------|
+| Home page con hero + grid 4 items | SHIPPED | `/` (page.tsx) |
+| Navegacion global responsive | SHIPPED | header.tsx, nav-links.tsx, mobile-menu.tsx |
+| 8 paginas de categoria con product cards | SHIPPED | `/uso/[slug]` (8 rutas) |
+| FabricCard con nombre + chips tecnologia | SHIPPED | fabric-card.tsx |
+| Data layer: 31 telas, 8 categorias, 14 tecnologias | SHIPPED | lib/content/*.ts |
+| Color-coding por categoria (8 colores) | SHIPPED | styles.ts + globals.css |
+| SSG con generateStaticParams (51 rutas) | SHIPPED | Build pipeline |
+| Fabric detail page placeholder | PLACEHOLDER | `/uso/[slug]/[fabricId]` |
+| Tecnologias page placeholder | PLACEHOLDER | `/tecnologias` |
+| Personalizacion page placeholder | PLACEHOLDER | `/personalizacion` |
+| Cuellos page placeholder | PLACEHOLDER | `/cuellos` |
 
-### Differentiators (Ventaja Competitiva)
+**Known tech debt que afecta v1.1:**
+- 31 fabrics apuntan a `placeholder.webp` (404) -- 14 imagenes reales sin mapear
+- NavLinks active state no captura `/uso/*`
+- CVA instalada sin uso, SkeletonCard huerfano
+- 3 tecnologias sin icono (algodon, antimanchas, solidez-a-la-luz)
 
-Features que elevan la herramienta por encima de "un PDF en pantalla". No las esperan, pero las valoran.
+---
 
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| **Filtrado por tecnología/propiedad** | El cliente pregunta "¿qué telas tienen protección solar?" o "¿qué opciones son clororresistentes?". El vendedor puede filtrar instantáneamente en vez de hojear el PDF. Reduce el tiempo de búsqueda en reunión de minutos a segundos. | MEDIUM | Filtros laterales o superiores en páginas de categoría. Filtros: por tecnología (chips multi-select con iconos). Client-side filtering (datos estáticos, no API). Referencia: Klopman tiene "Fabric Finder" con filtros por categoría, tipo, peso y key features. |
-| **Navegación cruzada tela-categoría** | Una tela puede aparecer en múltiples categorías (ej: "Alviero Stretch" en Uniforme Diario y Chaquetas Prom). El vendedor necesita navegar bidireccionalmente: desde la tela ver en qué categorías aplica, y desde la categoría ver todas las telas. | MEDIUM | Tags de categoría en la ficha de tela clickeables. Breadcrumbs contextuales. Requiere modelo de datos que soporte relación muchos-a-muchos (tela-categoría). |
-| **Galería de imágenes con zoom** | Mostrar la textura de la tela en detalle al cliente. Múltiples ángulos o aplicaciones de la misma tela. | MEDIUM | Lightbox/modal con zoom. Dependiente de la calidad de imágenes extraídas del PDF (limitante real). Si solo hay 1 imagen por tela, el zoom solo es útil. Baymard Institute recomienda: full-screen option, numbering, zoom capability. |
-| **Modo offline / PWA** | En reuniones en colegios rurales o con WiFi inestable, el vendedor necesita que el catálogo funcione sin conexión. Diferenciador real vs. abrir el PDF (que sí funciona offline). | MEDIUM-HIGH | Next.js + Service Worker (Serwist o next-pwa). Cache-first strategy para todo el contenido estático. Pre-cache de imágenes y páginas en install. IndexedDB no necesario (no hay datos dinámicos). Verificado: Next.js tiene guía oficial de PWA. |
-| **Transiciones y animaciones sutiles** | Sensación de producto digital premium vs. PDF estático. Hover states en cards, transiciones de página, micro-interacciones. Impresión profesional en la reunión. | LOW | Framer Motion o CSS transitions. Sutil, no distractivo. Cuidar performance en tablet. |
-| **Iconos de tecnología interactivos** | En la ficha de tela, al hacer hover/click en un icono de tecnología (ej: Antibacterial) se muestra tooltip o expande con explicación. El vendedor no necesita memorizar cada tecnología. | LOW | Tooltip component con descripción corta. Datos estáticos. Link opcional a la página de `/tecnologias`. |
-| **Comparación lado a lado de telas** | El cliente duda entre dos telas. El vendedor selecciona 2-3 y las compara en tabla. Specs lado a lado: composición, tecnologías, categorías de uso. | HIGH | UI de selección (checkboxes en cards), panel/modal de comparación. Tabla responsive con specs alineados. Baymard: limitar a 3-5 items máximo. Smashing Magazine: priorizar features que importan al usuario. Requiere: product cards y fichas técnicas funcionando primero. |
-| **Búsqueda por nombre de tela** | "¿Tienen la Montesimone?" — el vendedor puede buscar directamente en vez de navegar. | LOW-MEDIUM | Search input en header. Client-side fuzzy search (Fuse.js o similar). ~40 telas = no necesita backend. |
+## Table Stakes (Sin Esto v1.1 No Tiene Sentido)
 
-### Anti-Features (NO Construir)
+Features que definen el milestone. Sin estas, no hay razon para un v1.1 -- el vendedor sigue abriendo el PDF para la info que falta.
 
-Features que parecen buenas pero crean problemas en este contexto específico.
+### TS-01: Ficha Tecnica Completa de Tela (Fabric Detail Page)
 
-| Feature | Why Requested | Why Problematic | Alternative |
-|---------|---------------|-----------------|-------------|
-| **E-commerce / Carrito / Pedidos** | "Ya que tienen el catálogo, que puedan pedir directo." | Fuera del modelo de negocio. Lafayette no vende directo a colegios online. El vendedor toma pedidos por otro canal. Añade complejidad masiva (auth, pagos, inventario). | Catálogo informativo puro. Si en el futuro se necesita, es otro proyecto. |
-| **CRM / Formularios de contacto / Lead capture** | "Que el colegio pueda dejar sus datos." | El vendedor está presente en la reunión. No hay flujo online. Formularios son fricción innecesaria para una herramienta interna. | El vendedor captura la info él mismo en su CRM existente. |
-| **Chat / WhatsApp widget** | "Para que el colegio se comunique después." | El vendedor ES el canal de comunicación. Un widget de chat en una herramienta interna de presentación no tiene sentido. | Nada. El vendedor da su tarjeta. |
-| **Optimización mobile phone** | "Que funcione en celular también." | PROJECT.md explícitamente lo descarta. Se usa en laptop/tablet. Optimizar mobile consume tiempo en layout responsive sin beneficio real. | Desktop-first, responsive solo hasta tablet. |
-| **SEO y meta tags públicos** | "Para que nos encuentren en Google." | Herramienta interna. No debe indexarse. SEO es esfuerzo desperdiciado y potencialmente expone info comercial. | `noindex, nofollow` y ya. |
-| **Autenticación / Login** | "Proteger el contenido." | Añade fricción al vendedor en cada reunión. No hay datos sensibles que proteger. Complejidad innecesaria (auth, sesiones, forgot password). | Si se necesita protección básica, un simple password gate sin cuentas. Pero por ahora, no. |
-| **CMS / Admin panel** | "Para que actualicen el contenido sin desarrollador." | El catálogo cambia 1-2 veces al año. Un CMS es over-engineering. Los datos son estáticos y pocos (~40 telas). | Datos en archivos TypeScript/JSON. Actualización por PR cuando cambie el catálogo. |
-| **Multi-idioma** | "Para vendedores que hablen inglés." | El mercado es colegios colombianos. Todo es en español. i18n añade complejidad a cada componente sin beneficio. | Solo español. |
-| **Integración con ERP/PIM** | "Para sincronizar inventario y precios." | No hay precios en el catálogo (se negocian por volumen). No hay inventario relevante para la presentación. Integración es proyecto de meses. | Datos estáticos. El vendedor maneja disponibilidad verbalmente. |
-| **Analytics avanzado** | "Para saber qué telas miran más." | En una herramienta interna con ~20 vendedores, analytics sofisticados son over-engineering. | Vercel Analytics básico (gratis) si se quiere métricas simples. |
+| Aspect | Detail |
+|--------|--------|
+| **Why Expected** | La FabricCard ya enlaza a `/uso/[slug]/[fabricId]` pero muestra "en construccion". El vendedor hace click y no encuentra nada. Es la promesa incumplida mas visible de v1.0. Sin fichas tecnicas, el vendedor abre el PDF para responder preguntas de composicion, gramaje o rutas de estampacion. |
+| **Complexity** | MEDIUM |
+| **Depends On** | Mapeo correcto de imagenes (resolver tech debt placeholder.webp), datos existentes en fabrics.ts |
 
-## Feature Dependencies
+**Contenido minimo de la ficha (extraido del PDF y ya modelado en types.ts):**
+
+| Campo | Fuente | Ya en Data Layer | Display |
+|-------|--------|-----------------|---------|
+| Nombre de tela | `fabric.name` | Si | H1, prominente |
+| Base (referencia interna) | `fabric.base` | Si | Texto secundario, util para el vendedor |
+| Composicion | `fabric.composition` | Si | Texto, ej: "100% poliester reciclado" |
+| Tipo de tejido | `fabric.weave` | Si | Badge: "Plano" o "Punto" |
+| Gramaje | `fabric.weight` | Si | Texto con unidad, ej: "110 +-10 g/m2" |
+| Ancho | `fabric.width` | Si | Texto con unidad, ej: "151 +- 2 cm" |
+| Tecnologias | `fabric.technologies[]` | Si | Iconos clickeables con nombre (link a /tecnologias o tooltip) |
+| Rutas de estampacion | `fabric.printRoutes[]` | Si | Chips: Unicolor, Rotativa, Davos, Sublimacion |
+| Imagen de producto | `fabric.image` | Si (roto) | next/image prominente, ocupando ~40-50% del viewport |
+| Badge "Nuevo" | `fabric.isNew` | Si | Badge visual si isNew === true |
+| Categorias donde aplica | Via `getCategoriesByFabric()` | Si (helper existe, sin consumidor) | Links a las categorias, color-coded |
+
+**Layout recomendado:**
+
+Layout de dos columnas (desktop) basado en patrones B2B de Baymard Institute:
+- **Columna izquierda (40-50%):** Imagen de producto grande. En este caso una sola imagen (limitante del PDF), pero con espacio para futuras adiciones.
+- **Columna derecha (50-60%):** Nombre, base, composicion, gramaje, ancho, tejido como specs en formato tabla/lista de definicion scannable. Tecnologias como iconos horizontales. Rutas de estampacion como chips.
+- **Debajo (full-width):** Categorias donde aplica esta tela (navegacion cruzada). Link de retorno a la categoria de origen.
+
+En tablet (md breakpoint): las dos columnas colapsan a una sola columna, imagen arriba, specs abajo.
+
+**Patron Baymard clave:** Evitar tabs horizontales para organizar specs. Usar secciones verticales colapsables o simplemente mostrar toda la info visible (con 31 telas y campos limitados, no hay razon para ocultar nada detras de tabs).
+
+**Confidence:** HIGH -- todos los datos ya existen en el data layer, la ruta SSG ya existe como placeholder, y el layout es un patron estandar de product detail page.
+
+---
+
+### TS-02: Seccion de Tecnologias Textiles
+
+| Aspect | Detail |
+|--------|--------|
+| **Why Expected** | Los 4 items del menu principal son: Usos, Tecnologias, Personalizacion, Cuellos. 3 de 4 dicen "en construccion". Las tecnologias son el argumento de venta principal de Lafayette -- explican POR QUE elegir estas telas sobre la competencia. |
+| **Complexity** | LOW |
+| **Depends On** | Datos de TECHNOLOGIES[] ya completos en technologies.ts. 12 iconos PNG ya en /images/tech/. |
+
+**Contenido de la pagina:**
+
+Pagina `/tecnologias` mostrando las 14 tecnologias (no 12 como dice el PDF -- el data layer tiene 14 incluyendo variantes):
+
+| Tecnologia | Icono Disponible | Descripcion en Data |
+|-----------|-----------------|---------------------|
+| Proteccion Solar | Si | "Proteccion contra rayos UV" |
+| Impermeabilidad | Si | "Resistencia al agua" |
+| Durabilidad | Si | "Resistencia al desgaste y rasgado" |
+| Antifluido/Repelencia | Si | "Repelencia de fluidos" |
+| Libertad de Movimiento | Si | "Elasticidad y comodidad de movimiento" |
+| Algodon | **NO** (icon: '') | "Mezcla con algodon natural" |
+| Desempeno | Si | "Alto rendimiento textil" |
+| Control de Humedad | Si | "Gestion de humedad y secado rapido" |
+| Antibacterial | Si | "Proteccion antibacteriana" |
+| Antimanchas | **NO** (icon: '') | "Resistencia a manchas" |
+| Clororresistente | Si | "Resistencia al cloro" |
+| Termico | Si | "Regulacion termica" |
+| Solidez a la Luz | **NO** (icon: '') | "Resistencia a la decoloracion por luz" |
+| Sostenible | Si | "Elaborado con hilos reciclados" |
+
+**Nota critica:** Las descripciones actuales son muy cortas (una linea). El PDF de Lafayette (pagina 14) tiene descripciones mas detalladas con beneficios. Se necesita expandir los datos o extraer mas texto del PDF.
+
+**Layout recomendado:**
+
+Grid de cards (3 columnas desktop, 2 columnas tablet), cada card con:
+- Icono grande (o placeholder generico para las 3 sin icono)
+- Nombre de la tecnologia
+- Descripcion expandida (2-3 oraciones, extraidas del PDF)
+- Contador: "X telas con esta tecnologia" (calculable con datos existentes)
+- Links a las telas que usan esta tecnologia (opcional, alto valor, baja complejidad)
+
+**Patron de la industria:** Klopman.com tiene una seccion de "key features" con iconos y descripciones. Milliken tiene fichas por linea de producto. Lafayette deberia seguir el patron de iconos + descripcion ya que los assets existen.
+
+**Confidence:** HIGH para el layout y datos basicos. MEDIUM para las descripciones expandidas (depende de extraer mas texto del PDF).
+
+---
+
+### TS-03: Seccion de Personalizacion de Uniformes
+
+| Aspect | Detail |
+|--------|--------|
+| **Why Expected** | Diferenciador comercial clave de Lafayette. Las 4 opciones de personalizacion son argumentos de cierre de venta: "podemos hacer el uniforme exactamente como lo quiere su colegio". |
+| **Complexity** | LOW |
+| **Depends On** | Contenido del PDF (pagina 15). No hay datos modelados en TypeScript aun para personalizacion. |
+
+**Contenido (del PDF, pagina 15 -- 4 opciones):**
+
+| Opcion | Que Es |
+|--------|--------|
+| Dibujos Exclusivos | Disenos personalizados para el colegio |
+| Estampacion Digital | Impresion digital sobre tela |
+| Tipo Davos | Patron tipo Davos personalizado |
+| Desarrollo de Color | Colores exclusivos para el colegio |
+
+**Layout recomendado:**
+
+Pagina informativa con 4 bloques/cards grandes, cada uno con:
+- Imagen representativa (extraida del PDF si hay, o imagen generica de contexto)
+- Titulo de la opcion
+- Descripcion de 2-3 parrafos explicando el proceso y beneficios
+- Opcional: imagenes de ejemplo/antes-despues
+
+Este es un contenido narrativo, no una ficha tecnica. El layout es tipo landing page de servicios.
+
+**Nuevo dato necesario en data layer:** No existe un modelo de datos para personalizacion. Crear interface `PersonalizationOption` con id, name, description, image. Array `PERSONALIZATION_OPTIONS` en un nuevo archivo `personalization.ts`.
+
+**Confidence:** MEDIUM -- el contenido depende completamente del PDF y no hay datos modelados aun. El layout es straightforward.
+
+---
+
+### TS-04: Seccion de Cuellos
+
+| Aspect | Detail |
+|--------|--------|
+| **Why Expected** | Complemento para la categoria de Camisetas/Polos. Los cuellos vienen en colores y tallas especificos. El vendedor necesita mostrar opciones disponibles. |
+| **Complexity** | LOW |
+| **Depends On** | Contenido del PDF (paginas 16-17). No hay datos modelados en TypeScript aun para cuellos. |
+
+**Contenido (del PDF, paginas 16-17):**
+
+| Aspecto | Detalle |
+|---------|---------|
+| Colores disponibles | 4 colores (del PDF) |
+| Tallas ninos | Rango de tallas infantiles |
+| Tallas adolescentes/adultos | Rango de tallas mayores |
+| Info comercial | Condiciones, minimos, disponibilidad |
+
+**Layout recomendado:**
+
+Pagina con:
+- Header descriptivo sobre los cuellos Lafayette
+- Grid/galeria de colores disponibles (swatches o fotos)
+- Tabla de tallas con dos secciones: ninos y adolescentes/adultos
+- Notas comerciales relevantes
+
+**Nuevo dato necesario en data layer:** Crear interface `CollarOption` o estructura de datos para cuellos con colores, tallas, imagenes. Array `COLLARS` en un nuevo archivo `collars.ts`.
+
+**Confidence:** MEDIUM -- contenido depende del PDF. La estructura de tabla de tallas es un patron muy estandar.
+
+---
+
+### TS-05: Resolucion de Tech Debt de Imagenes
+
+| Aspect | Detail |
+|--------|--------|
+| **Why Expected** | Actualmente TODAS las FabricCards muestran imagen rota (404). La ficha tecnica de tela no puede existir sin imagen. Esto bloquea la feature mas importante de v1.1. |
+| **Complexity** | LOW (mapeo, no creacion) |
+| **Depends On** | Las 14 imagenes ya existen en /public/images/products/. Solo falta el mapeo en fabrics.ts. |
+
+**Accion concreta:** Mapear las 14 imagenes existentes (`page04-0.webp` a `page12-34.webp`) a los 31 registros de fabrics.ts. Algunas telas pueden compartir imagen o quedar sin imagen dedicada si el PDF no tenia foto individual.
+
+**Confidence:** HIGH -- es un problema conocido, con solucion clara.
+
+---
+
+### TS-06: Deploy Funcional en Vercel
+
+| Aspect | Detail |
+|--------|--------|
+| **Why Expected** | Sin deploy, los vendedores no pueden usar la herramienta. Un sitio local no sirve para reuniones de ventas. |
+| **Complexity** | LOW |
+| **Depends On** | Proyecto Next.js con SSG ya configurado. Vercel es el deploy target natural. |
+
+**Acciones:** `vercel deploy` o conectar repo a Vercel. SSG < 2s es el target de performance. Con 51+ rutas estaticas y next/image, Vercel maneja esto sin configuracion especial.
+
+**Confidence:** HIGH -- Next.js + Vercel es el camino feliz documentado.
+
+---
+
+## Differentiators (Elevan v1.1 Sobre "Paginas Estaticas")
+
+Features que transforman el catalogo de "un PDF bonito en web" a "herramienta de ventas interactiva".
+
+### DF-01: Filtrado de Telas por Tecnologia
+
+| Aspect | Detail |
+|--------|--------|
+| **Value Proposition** | El cliente pregunta "que telas tienen proteccion solar?" y el vendedor puede filtrar instantaneamente en la pagina de categoria. Reduce busqueda de minutos (hojeando PDF) a segundos. |
+| **Complexity** | MEDIUM |
+| **Depends On** | Paginas de categoria funcionando (v1.0), datos de tecnologia ya en fabrics.ts |
+
+**Implementacion recomendada:**
+
+- **Donde:** En cada pagina de categoria `/uso/[slug]`, encima del grid de FabricCards.
+- **UI Pattern:** Chip/tag multi-select horizontal. Cada chip es una tecnologia (solo las presentes en esa categoria). Click para activar, click de nuevo para desactivar. Filtros acumulativos (AND logic: si seleccionas "Proteccion Solar" + "Antibacterial", muestra telas que tengan AMBAS).
+- **Estado:** Client-side con React state. Los datos ya estan en memoria (SSG). Con 4-9 telas por categoria, el filtrado es instantaneo.
+- **UX critico:** Mostrar contador de resultados. Si el filtro produce 0 resultados, mensaje claro "Ninguna tela en esta categoria tiene todas las tecnologias seleccionadas" con opcion de limpiar filtros.
+
+**Por que chips horizontales y NO sidebar de filtros:**
+- Con 4-9 telas por categoria, una sidebar de filtros es overkill.
+- Chips son mas visuales e inmediatos para un contexto de presentacion de ventas.
+- No hay suficientes dimensiones de filtrado para justificar sidebar (solo tecnologia; peso y ancho son datos que se leen, no se filtran tipicamente en una reunion).
+
+**Implicacion tecnica:** La pagina de categoria actualmente es un Server Component puro. El filtrado requiere client-side interactivity. Opcion: convertir el grid area a Client Component (use client) manteniendo el layout como Server Component, o usar un wrapper Client Component para el estado de filtros.
+
+**Confidence:** HIGH -- patron bien documentado, datos disponibles, complejidad baja en este contexto.
+
+---
+
+### DF-02: Ordenamiento de Telas (Sort)
+
+| Aspect | Detail |
+|--------|--------|
+| **Value Proposition** | "Muestrame las telas mas livianas primero" o "ordena por ancho". Util cuando el cliente tiene restricciones tecnicas especificas. |
+| **Complexity** | LOW |
+| **Depends On** | Misma infraestructura de client-side state que el filtrado |
+
+**Implementacion recomendada:**
+
+- **Donde:** Junto a los chips de filtro, un select/dropdown de ordenamiento.
+- **Opciones de sort:**
+  - Por defecto (orden del PDF/catalogo -- como vienen en categories.ts)
+  - Por gramaje (menor a mayor / mayor a menor)
+  - Por ancho (menor a mayor / mayor a menor)
+  - Alfabetico (A-Z)
+
+**Nota tecnica:** Los valores de gramaje y ancho en fabrics.ts son strings con formato "110 +-10 g/m2". Para sortear, se necesita parsear el valor numerico base. Funcion helper: `parseWeight("110 +-10 g/m2") -> 110`. Esto es trivial pero debe hacerse.
+
+**Confidence:** HIGH -- sort client-side de 4-9 items es trivial.
+
+---
+
+### DF-03: Busqueda Fuzzy por Nombre de Tela
+
+| Aspect | Detail |
+|--------|--------|
+| **Value Proposition** | "Tienen la Montesimone?" -- el vendedor escribe el nombre (quizas mal escrito) y encuentra la tela directo. Evita navegar por categorias cuando ya sabe que busca. |
+| **Complexity** | LOW-MEDIUM |
+| **Depends On** | Data layer completo (ya existe) |
+
+**Implementacion recomendada:**
+
+- **Libreria:** Fuse.js (lightweight, zero dependencies, ideal para client-side fuzzy search de <100 items). No necesita backend. Probado extensamente con React y Next.js.
+- **Donde:** Search input en el header global o en una barra de busqueda accesible desde cualquier pagina.
+- **Comportamiento:**
+  - Input con debounce de 300ms.
+  - Dropdown de resultados debajo del input (overlay, no pagina nueva).
+  - Buscar en: nombre de tela (`fabric.name`), base (`fabric.base`).
+  - Cada resultado muestra: nombre de tela + categoria(s) donde aparece.
+  - Click en resultado navega a la ficha tecnica de esa tela en su primera categoria.
+  - Mostrar maximo 5-8 resultados (con 31 telas, no hay razon para paginacion).
+- **Fuse.js config recomendada:**
+  ```typescript
+  const fuse = new Fuse(FABRICS, {
+    keys: ['name', 'base'],
+    threshold: 0.4,      // tolerancia moderada a typos
+    includeScore: true,
+    minMatchCharLength: 2,
+  });
+  ```
+- **Atajo de teclado:** Ctrl+K o Cmd+K para abrir busqueda (patron estandar en herramientas internas). Opcional pero de bajo costo.
+
+**Alternativa descartada:** No usar Algolia, Meilisearch, ni ningun servicio externo. Con 31 items, es absurdo. Fuse.js en client-side es la solucion correcta.
+
+**Confidence:** HIGH -- Fuse.js esta bien documentado para este caso exacto (catalogo pequeno, client-side, React).
+
+---
+
+### DF-04: Tooltips de Tecnologia en Ficha de Tela
+
+| Aspect | Detail |
+|--------|--------|
+| **Value Proposition** | En la ficha tecnica, cuando el vendedor pasa el cursor sobre un icono de tecnologia, aparece un tooltip con la descripcion. No necesita memorizar que significa cada icono. |
+| **Complexity** | LOW |
+| **Depends On** | Ficha tecnica de tela (TS-01), datos de tecnologia ya en TECHNOLOGIES[] |
+
+**Implementacion:**
+- Tooltip nativo con CSS (title attr) o componente tooltip con Radix UI / headlessui.
+- Contenido: nombre de tecnologia + descripcion corta.
+- Click opcional: navegar a `/tecnologias` para mas detalle.
+- En tablet (sin hover): click/tap para mostrar el tooltip.
+
+**Confidence:** HIGH -- componente trivial con datos existentes.
+
+---
+
+### DF-05: Navegacion Cruzada Tela-Categoria
+
+| Aspect | Detail |
+|--------|--------|
+| **Value Proposition** | Una tela puede aparecer en multiples categorias (ej: "Orion Clororresistente" esta en Sudaderas, Chaquetas Prom, y Delantales). El vendedor necesita saber "en que mas se usa esta tela" para ofrecer opciones al cliente. |
+| **Complexity** | LOW (la logica ya existe) |
+| **Depends On** | Ficha tecnica de tela (TS-01) |
+
+**Implementacion:**
+- En la ficha tecnica, seccion "Tambien disponible en:" con links a las otras categorias donde aparece la tela.
+- Usar `getCategoriesByFabric(fabricId)` que ya existe en helpers.ts (actualmente sin consumidor).
+- Mostrar como badges/chips con el color de cada categoria.
+
+**Confidence:** HIGH -- helper ya existe, solo necesita conectarse a la UI.
+
+---
+
+## Anti-Features (NO Construir en v1.1)
+
+Features que pueden parecer logicas para este milestone pero deben evitarse.
+
+| Anti-Feature | Why It Seems Logical | Why Problematic | What To Do Instead |
+|--------------|---------------------|-----------------|-------------------|
+| **Comparacion lado a lado de telas** | "El cliente duda entre dos telas, que las compare." | Los specs son pocos (composicion, gramaje, ancho, tecnologias). Una tabla comparativa con tan pocas filas no agrega valor sobre simplemente ver dos fichas. Ademas la UI de seleccion (checkboxes, panel de comparacion) es HIGH complexity. | Diferir a v2. Si se necesita, el vendedor abre dos pestanas. |
+| **Galeria multi-imagen con zoom** | "Mostrar la tela en detalle." | Solo hay 1 imagen por tela (extraida del PDF). Un componente de galeria con 1 imagen es UX roto. El zoom sobre imagenes del PDF (baja resolucion) no revela mas detalle. | Imagen unica grande. Si en el futuro hay fotos profesionales multi-angulo, reconsiderar. |
+| **Modo offline / PWA** | "Los colegios rurales no tienen WiFi." | Requiere Service Worker, caching strategy, testing de offline flows. Es una capa que se anade ENCIMA de un sitio completo. Hacerlo ahora distrae del objetivo de completar el catalogo. | Diferir a v1.2 o v2. Primero completar contenido, luego optimizar distribucion. |
+| **Filtro por composicion** | "Quiero solo telas 100% poliester." | Las composiciones son strings libres ("100% poliester", "100% poliester reciclado", "60% poliester, 40% algodon", "85% poliester, 15% algodon"). Parsear esto para hacer filtros robustos es fragil. Solo hay 4 variantes de composicion -- no justifica un filtro dedicado. | Si el vendedor busca por composicion, usa busqueda fuzzy o simplemente escanea la pagina de categoria (4-9 telas es visual). |
+| **Filtro por tipo de tejido (Plano/Punto)** | "Solo quiero telas de punto." | Solo hay 2 valores posibles. Un toggle binario para 2 opciones es over-engineering. La mayoria de las categorias tienen telas de un solo tipo (ej: Deportivo es todo Punto, Blusas es todo Plano). | Mostrar el tipo de tejido como badge en la card/ficha para referencia visual. No como filtro. |
+| **Paginas individuales por tecnologia** | "Cada tecnologia con su pagina detallada." | No hay suficiente contenido unico por tecnologia para justificar una pagina. El PDF tiene 1-2 lineas por tecnologia. Crear 14 paginas con 2 lineas cada una es peor UX que una pagina consolidada. | Pagina unica `/tecnologias` con todas las tecnologias. Anchor links si se quiere deep linking. |
+| **Animaciones de transicion de pagina** | "Para que se sienta premium." | View Transitions API aun tiene soporte limitado. Framer Motion anade peso al bundle. En un contexto de presentacion de ventas, la velocidad importa mas que las animaciones. | CSS transitions sutiles en hover/interaction (ya existen en FabricCard). No transiciones de pagina. |
+
+---
+
+## Feature Dependencies (v1.1 Scope)
 
 ```
-[Navegación por categorías] (P1)
-    └──requires──> [Modelo de datos tela-categoría]
-                       └──enables──> [Navegación cruzada tela-categoría] (P2)
-                       └──enables──> [Filtrado por tecnología] (P2)
+[TS-05: Resolver imagenes placeholder] (blocker)
+    |
+    +--enables--> [TS-01: Ficha tecnica de tela]
+    |                 |
+    |                 +--enables--> [DF-04: Tooltips de tecnologia]
+    |                 +--enables--> [DF-05: Navegacion cruzada tela-categoria]
+    |
+    +--enables--> [FabricCards visibles en categorias] (fix de v1.0)
 
-[Fichas técnicas de tela] (P1)
-    └──requires──> [Modelo de datos de tela]
-    └──requires──> [Imágenes de producto]
-    └──enables──> [Comparación lado a lado] (P3)
-    └──enables──> [Iconos de tecnología interactivos] (P2)
+[TS-02: Seccion Tecnologias] (independiente)
+    |
+    +--enhances--> [DF-04: Tooltips linkean a /tecnologias]
 
-[Product cards en grid] (P1)
-    └──requires──> [Imágenes de producto]
-    └──requires──> [Modelo de datos de tela]
-    └──enables──> [Filtrado por tecnología] (P2)
+[TS-03: Seccion Personalizacion] (independiente)
+    |
+    +--requires--> [Nuevo data model: PersonalizationOption]
+    +--requires--> [Extraer contenido del PDF pagina 15]
 
-[Home page con hero] (P1)
-    └──requires──> [Navegación por categorías]
-    └──requires──> [Color-coding por categoría]
+[TS-04: Seccion Cuellos] (independiente)
+    |
+    +--requires--> [Nuevo data model: CollarOption]
+    +--requires--> [Extraer contenido del PDF paginas 16-17]
 
-[Galería de imágenes con zoom] (P2)
-    └──requires──> [Imágenes de producto]
+[DF-01: Filtrado por tecnologia] (independiente del detalle)
+    |
+    +--requires--> [Client Component wrapper en pagina de categoria]
+    +--bundles-with--> [DF-02: Ordenamiento (sort)]
 
-[Modo offline / PWA] (P2-P3)
-    └──requires──> [Todas las páginas de contenido funcionando]
-    └──nota──> Se puede añadir en cualquier momento sobre el sitio existente
+[DF-03: Busqueda fuzzy] (independiente)
+    |
+    +--requires--> [Instalar Fuse.js]
+    +--requires--> [Client Component en header o layout]
 
-[Búsqueda por nombre de tela] (P2)
-    └──requires──> [Modelo de datos de tela]
-
-[Comparación lado a lado] (P3)
-    └──requires──> [Fichas técnicas de tela]
-    └──requires──> [Product cards en grid] (para UI de selección)
-    └──enhances──> [Navegación por categorías]
+[TS-06: Deploy Vercel] (final)
+    |
+    +--requires--> [Todo lo anterior funcional]
+    +--requires--> [Build sin errores, SSG < 2s]
 ```
 
-### Dependency Notes
+### Critical Path
 
-- **Modelo de datos de tela** es la dependencia fundacional. Definir el schema TypeScript de una tela (nombre, composición, tecnologías[], categorías[], imagen, gramaje) desbloquea prácticamente todo el resto.
-- **Imágenes de producto** es una dependencia real pero con riesgo: la calidad de extracción del PDF es incierta. Debe abordarse temprano para detectar problemas.
-- **Modo offline (PWA)** es independiente del contenido — es una capa que se añade encima. No bloquea nada, pero requiere que el sitio esté mayormente completo para que el pre-caching tenga sentido.
-- **Comparación lado a lado** es la feature más compleja y depende de que las fichas técnicas y product cards estén estabilizados primero.
-- **Filtrado por tecnología** depende de que los datos de tela incluyan la relación con tecnologías (ya contemplada en el modelo).
+```
+Resolver imagenes --> Fichas tecnicas --> Filtros/Sort --> Busqueda --> Deploy
+        |
+        +-- Secciones Tecnologias/Personalizacion/Cuellos (paralelo)
+```
 
-## MVP Definition
+### Notas de Dependencia
 
-### Launch With (v1)
+- **Imagenes es el blocker real.** Ninguna ficha tecnica ni FabricCard funcional sin imagenes mapeadas. Debe ser la primera tarea.
+- **Secciones (Tecnologias, Personalizacion, Cuellos) son independientes entre si** y del flujo de fichas tecnicas. Se pueden hacer en paralelo.
+- **Filtro y Sort van juntos.** Ambos requieren convertir parte de la pagina de categoria a Client Component. Hacerlos por separado duplica el trabajo de setup.
+- **Busqueda es independiente de todo lo demas.** Puede implementarse en cualquier momento una vez que el data layer esta disponible (ya lo esta).
+- **Deploy es la tarea final.** Requiere que todo compile y las rutas SSG se generen sin errores.
 
-Minimum viable product — lo mínimo para que el vendedor deje de usar el PDF.
+---
 
-- [x] **Modelo de datos de tela en TypeScript** — fundamento de todo el catálogo
-- [ ] **Home page con hero y grid de 8 categorías** — primera impresión profesional
-- [ ] **8 páginas de categoría con product cards** — navegación principal del vendedor
-- [ ] **Fichas técnicas de tela** — el vendedor necesita mostrar specs en la reunión
-- [ ] **Imágenes de producto extraídas del PDF** — sin imágenes el catálogo no tiene sentido
-- [ ] **Sección de Tecnologías Textiles** — argumento de venta clave con iconos
-- [ ] **Sección de Personalización** — diferenciador comercial de Lafayette
-- [ ] **Sección de Cuellos** — complemento necesario para la oferta completa
-- [ ] **Header con navegación y logo** — branding y usabilidad básica
-- [ ] **Color-coding por categoría** — orientación visual
-- [ ] **Deploy en Vercel** — accesible para los vendedores
+## Prioritization for v1.1
 
-### Add After Validation (v1.x)
+### Must Ship (definan el milestone)
 
-Features a añadir una vez que el core funciona y los vendedores lo están usando.
+| # | Feature | User Value | Cost | Rationale |
+|---|---------|------------|------|-----------|
+| 1 | TS-05: Resolver imagenes | CRITICAL | LOW | Blocker para todo. Fix de 30 min que desbloquea el milestone entero. |
+| 2 | TS-01: Fichas tecnicas de tela | HIGH | MEDIUM | Feature principal de v1.1. Razon de existir del milestone. |
+| 3 | TS-02: Seccion Tecnologias | HIGH | LOW | 1 de 3 paginas placeholder vacias. Datos y assets ya existen. |
+| 4 | TS-03: Seccion Personalizacion | MEDIUM | LOW | Argumento de cierre de venta. Contenido requiere extraccion del PDF. |
+| 5 | TS-04: Seccion Cuellos | MEDIUM | LOW | Complemento para polos. Contenido requiere extraccion del PDF. |
+| 6 | TS-06: Deploy Vercel | HIGH | LOW | Sin esto nada llega al vendedor. |
 
-- [ ] **Filtrado por tecnología/propiedad** — trigger: vendedores piden buscar por tecnología, no solo por categoría
-- [ ] **Navegación cruzada tela-categoría** — trigger: vendedores necesitan saber "¿dónde más se usa esta tela?"
-- [ ] **Búsqueda por nombre de tela** — trigger: vendedores memorizan nombres de tela y quieren ir directo
-- [ ] **Iconos de tecnología interactivos (tooltips)** — trigger: vendedores nuevos necesitan ayuda contextual
-- [ ] **Galería de imágenes con zoom** — trigger: si se consiguen mejores fotos o más ángulos
-- [ ] **Transiciones y animaciones sutiles** — trigger: polish después de que el contenido esté estable
+### Should Ship (elevan la calidad)
 
-### Future Consideration (v2+)
+| # | Feature | User Value | Cost | Rationale |
+|---|---------|------------|------|-----------|
+| 7 | DF-01: Filtrado por tecnologia | HIGH | MEDIUM | Diferenciador #1 vs PDF. Interactividad real. |
+| 8 | DF-02: Ordenamiento (sort) | MEDIUM | LOW | Casi gratis si se hace junto con filtrado. |
+| 9 | DF-03: Busqueda fuzzy | MEDIUM | LOW-MEDIUM | Atajos para vendedores experimentados. |
+| 10 | DF-04: Tooltips tecnologia | MEDIUM | LOW | Polish con alto impacto. Bajo costo. |
+| 11 | DF-05: Nav cruzada tela-categoria | MEDIUM | LOW | Helper ya existe. Solo conectar UI. |
 
-Features a diferir hasta validar que la herramienta se usa realmente.
+### Tech Debt Resolution (incluido en milestone)
 
-- [ ] **Modo offline / PWA** — diferir hasta confirmar que el WiFi en colegios es realmente un problema recurrente
-- [ ] **Comparación lado a lado de telas** — diferir hasta que haya suficientes specs cuantitativos por tela para que la comparación sea útil (hoy los datos del PDF son limitados)
+| Item | Severity | Cost | Phase |
+|------|----------|------|-------|
+| NavLinks active state bug | Functional bug | 5 min | Junto con cualquier cambio de nav |
+| Remover CVA no usada | Cleanup | 5 min | Junto con dependency audit |
+| Conectar o remover SkeletonCard | Cleanup | 10 min | Decidir si usarlo para Suspense o eliminarlo |
+| Imagenes de producto sin mapear | Production-breaking | 30 min | PRIMERO (TS-05) |
+| Colores hex duplicados (styles.ts + categories.ts) | Maintenance risk | 30 min | Junto con refactor de componentes |
 
-## Feature Prioritization Matrix
+---
 
-| Feature | User Value | Implementation Cost | Priority |
-|---------|------------|---------------------|----------|
-| Navegación por categorías | HIGH | LOW | P1 |
-| Fichas técnicas de tela | HIGH | MEDIUM | P1 |
-| Product cards en grid | HIGH | LOW | P1 |
-| Imágenes de producto | HIGH | LOW | P1 |
-| Home page con hero | HIGH | MEDIUM | P1 |
-| Sección Tecnologías | HIGH | LOW | P1 |
-| Sección Personalización | MEDIUM | LOW | P1 |
-| Sección Cuellos | MEDIUM | LOW | P1 |
-| Header + navegación | HIGH | LOW | P1 |
-| Color-coding categorías | MEDIUM | LOW | P1 |
-| Carga rápida (SSG) | HIGH | LOW | P1 (inherente a Next.js SSG) |
-| Filtrado por tecnología | HIGH | MEDIUM | P2 |
-| Navegación cruzada | MEDIUM | MEDIUM | P2 |
-| Búsqueda por nombre | MEDIUM | LOW-MEDIUM | P2 |
-| Tooltips tecnologías | MEDIUM | LOW | P2 |
-| Galería con zoom | MEDIUM | MEDIUM | P2 |
-| Transiciones/animaciones | LOW | LOW | P2 |
-| Modo offline (PWA) | HIGH (si hay problema de WiFi) | MEDIUM-HIGH | P3 |
-| Comparación lado a lado | MEDIUM | HIGH | P3 |
+## Recommended Phase Structure for v1.1
 
-**Priority key:**
-- P1: Must have para lanzar — sin esto el vendedor vuelve al PDF
-- P2: Should have — mejora la experiencia, añadir post-lanzamiento
-- P3: Nice to have — diferir hasta validar necesidad real
+Basado en dependencias y complejidad:
 
-## Competitor Feature Analysis
+**Phase 1: Data Fixes & Image Mapping**
+- Resolver 404 de imagenes (mapear 14 existentes a fabrics.ts)
+- Fix NavLinks active state
+- Limpiar tech debt menor (CVA, SkeletonCard)
+- Expandir datos: descripciones de tecnologias, datos de personalizacion, datos de cuellos
+- **Outcome:** Data layer completo y funcional, FabricCards muestran imagenes
 
-| Feature | Klopman.com | Milliken.com | PDF Lafayette actual | Nuestra Approach |
-|---------|-------------|--------------|---------------------|------------------|
-| Navegación por categoría | Si (workwear, protective, corporate) | Si (por mercado/industria) | Si (por uso, 8 categorías) | 8 categorías de uso con color coding |
-| Fichas técnicas | Si (composición, peso, acabados) | Si (ficha descargable PDF) | Parcial (nombre + descripción corta) | Ficha en página con todos los datos del PDF |
-| Filtrado | Si ("Fabric Finder": categoría, tipo, peso, key feature, risk) | Básico (por mercado) | No (es PDF, no filtra) | Filtro por tecnología (client-side) |
-| Product cards | Si (imagen + nombre + peso) | Si (imagen + nombre + categoría) | No aplica (layout de página impresa) | Card con imagen, nombre, chips de tecnología |
-| Galería de imágenes | Limitada (1-2 fotos por tela) | Limitada (foto de muestra) | 1 foto por tela (del PDF) | 1 imagen + zoom. Escalar si hay más fotos |
-| Comparación | No | No | No | Diferido a v2+ |
-| Offline | No (web solo online) | No | Si (es PDF, siempre offline) | PWA con cache-first en v2 |
-| Búsqueda | Si (integrada en fabric finder) | Si (search global) | No | Client-side fuzzy search en v1.x |
-| Responsive | Si (desktop + mobile) | Si (full responsive) | No aplica | Desktop + tablet only |
-| Tecnologías destacadas | Si (sección de features) | Si (por marca/línea) | Si (página de tecnologías con iconos) | Página dedicada + iconos en fichas de tela |
+**Phase 2: Fabric Detail Pages**
+- Implementar ficha tecnica completa (layout 2 columnas, specs, imagen)
+- Tooltips de tecnologia
+- Navegacion cruzada tela-categoria
+- **Outcome:** Todas las 43 rutas fabric-detail tienen contenido real
+
+**Phase 3: Content Sections**
+- Pagina Tecnologias (grid de 14 tecnologias con iconos y descripciones)
+- Pagina Personalizacion (4 opciones con descripciones)
+- Pagina Cuellos (colores, tallas, info)
+- **Outcome:** 0 paginas placeholder, menu completo
+
+**Phase 4: Search, Filter & Sort**
+- Filtrado por tecnologia en paginas de categoria
+- Ordenamiento por gramaje/ancho
+- Busqueda fuzzy global
+- **Outcome:** Interactividad completa, diferenciacion vs PDF
+
+**Phase 5: Polish & Deploy**
+- Responsive verification (lg, md breakpoints)
+- Performance verification (SSG < 2s)
+- Deploy a Vercel
+- **Outcome:** Herramienta accesible para vendedores
+
+---
 
 ## Sources
 
-**UX de catálogos y filtrado:**
-- [Baymard Institute — Product List UX Best Practices 2025](https://baymard.com/blog/current-state-product-list-and-filtering) — MEDIUM confidence
-- [Baymard — Comparison Features for Spec-Driven Industries](https://baymard.com/blog/provide-comparison-features) — MEDIUM confidence
-- [Smashing Magazine — Designing The Perfect Feature Comparison Table](https://www.smashingmagazine.com/2017/08/designing-perfect-feature-comparison-table/) — MEDIUM confidence
-- [NN/g — Comparison Tables for Products, Services, and Features](https://www.nngroup.com/articles/comparison-tables/) — MEDIUM confidence
+**UX de product detail pages:**
+- [Baymard Institute -- Product Page UX Best Practices 2025](https://baymard.com/blog/current-state-ecommerce-product-page-ux) -- MEDIUM confidence (paywall parcial, pero principios verificados)
+- [SparkLayer -- B2B Product Pages UI Guide](https://www.sparklayer.io/blog/2024/11/06/b2b-product-pages-ui/) -- MEDIUM confidence
+- Patron de dos columnas (imagen + specs) verificado en multiples catalgos B2B textiles (Klopman, Milliken)
 
-**Catálogos textiles B2B (competidores):**
-- [Klopman — Fabric Finder](https://www.klopman.com/products) — HIGH confidence (fuente primaria)
-- [Milliken — Textile Products](https://www.milliken.com/en-us/textiles/products) — HIGH confidence (fuente primaria)
+**UX de filtros y busqueda:**
+- [Baymard Institute -- Product List UX Best Practices 2025](https://baymard.com/blog/current-state-product-list-and-filtering) -- MEDIUM confidence
+- [Algolia -- B2B Commerce Search & Filtering](https://www.algolia.com/blog/ecommerce/b2b-commerce-digital-transformation-search-filtering-sorting-and-navigation) -- MEDIUM confidence
+- Chips horizontales para filtro validados en multiples fuentes para datasets pequenos
 
-**Sales enablement y catálogos digitales:**
-- [Paperflite — Sales Enablement Trends 2025](https://www.paperflite.com/blogs/sales-enablement-trends) — LOW confidence
-- [Product Catalog Software vs PDF Catalogs 2025](https://thelinecard.com/product-catalog-software-vs.-pdf-catalogs-in-2025) — LOW confidence
-- [Ingage — Digital Sales Presentations 2025](https://ingage.io/blog/digital-sales-presentations-trends-2025/) — LOW confidence
-
-**PWA / Offline:**
-- [Next.js — PWA Guide (oficial)](https://nextjs.org/docs/app/guides/progressive-web-apps) — HIGH confidence
-- [LogRocket — Build Next.js 16 PWA with offline support](https://blog.logrocket.com/nextjs-16-pwa-offline-support/) — MEDIUM confidence
-- [MDN — Offline and background operation](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Offline_and_background_operation) — HIGH confidence
+**Busqueda fuzzy:**
+- [Fuse.js -- Official Documentation](https://www.fusejs.io/) -- HIGH confidence (fuente primaria)
+- [Implementing client-side search in Next.js with Fuse.js](https://medium.com/@ketchasso72/implementing-client-side-search-in-next-js-with-fuse-js-7bbf241b874f) -- MEDIUM confidence
+- [Perficient -- Implementing Fuzzy Search in React with Fuse.js](https://blogs.perficient.com/2025/03/17/implementing-a-fuzzy-search-in-react-js-using-fuse-js/) -- MEDIUM confidence
 
 **Especificaciones textiles:**
-- [Textile Industry — Fabric Specification Sheet](https://www.textileindustry.net/fabric-specification-sheet/) — MEDIUM confidence
+- [Textile Industry -- Fabric Specification Sheet](https://www.textileindustry.net/fabric-specification-sheet/) -- MEDIUM confidence
+- Analisis directo de la estructura de datos existente en `types.ts` y `fabrics.ts` -- HIGH confidence
+
+**Competidores/referencia:**
+- [Uniforme Lafayette -- Sitio publico](https://uniformelafayette.com/colegios/) -- HIGH confidence (verificacion directa: el sitio publico NO tiene catalogo tecnico, confirmando la necesidad de esta herramienta)
+- [Klopman -- Fabric Finder](https://www.klopman.com/products) -- MEDIUM confidence (referencia de filtrado textil B2B)
 
 ---
-*Feature research for: Catálogo textil sales enablement Lafayette Uni For Me Colegios*
-*Researched: 2026-02-21*
+*Feature research for: Lafayette Uni For Me Colegios v1.1 -- Catalogo Completo*
+*Researched: 2026-02-22*
+*Previous version: 2026-02-21 (v1.0 scope -- archived)*
