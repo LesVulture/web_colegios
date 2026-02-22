@@ -11,7 +11,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **FOUND-01**: Proyecto inicializado con Next.js App Router + TypeScript + Tailwind CSS v4 + Bun
 - [ ] **FOUND-02**: Modelo de datos TypeScript para telas (nombre, base, composición, tejido, peso, ancho, tecnologías, rutas), categorías (nombre, slug, color, descripción), y tecnologías (nombre, icono, descripción)
-- [ ] **FOUND-03**: Imágenes extraídas del PDF (37MB) y optimizadas para web (WebP/AVIF via next/image)
+- [x] **FOUND-03**: Imágenes extraídas del PDF (37MB) y optimizadas para web (WebP/AVIF via next/image)
 - [x] **FOUND-04**: Design system con 8 tokens de color por categoría definidos en Tailwind v4 @theme
 
 ### Navigation
@@ -107,7 +107,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FOUND-04 | Phase 1 | Complete |
 | DES-01 | Phase 1 | Complete |
 | FOUND-02 | Phase 2 | Pending |
-| FOUND-03 | Phase 2 | Pending |
+| FOUND-03 | Phase 2 | Complete |
 | NAV-01 | Phase 3 | Pending |
 | NAV-02 | Phase 3 | Pending |
 | NAV-03 | Phase 3 | Pending |
