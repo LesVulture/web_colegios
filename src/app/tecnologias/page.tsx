@@ -31,17 +31,17 @@ export default function TecnologiasPage() {
       </header>
 
       {/* LAFTECH seal */}
-      <div className="mb-10 flex items-center gap-5 rounded-lg border border-border bg-surface p-5 md:p-6">
+      <div className="mb-10 rounded-xl border border-border bg-surface p-6 md:p-8 lg:p-10 flex flex-col items-center text-center gap-5">
         <Image
-          src="/images/content/laftech-sello.webp"
+          src="/images/content/laftech-logo.webp"
           alt="LAFTECH — Sello tecnológico Lafayette"
-          width={898}
-          height={222}
-          sizes="(min-width: 768px) 120px, 80px"
-          className="w-20 md:w-[120px] h-auto shrink-0"
+          width={812}
+          height={198}
+          sizes="(min-width: 768px) 320px, 240px"
+          className="w-60 md:w-80 h-auto"
         />
-        <p className="text-sm md:text-base text-muted-foreground">
-          <span className="font-semibold text-foreground">LAFTECH</span> es el sello tecnológico que reúne las tecnologías de Lafayette para todas las bases textiles que las contienen.
+        <p className="text-base md:text-lg text-muted-foreground max-w-xl">
+          <span className="font-bold text-foreground">LAFTECH</span> es el sello tecnológico que reúne las tecnologías de Lafayette para todas las bases textiles que las contienen.
         </p>
       </div>
 
