@@ -8,6 +8,20 @@ Sitio web catálogo para la fuerza de ventas de Lafayette, enfocado en presentar
 
 El vendedor puede presentar toda la oferta de telas para uniformes escolares de forma visual, organizada y profesional, navegando fluidamente entre categorías de producto durante una reunión comercial.
 
+## Current Milestone: v1.1 Catálogo Completo
+
+**Goal:** Completar el catálogo web con fichas técnicas de tela, secciones faltantes (Tecnologías, Personalización, Cuellos), filtros/búsqueda, deploy a Vercel, y resolver todo el tech debt de v1.0.
+
+**Target features:**
+- Fichas técnicas completas de cada tela (specs, composición, peso, ancho, imagen)
+- Sección de Tecnologías Textiles (12 tecnologías con iconos)
+- Sección de Personalización de Uniformes (4 opciones)
+- Sección de Cuellos (colores, tallas, info comercial)
+- Filtrar telas por tecnología, ordenar por peso/ancho, búsqueda fuzzy
+- Desktop-first responsive completo (lg/md verificados)
+- Deploy funcional en Vercel con SSG < 2s
+- Resolver 13 items de tech debt de v1.0
+
 ## Requirements
 
 ### Validated
@@ -124,4 +138,4 @@ El vendedor puede presentar toda la oferta de telas para uniformes escolares de 
 | SSG con generateStaticParams | 51 rutas pre-renderizadas para velocidad | ✓ Good — build sin errores |
 
 ---
-*Last updated: 2026-02-22 after v1.0 milestone*
+*Last updated: 2026-02-22 after v1.1 milestone started*

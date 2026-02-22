@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-22)
 
 **Core value:** El vendedor puede presentar toda la oferta de telas para uniformes escolares de forma visual, organizada y profesional, navegando fluidamente entre categorías de producto durante una reunión comercial.
-**Current focus:** Planning next milestone
+**Current focus:** Milestone v1.1 — Catálogo Completo
 
 ## Current Position
 
-Phase: v1.0 complete (Phases 1-4)
-Status: Milestone v1.0 MVP shipped 2026-02-22
-Last activity: 2026-02-22 — v1.0 milestone archived
-Next: Define next milestone scope (Phases 5-7)
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-02-22 — Milestone v1.1 started
 
-Progress: [████░░░░░░] 57% (4/7 phases)
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
@@ -44,11 +44,11 @@ None.
 
 ### Blockers/Concerns
 
-- [v1.0 Tech Debt]: placeholder.webp 404, NavLinks active state bug — ver audit v1.0
+- [v1.0 Tech Debt]: 13 items — placeholder.webp 404, NavLinks active state bug, CVA sin uso, SkeletonCard huérfano, colores hex duplicados, 3 techs sin icono, ROADMAP staleness, orphaned exports. Ver `.planning/milestones/v1.0-MILESTONE-AUDIT.md`
 - [Phase 1]: No usar `bun --bun next dev` por incompatibilidades NAPI con Next.js 16.
 
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: v1.0 milestone archived
+Stopped at: Milestone v1.1 started — defining requirements
 Resume file: None
