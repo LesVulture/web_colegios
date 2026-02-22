@@ -38,3 +38,13 @@ export function getFabricsByTechnology(techId: string): typeof FABRICS[number][]
     return techs.includes(techId);
   });
 }
+
+export function parseNumericWeight(weight: string): number {
+  const match = weight.match(/^(\d+)/)
+  return match ? parseInt(match[1], 10) : 0
+}
+
+export function parseNumericWidth(width: string): number {
+  const match = width.match(/^(\d+)/)
+  return match ? parseInt(match[1], 10) : 0
+}
