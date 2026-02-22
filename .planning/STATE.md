@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-22)
 ## Current Position
 
 Phase: 5 of 9 (Tech Debt & Data Foundation)
-Plan: 0 of ? in current phase
-Status: Ready to plan
-Last activity: 2026-02-22 — Roadmap v1.1 created (Phases 5-9)
+Plan: 1 of 2 in current phase
+Status: Executing
+Last activity: 2026-02-22 — Completed 05-01 (Tech Debt Cleanup)
 
-Progress: [████████░░░░░░░░░░░░] 40% (v1.0 8/8 plans complete; v1.1 0/? plans)
+Progress: [█████████░░░░░░░░░░░] 45% (v1.0 8/8 plans complete; v1.1 1/2 phase 5 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8 (all v1.0)
+- Total plans completed: 9 (v1.0: 8, v1.1: 1)
 - Average duration: 2 min
-- Total execution time: 0.25 hours
+- Total execution time: 0.28 hours
 
 **By Phase:**
 
@@ -31,6 +31,7 @@ Progress: [████████░░░░░░░░░░░░] 40% (v1
 | 2. Data Layer & Assets | 2/2 | 6 min | 3 min |
 | 3. Global Navigation & Home | 3/3 | 3 min | 1 min |
 | 4. Category Pages | 2/2 | 3 min | 1.5 min |
+| 5. Tech Debt & Data Foundation | 1/2 | 2 min | 2 min |
 
 ## Accumulated Context
 
@@ -42,6 +43,9 @@ Recent decisions affecting current work:
 - [v1.1 Roadmap]: 5 phases (5-9), research-validated ordering. Phase 5 is BLOCKER for all others.
 - [v1.1 Stack]: Only new dependency is fuse.js 7.1.0. Remove CVA. Use useState for filters (NOT useSearchParams).
 - [v1.1 Architecture]: FilterableFabricGrid (Client Component island) wraps FabricCard for filters. All other new pages are Server Components.
+- [05-01]: Multi-category fabrics use first-appearing category image (PDF/CATEGORIES order)
+- [05-01]: activePrefix pattern for nav active state (only Usos needs it)
+- [05-01]: color/foregroundColor retained in categories.ts for Phase 6 inline styles
 
 ### Pending Todos
 
@@ -49,12 +53,12 @@ None.
 
 ### Blockers/Concerns
 
-- [Phase 5]: Image mapping requires visual inspection of 14 product images against PDF — no obvious filename-to-fabric mapping.
+- ~~[Phase 5]: Image mapping requires visual inspection of 14 product images against PDF~~ RESOLVED in 05-01
 - [Phase 5]: PDF content extraction needed for personalization, collars, and expanded tech descriptions.
 - [Phase 8]: router.back() behavior with FilterableFabricGrid state needs empirical verification.
 
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Roadmap v1.1 created — ready to plan Phase 5
+Stopped at: Completed 05-01-PLAN.md
 Resume file: None

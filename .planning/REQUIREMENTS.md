@@ -9,11 +9,11 @@ Requirements for milestone v1.1 — Catalogo Completo. Each maps to roadmap phas
 
 ### Tech Debt
 
-- [ ] **DEBT-01**: Mapear 14 imagenes reales de producto a registros de fabrics.ts, eliminando placeholder.webp 404
-- [ ] **DEBT-02**: Corregir NavLinks active state para rutas /uso/* (cambiar startsWith('/usos') a startsWith('/uso'))
-- [ ] **DEBT-03**: Remover class-variance-authority (dependencia instalada sin uso)
-- [ ] **DEBT-04**: Consolidar colores hex duplicados entre globals.css tokens y categories.ts
-- [ ] **DEBT-05**: Integrar SkeletonCard como Suspense fallback o remover si no se usa
+- [x] **DEBT-01**: Mapear 14 imagenes reales de producto a registros de fabrics.ts, eliminando placeholder.webp 404
+- [x] **DEBT-02**: Corregir NavLinks active state para rutas /uso/* (cambiar startsWith('/usos') a startsWith('/uso'))
+- [x] **DEBT-03**: Remover class-variance-authority (dependencia instalada sin uso)
+- [x] **DEBT-04**: Consolidar colores hex duplicados entre globals.css tokens y categories.ts
+- [x] **DEBT-05**: Integrar SkeletonCard como Suspense fallback o remover si no se usa
 - [ ] **DEBT-06**: Proveer iconos fallback (Lucide) para 3 tecnologias sin logo (algodon, antimanchas, solidez-a-la-luz)
 
 ### Data Foundation
@@ -84,11 +84,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DEBT-01 | Phase 5 | Pending |
-| DEBT-02 | Phase 5 | Pending |
-| DEBT-03 | Phase 5 | Pending |
-| DEBT-04 | Phase 5 | Pending |
-| DEBT-05 | Phase 5 | Pending |
+| DEBT-01 | Phase 5 | Complete |
+| DEBT-02 | Phase 5 | Complete |
+| DEBT-03 | Phase 5 | Complete |
+| DEBT-04 | Phase 5 | Complete |
+| DEBT-05 | Phase 5 | Complete |
 | DEBT-06 | Phase 5 | Pending |
 | DATA-01 | Phase 5 | Pending |
 | DATA-02 | Phase 5 | Pending |
