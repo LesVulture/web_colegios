@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-22)
 
 **Core value:** El vendedor puede presentar toda la oferta de telas para uniformes escolares de forma visual, organizada y profesional, navegando fluidamente entre categorias de producto durante una reunion comercial.
-**Current focus:** Phase 8 complete — Search, Filter & Sort
+**Current focus:** Phase 9 in progress — Responsive Polish & Deploy
 
 ## Current Position
 
-Phase: 8 of 9 (Search, Filter & Sort) -- COMPLETE
-Plan: 1 of 1 in current phase
-Status: Phase 8 complete
-Last activity: 2026-02-22 — Completed 08-01 (Search, Filter & Sort)
+Phase: 9 of 9 (Responsive Polish & Deploy)
+Plan: 1 of 2 in current phase -- COMPLETE
+Status: Phase 9 plan 1 complete, plan 2 pending
+Last activity: 2026-02-22 — Completed 09-01 (Responsive md breakpoint polish)
 
-Progress: [████████████████░░░░] 80% (v1.0 8/8 plans complete; v1.1 6/6 phase 5-8 plans)
+Progress: [██████████████████░░] 90% (v1.0 8/8 plans; v1.1 7/8 phase 5-9 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 14 (v1.0: 8, v1.1: 6)
+- Total plans completed: 15 (v1.0: 8, v1.1: 7)
 - Average duration: 2 min
-- Total execution time: 0.47 hours
+- Total execution time: 0.54 hours
 
 **By Phase:**
 
@@ -35,6 +35,7 @@ Progress: [████████████████░░░░] 80% (v1
 | 6. Fabric Detail Pages | 1/1 | 2 min | 2 min |
 | 7. Content Section Pages | 2/2 | 3 min | 1.5 min |
 | 8. Search, Filter & Sort | 1/1 | 2 min | 2 min |
+| 9. Responsive Polish & Deploy | 1/2 | 4 min | 4 min |
 
 ## Accumulated Context
 
@@ -62,6 +63,9 @@ Recent decisions affecting current work:
 - [08-01]: OR logic for tech filter chips (any selected tech matches) per research recommendation
 - [08-01]: 250ms debounce on search input, separate inputValue/searchQuery state
 - [08-01]: useMemo for all derived state, useEffect only for debounce cleanup
+- [09-01]: Maintain 2-col grid at md for fabric cards (3 cols too narrow for tech chips at 768px)
+- [09-01]: Touch targets min-h-[44px] on all interactive elements (Apple HIG / WCAG 2.5.8)
+- [09-01]: Cuellos tables side-by-side at md (md:grid-cols-2), overflow-x-auto safety wrappers
 
 ### Pending Todos
 
@@ -76,5 +80,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 08-01-PLAN.md (Phase 8 complete)
+Stopped at: Completed 09-01-PLAN.md
 Resume file: None

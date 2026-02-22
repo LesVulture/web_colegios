@@ -44,7 +44,7 @@ Requirements for milestone v1.1 — Catalogo Completo. Each maps to roadmap phas
 
 ### Deploy
 
-- [ ] **DEPLOY-01**: Responsive desktop-first verificado en breakpoints lg y md
+- [x] **DEPLOY-01**: Responsive desktop-first verificado en breakpoints lg y md
 - [ ] **DEPLOY-02**: Deploy funcional en Vercel con todas las rutas SSG
 - [ ] **DEPLOY-03**: Carga inicial < 2 segundos en todas las rutas
 
@@ -104,7 +104,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FILTER-01 | Phase 8 | Complete |
 | FILTER-02 | Phase 8 | Complete |
 | FILTER-03 | Phase 8 | Complete |
-| DEPLOY-01 | Phase 9 | Pending |
+| DEPLOY-01 | Phase 9 | Complete |
 | DEPLOY-02 | Phase 9 | Pending |
 | DEPLOY-03 | Phase 9 | Pending |
 
