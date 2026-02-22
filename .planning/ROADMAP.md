@@ -72,10 +72,11 @@ Plans:
   1. La pagina /tecnologias muestra un grid de las 12+ tecnologias textiles, cada una con icono (o fallback Lucide), nombre y descripcion expandida del PDF
   2. La pagina /personalizacion presenta las 4 opciones de personalizacion (dibujos exclusivos, estampacion digital, tipo Davos, desarrollo de color) con imagenes y texto del PDF
   3. La pagina /cuellos muestra los 4 colores disponibles, tabla de tallas para ninos y adolescentes/adultos, y la informacion comercial de pedido
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 07-01: TBD
+- [ ] 07-01-PLAN.md — CSS animation + Tecnologias page con 14 tech cards y cross-navigation a telas
+- [ ] 07-02-PLAN.md — Personalizacion page con 4 opciones e imagenes + Cuellos page con colores, tablas de tallas y notas comerciales
 
 ### Phase 8: Search, Filter & Sort
 **Goal**: El vendedor puede encontrar telas especificas en segundos usando filtros, ordenamiento y busqueda durante la reunion comercial
