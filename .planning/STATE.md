@@ -53,6 +53,10 @@ Recent decisions affecting current work:
 - [02-01]: Product images named by page (page04-0.webp) -- mapping to fabric names deferred to Plan 02 TypeScript data
 - [02-01]: Content images (pages 13-19) extracted to public/images/content/ for future personalization/collars UI
 - [02-01]: WebP quality 80 balances file size (89-237KB) and visual quality for catalog presentation
+- [02-02]: Slug microtitan-plus (corregido de microtitn-plus del plan) para coincidir con PDF "Microtitan Plus"
+- [02-02]: Placeholder image para todas las telas; mapeo real requiere inspeccion visual post-extraccion
+- [02-02]: Resistencia (Universal Ripstop) = durabilidad tech ID (misma tecnologia, diferente nombre en PDF)
+- [02-02]: ReadonlyArray<string> cast para resolver includes() con tuples readonly de as-const-satisfies
 
 ### Pending Todos
 
@@ -66,5 +70,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 02-01-PLAN.md
+Stopped at: Completed 02-02-PLAN.md (Phase 2 complete)
 Resume file: None
