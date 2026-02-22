@@ -2,86 +2,33 @@
 
 ## Overview
 
-El catálogo web de Lafayette reemplaza un PDF de 37MB como herramienta de ventas para reuniones con colegios. La navegación principal tiene 4 items (Usos, Tecnologías, Personalización, Cuellos). "Usos" lleva a una página intermedia con 8 categorías; al elegir una categoría se muestran las telas de esa categoría. El roadmap avanza desde la infraestructura técnica hacia la UI visible, luego secciones de contenido con deploy, y finalmente herramientas de exploración avanzada.
+El catálogo web de Lafayette reemplaza un PDF de 37MB como herramienta de ventas para reuniones con colegios. La navegación principal tiene 4 items (Usos, Tecnologías, Personalización, Cuellos). "Usos" lleva a una página intermedia con 8 categorías; al elegir una categoría se muestran las telas de esa categoría.
+
+## Milestones
+
+- ✅ **v1.0 MVP** — Phases 1-4 (shipped 2026-02-22)
 
 ## Phases
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+<details>
+<summary>✅ v1.0 MVP (Phases 1-4) — SHIPPED 2026-02-22</summary>
 
-Decimal phases appear between their surrounding integers in numeric order.
+- [x] Phase 1: Project Foundation (1/1 plans) — completed 2026-02-22
+- [x] Phase 2: Data Layer & Assets (2/2 plans) — completed 2026-02-22
+- [x] Phase 3: Global Navigation & Home (3/3 plans) — completed 2026-02-22
+- [x] Phase 4: Category Pages (2/2 plans) — completed 2026-02-22
 
-- [x] **Phase 1: Project Foundation** - Scaffolding Next.js 16, design system con tokens de 8 colores de categoría, configuración Tailwind v4
-- [ ] **Phase 2: Data Layer & Assets** - Modelos TypeScript del catálogo completo, extracción y optimización de imágenes del PDF
-- [x] **Phase 3: Global Navigation & Home** - Header con logo Lafayette, menú de 4 items principales, home page con hero y grid de 4 secciones, página intermedia `/usos` con 8 categorías (completed 2026-02-22)
-- [ ] **Phase 4: Category Pages** - 8 páginas de categoría con routing dinámico `/uso/[slug]`, grid de product cards y theming por color
+Full details: `.planning/milestones/v1.0-ROADMAP.md`
+
+</details>
+
+### Unassigned Phases (Next Milestone)
+
 - [ ] **Phase 5: Fabric Details** - Fichas técnicas completas de cada tela con specs, imagen y badges de tecnología
 - [ ] **Phase 6: Content Sections & Deploy** - Páginas de Tecnologías, Personalización y Cuellos; responsive tablet; SSG; deploy funcional en Vercel
 - [ ] **Phase 7: Filtering & Search** - Filtrado por tecnología, ordenamiento por specs, búsqueda fuzzy por nombre de tela
 
 ## Phase Details
-
-### Phase 1: Project Foundation
-**Goal**: El proyecto tiene una base técnica funcional con design system listo para construir componentes
-**Depends on**: Nothing (first phase)
-**Requirements**: FOUND-01, FOUND-04, DES-01
-**Success Criteria** (what must be TRUE):
-  1. `bun run dev` inicia el servidor de desarrollo sin errores y muestra una página en localhost
-  2. Los 8 colores de categoría están definidos como tokens Tailwind v4 y se pueden usar en clases utility (ej: `bg-cat-sudaderas` produce el color azul oscuro correcto)
-  3. La paleta de marca Lafayette (azul oscuro primario, rojo acento) se aplica a elementos base (tipografía, backgrounds)
-  4. El proyecto usa App Router de Next.js con TypeScript estricto y no tiene errores de tipo
-**Plans**: 1 plan
-
-Plans:
-- [x] 01-01-PLAN.md — Scaffold Next.js 16 + design system completo (tokens de color, tipografia, estilos base)
-
-### Phase 2: Data Layer & Assets
-**Goal**: Todo el contenido del catálogo está modelado como datos TypeScript tipados y las imágenes del PDF están extraídas y listas para uso con next/image
-**Depends on**: Phase 1
-**Requirements**: FOUND-02, FOUND-03
-**Success Criteria** (what must be TRUE):
-  1. Las ~40 telas están definidas como constantes TypeScript con todas sus propiedades (nombre, composición, tejido, peso, ancho, tecnologías, rutas) y se pueden importar desde `lib/content/`
-  2. Las 8 categorías tienen sus telas asignadas correctamente y se puede consultar qué telas pertenecen a cada categoría
-  3. Las imágenes de producto extraídas del PDF existen en `/public/images/`, tienen al menos 400px de ancho, y están en formato optimizado para web
-  4. Los 13 assets de logos de tecnología están renombrados a kebab-case sin espacios y referenciados correctamente en los datos
-**Plans**: 2 plans
-
-Plans:
-- [ ] 02-01-PLAN.md — Extraer imagenes de producto del PDF y renombrar logos de tecnologia a kebab-case
-- [ ] 02-02-PLAN.md — Modelo de datos TypeScript: 31 telas, 8 categorias, 14 tecnologias con helpers y barrel export
-
-### Phase 3: Global Navigation & Home
-**Goal**: El vendedor puede abrir el sitio y navegar a las 4 secciones principales (Usos, Tecnologías, Personalización, Cuellos), y al entrar en Usos ve las 8 categorías disponibles
-**Depends on**: Phase 2
-**Requirements**: NAV-01, NAV-02, NAV-03, HOME-01, HOME-02, HOME-03, USOS-01
-**Success Criteria** (what must be TRUE):
-  1. El logo Lafayette es visible en la esquina superior izquierda de todas las páginas (12px offset del borde superior)
-  2. El menú de navegación muestra exactamente 4 items: Usos, Tecnologías, Personalización, Cuellos
-  3. En tablet, la navegación se adapta a un formato compacto (hamburger menu o nav colapsada) sin perder acceso a ninguna sección
-  4. La home page muestra un hero con branding "Lafayette Uni For Me Colegios" y un grid visual de 4 items principales, cada uno igualmente prominente, enlazando a su sección correspondiente
-  5. Al hacer clic en "Usos" (desde el menú o desde la home), el vendedor llega a `/usos` donde ve un grid de 8 cards de categoría, cada una con su color distintivo e imagen, enlazando a `/uso/[slug]`
-**Plans**: 3 plans
-
-Plans:
-- [ ] 03-01-PLAN.md — Header global con logo, navegación 4 items con iconos, hamburger menu responsive
-- [ ] 03-02-PLAN.md — Home page con hero branding y grid de 4 secciones principales
-- [ ] 03-03-PLAN.md — Página intermedia /usos con grid de 8 categorías + placeholders para otras secciones
-
-### Phase 4: Category Pages
-**Goal**: El vendedor puede navegar a cualquier categoría de uso y ver todas las telas disponibles en esa categoría presentadas en un grid visual con color-coding
-**Depends on**: Phase 3
-**Requirements**: CAT-01, CAT-02, CAT-03, CAT-04
-**Success Criteria** (what must be TRUE):
-  1. Las 8 categorías son accesibles via URL `/uso/[slug]` y cada una muestra solo las telas que le corresponden
-  2. Las telas se muestran en un grid responsive: 3 columnas en desktop, 2 columnas en tablet
-  3. Cada card de tela muestra el nombre, la imagen del producto y chips con las tecnologías aplicables
-  4. El header de cada categoría tiene su color de fondo distintivo (según paleta del PDF) y una imagen hero representativa
-**Plans**: 2 plans
-
-Plans:
-- [ ] 04-01-PLAN.md — Componentes reutilizables: FabricCard, CategoryHeader, CategorySidebar, Breadcrumb, SkeletonCard + shimmer CSS
-- [ ] 04-02-PLAN.md — Ruta dinámica /uso/[slug] con composición de componentes + placeholder /uso/[slug]/[fabricId]
 
 ### Phase 5: Fabric Details
 **Goal**: El vendedor puede mostrar al cliente la ficha técnica completa de cualquier tela con todas sus especificaciones y tecnologías
@@ -130,12 +77,12 @@ Plans:
 **Execution Order:**
 Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Project Foundation | 1/1 | Complete    | 2026-02-22 |
-| 2. Data Layer & Assets | 0/2 | Not started | - |
-| 3. Global Navigation & Home | 3/3 | Complete    | 2026-02-22 |
-| 4. Category Pages | 0/? | Not started | - |
-| 5. Fabric Details | 0/? | Not started | - |
-| 6. Content Sections & Deploy | 0/? | Not started | - |
-| 7. Filtering & Search | 0/? | Not started | - |
+| Phase | Milestone | Plans Complete | Status | Completed |
+|-------|-----------|----------------|--------|-----------|
+| 1. Project Foundation | v1.0 | 1/1 | Complete | 2026-02-22 |
+| 2. Data Layer & Assets | v1.0 | 2/2 | Complete | 2026-02-22 |
+| 3. Global Navigation & Home | v1.0 | 3/3 | Complete | 2026-02-22 |
+| 4. Category Pages | v1.0 | 2/2 | Complete | 2026-02-22 |
+| 5. Fabric Details | — | 0/? | Not started | - |
+| 6. Content Sections & Deploy | — | 0/? | Not started | - |
+| 7. Filtering & Search | — | 0/? | Not started | - |
