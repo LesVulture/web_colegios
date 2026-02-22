@@ -59,11 +59,10 @@ Plans:
   3. Los iconos de tecnologia en la ficha muestran un tooltip CSS-only al hacer hover con el nombre y descripcion de la tecnologia
   4. Las telas marcadas como nuevas muestran un badge "Nuevo" visible
   5. Si una tela pertenece a multiples categorias, la ficha muestra links de navegacion cruzada a las otras categorias donde aparece
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 06-01: TBD
-- [ ] 06-02: TBD
+- [ ] 06-01-PLAN.md — Ficha técnica completa: TechIcon compartido, specs table, tooltips CSS-only, badge Nuevo, navegación cruzada
 
 ### Phase 7: Content Section Pages
 **Goal**: Los 3 items restantes del menu principal (Tecnologias, Personalizacion, Cuellos) muestran contenido real del PDF en lugar de paginas placeholder
@@ -118,7 +117,7 @@ Note: Phase 7 only depends on Phase 5 (not Phase 6), so could theoretically run 
 | 3. Global Navigation & Home | v1.0 | 3/3 | Complete | 2026-02-22 |
 | 4. Category Pages | v1.0 | 2/2 | Complete | 2026-02-22 |
 | 5. Tech Debt & Data Foundation | v1.1 | 2/2 | Complete | 2026-02-22 |
-| 6. Fabric Detail Pages | v1.1 | 0/? | Not started | - |
+| 6. Fabric Detail Pages | v1.1 | 0/1 | Not started | - |
 | 7. Content Section Pages | v1.1 | 0/? | Not started | - |
 | 8. Search, Filter & Sort | v1.1 | 0/? | Not started | - |
 | 9. Responsive Polish & Deploy | v1.1 | 0/? | Not started | - |
