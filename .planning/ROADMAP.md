@@ -43,11 +43,11 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
   3. El build (`bun run build`) completa sin warnings de dependencias no usadas y el bundle no incluye class-variance-authority
   4. Los 3 iconos de tecnologia que faltaban (algodon, antimanchas, solidez-a-la-luz) muestran un icono fallback de Lucide en lugar de un espacio vacio
   5. Los archivos de datos para Personalizacion (4 opciones), Cuellos (colores + tallas) y Tecnologias (descripciones expandidas) existen y son importables con tipado correcto
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 05-01: TBD
-- [ ] 05-02: TBD
+- [ ] 05-01-PLAN.md — Tech debt cleanup: image mapping, nav fix, CVA removal, color documentation, SkeletonCard retention
+- [ ] 05-02-PLAN.md — Data foundation: tech icon fallbacks, personalization model, collars model, technology enrichment
 
 ### Phase 6: Fabric Detail Pages
 **Goal**: El vendedor puede mostrar al cliente la ficha tecnica completa de cualquier tela con todas sus especificaciones, tecnologias y relaciones con otras categorias
@@ -117,7 +117,7 @@ Note: Phase 7 only depends on Phase 5 (not Phase 6), so could theoretically run 
 | 2. Data Layer & Assets | v1.0 | 2/2 | Complete | 2026-02-22 |
 | 3. Global Navigation & Home | v1.0 | 3/3 | Complete | 2026-02-22 |
 | 4. Category Pages | v1.0 | 2/2 | Complete | 2026-02-22 |
-| 5. Tech Debt & Data Foundation | v1.1 | 0/? | Not started | - |
+| 5. Tech Debt & Data Foundation | v1.1 | 0/2 | Planning complete | - |
 | 6. Fabric Detail Pages | v1.1 | 0/? | Not started | - |
 | 7. Content Section Pages | v1.1 | 0/? | Not started | - |
 | 8. Search, Filter & Sort | v1.1 | 0/? | Not started | - |
