@@ -4,22 +4,22 @@
 
 See: .planning/PROJECT.md (updated 2026-02-22)
 
-**Core value:** El vendedor puede presentar toda la oferta de telas para uniformes escolares de forma visual, organizada y profesional, navegando fluidamente entre categorías de producto durante una reunión comercial.
-**Current focus:** Milestone v1.1 — Catálogo Completo
+**Core value:** El vendedor puede presentar toda la oferta de telas para uniformes escolares de forma visual, organizada y profesional, navegando fluidamente entre categorias de producto durante una reunion comercial.
+**Current focus:** Phase 5 — Tech Debt & Data Foundation
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-02-22 — Milestone v1.1 started
+Phase: 5 of 9 (Tech Debt & Data Foundation)
+Plan: 0 of ? in current phase
+Status: Ready to plan
+Last activity: 2026-02-22 — Roadmap v1.1 created (Phases 5-9)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [████████░░░░░░░░░░░░] 40% (v1.0 8/8 plans complete; v1.1 0/? plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
+- Total plans completed: 8 (all v1.0)
 - Average duration: 2 min
 - Total execution time: 0.25 hours
 
@@ -37,6 +37,11 @@ Progress: [░░░░░░░░░░] 0%
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
+Recent decisions affecting current work:
+
+- [v1.1 Roadmap]: 5 phases (5-9), research-validated ordering. Phase 5 is BLOCKER for all others.
+- [v1.1 Stack]: Only new dependency is fuse.js 7.1.0. Remove CVA. Use useState for filters (NOT useSearchParams).
+- [v1.1 Architecture]: FilterableFabricGrid (Client Component island) wraps FabricCard for filters. All other new pages are Server Components.
 
 ### Pending Todos
 
@@ -44,11 +49,12 @@ None.
 
 ### Blockers/Concerns
 
-- [v1.0 Tech Debt]: 13 items — placeholder.webp 404, NavLinks active state bug, CVA sin uso, SkeletonCard huérfano, colores hex duplicados, 3 techs sin icono, ROADMAP staleness, orphaned exports. Ver `.planning/milestones/v1.0-MILESTONE-AUDIT.md`
-- [Phase 1]: No usar `bun --bun next dev` por incompatibilidades NAPI con Next.js 16.
+- [Phase 5]: Image mapping requires visual inspection of 14 product images against PDF — no obvious filename-to-fabric mapping.
+- [Phase 5]: PDF content extraction needed for personalization, collars, and expanded tech descriptions.
+- [Phase 8]: router.back() behavior with FilterableFabricGrid state needs empirical verification.
 
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Milestone v1.1 started — defining requirements
+Stopped at: Roadmap v1.1 created — ready to plan Phase 5
 Resume file: None
