@@ -72,9 +72,13 @@ export function FilterableFabricGrid({
         : [...fabrics]
 
     if (selectedTechs.size > 0) {
-      result = result.filter((f) =>
-        f.technologies.some((t) => selectedTechs.has(t))
-      )
+      result = result.filter((f) => {
+        const fabricTechs = f.technologies
+        for (const t of selectedTechs) {
+          if (!fabricTechs.includes(t)) return false
+        }
+        return true
+      })
     }
 
     if (sortField !== null) {
