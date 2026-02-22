@@ -31,3 +31,10 @@ export function getTechnologyById(id: string): typeof TECHNOLOGIES[number] | und
 export function getCategoryBySlug(slug: string): typeof CATEGORIES[number] | undefined {
   return CATEGORIES.find(c => c.id === slug);
 }
+
+export function getFabricsByTechnology(techId: string): typeof FABRICS[number][] {
+  return FABRICS.filter(f => {
+    const techs: readonly string[] = f.technologies;
+    return techs.includes(techId);
+  });
+}
