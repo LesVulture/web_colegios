@@ -10,12 +10,12 @@ export const metadata: Metadata = {
 
 export default function UsosPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 lg:px-8 py-8 lg:py-12">
+    <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12">
       <h1 className="text-3xl lg:text-4xl font-heading font-semibold text-foreground">
         Categorías de Uso
       </h1>
 
-      <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+      <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 lg:gap-6">
         {CATEGORIES.map((category) => {
           const colors = CATEGORY_STYLE_MAP[category.id]
           const fabricCount = category.fabricIds.length
@@ -24,7 +24,7 @@ export default function UsosPage() {
             <Link
               key={category.id}
               href={`/uso/${category.id}`}
-              className={`${colors.bg} ${colors.fg} block rounded-lg p-6 lg:p-8 min-h-[140px] lg:min-h-[160px] transition-all duration-200 hover:scale-[1.02] hover:shadow-lg cursor-pointer`}
+              className={`${colors.bg} ${colors.fg} block rounded-lg p-6 md:p-7 lg:p-8 min-h-[140px] md:min-h-[150px] lg:min-h-[160px] transition-all duration-200 hover:scale-[1.02] hover:shadow-lg cursor-pointer`}
             >
               <h2 className="text-lg lg:text-xl font-heading font-semibold">
                 {category.name}

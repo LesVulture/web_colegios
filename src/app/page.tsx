@@ -21,9 +21,9 @@ const sectionImages: Record<string, string> = {
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
+    <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12">
       {/* Hero Section */}
-      <section className="relative h-[400px] overflow-hidden rounded-lg lg:h-[500px]">
+      <section className="relative h-[320px] overflow-hidden rounded-lg md:h-[400px] lg:h-[500px]">
         <Image
           src="/images/content/page17-105.webp"
           alt="Uniformes escolares Lafayette"
@@ -34,10 +34,10 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-brand-primary/60" />
         <div className="relative z-10 flex h-full flex-col items-center justify-center">
-          <h1 className="text-center font-heading text-4xl font-bold text-white lg:text-6xl">
+          <h1 className="text-center font-heading text-4xl font-bold text-white md:text-5xl lg:text-6xl">
             Lafayette Uni For Me
           </h1>
-          <p className="mt-2 text-center font-heading text-3xl font-bold text-white lg:text-5xl">
+          <p className="mt-2 text-center font-heading text-3xl font-bold text-white md:text-4xl lg:text-5xl">
             Colegios
           </p>
           <p className="mt-4 text-center text-lg text-white/80">
@@ -47,7 +47,7 @@ export default function Home() {
       </section>
 
       {/* Grid de 4 Secciones */}
-      <div className="mt-8 grid grid-cols-2 gap-4 lg:mt-12 lg:grid-cols-4 lg:gap-6">
+      <div className="mt-8 grid grid-cols-2 gap-4 md:mt-10 md:gap-5 lg:mt-12 lg:grid-cols-4 lg:gap-6">
         {NAV_ITEMS.map((item) => {
           const Icon = iconMap[item.icon]
           const bgImage = sectionImages[item.href]
@@ -56,7 +56,7 @@ export default function Home() {
             <Link
               key={item.href}
               href={item.href}
-              className="group relative h-48 cursor-pointer overflow-hidden rounded-lg transition-transform duration-300 hover:scale-[1.02] lg:h-56"
+              className="group relative h-48 cursor-pointer overflow-hidden rounded-lg transition-transform duration-300 hover:scale-[1.02] md:h-52 lg:h-56"
             >
               {bgImage ? (
                 <Image
