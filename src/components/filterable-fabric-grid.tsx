@@ -130,7 +130,7 @@ export function FilterableFabricGrid({
           value={inputValue}
           onChange={handleSearchChange}
           placeholder="Buscar tela..."
-          className="w-full rounded-lg border border-border bg-background pl-10 pr-10 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand-primary/50"
+          className="w-full rounded-lg border border-border bg-background pl-10 pr-10 py-2.5 text-sm min-h-[44px] placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand-primary/50"
         />
         {inputValue && (
           <button
@@ -138,7 +138,7 @@ export function FilterableFabricGrid({
               setInputValue('')
               setSearchQuery('')
             }}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center justify-center size-10 text-muted-foreground hover:text-foreground"
           >
             <X className="size-4" />
           </button>
@@ -153,7 +153,7 @@ export function FilterableFabricGrid({
               key={tech.id}
               onClick={() => toggleTech(tech.id)}
               className={cn(
-                'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-colors',
+                'inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium min-h-[44px] transition-colors',
                 selectedTechs.has(tech.id)
                   ? 'bg-brand-primary text-brand-primary-foreground'
                   : 'bg-muted text-muted-foreground hover:bg-border'
@@ -175,7 +175,7 @@ export function FilterableFabricGrid({
               key={field}
               onClick={() => toggleSort(field)}
               className={cn(
-                'inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-sm transition-colors',
+                'inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-sm min-h-[44px] transition-colors',
                 sortField === field
                   ? 'bg-brand-primary text-brand-primary-foreground'
                   : 'bg-muted text-muted-foreground hover:bg-border'
@@ -198,7 +198,7 @@ export function FilterableFabricGrid({
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="text-sm text-brand-primary underline hover:text-brand-primary/80"
+              className="text-sm text-brand-primary underline hover:text-brand-primary/80 min-h-[44px] px-1"
             >
               Limpiar filtros
             </button>
@@ -208,7 +208,7 @@ export function FilterableFabricGrid({
 
       {/* Fabric grid or empty state */}
       {filteredFabrics.length > 0 ? (
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6">
           {filteredFabrics.map((fabric) => (
             <FabricCard
               key={fabric.id}
@@ -224,7 +224,7 @@ export function FilterableFabricGrid({
           </p>
           <button
             onClick={clearFilters}
-            className="mt-3 text-sm text-brand-primary underline hover:text-brand-primary/80"
+            className="mt-3 text-sm text-brand-primary underline hover:text-brand-primary/80 min-h-[44px] px-2"
           >
             Limpiar filtros
           </button>
