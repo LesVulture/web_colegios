@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Raleway, Montserrat } from 'next/font/google'
+import { Header } from '@/components/header'
 import './globals.css'
 
 const raleway = Raleway({
@@ -27,7 +28,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`${raleway.variable} ${montserrat.variable}`}>
-      <body>{children}</body>
+      <body className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-1">{children}</main>
+      </body>
     </html>
   )
 }
