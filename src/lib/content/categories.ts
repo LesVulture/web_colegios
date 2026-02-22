@@ -1,5 +1,7 @@
 import type { Category } from './types';
 
+// NOTE: color/foregroundColor are retained as structured data for programmatic use (e.g., inline styles in Phase 6).
+// Source of truth for Tailwind styling: globals.css @theme tokens (bg-cat-*, text-cat-*-fg via CATEGORY_STYLE_MAP).
 export const CATEGORIES = [
   {
     id: 'sudaderas-chaquetas-pantalones',

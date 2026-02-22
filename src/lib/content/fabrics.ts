@@ -12,7 +12,7 @@ export const FABRICS = [
     width: '151 +- 2 cm',
     technologies: ['impermeabilidad', 'sostenible', 'antifluido-repelencia', 'proteccion-solar', 'clororresistente'],
     printRoutes: ['Unicolor', 'Davos'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page04-0.webp',
   },
   {
     id: 'orion-clororresistente',
@@ -24,7 +24,7 @@ export const FABRICS = [
     width: '151 +- 3 cm',
     technologies: ['impermeabilidad', 'durabilidad', 'antifluido-repelencia', 'solidez-a-la-luz', 'proteccion-solar', 'clororresistente'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page04-0.webp',
   },
   {
     id: 'gorek',
@@ -36,7 +36,7 @@ export const FABRICS = [
     width: '150 +- 2 cm',
     technologies: ['impermeabilidad', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page04-0.webp',
   },
   {
     id: 'glou-crushed',
@@ -48,7 +48,7 @@ export const FABRICS = [
     width: '152 +- 2 cm',
     technologies: ['impermeabilidad', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Davos'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page04-0.webp',
   },
   {
     id: 't180',
@@ -60,7 +60,7 @@ export const FABRICS = [
     width: '183 +- 3 cm',
     technologies: ['durabilidad', 'antifluido-repelencia', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page04-0.webp',
   },
   {
     id: 'universal-clororresistente',
@@ -72,7 +72,7 @@ export const FABRICS = [
     width: '150 +- 3 cm',
     technologies: ['durabilidad', 'antifluido-repelencia', 'proteccion-solar', 'clororresistente'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page04-0.webp',
   },
   {
     id: 'microtec-clororresistente',
@@ -84,7 +84,7 @@ export const FABRICS = [
     width: '152 +- 2 cm',
     technologies: ['durabilidad', 'antifluido-repelencia', 'proteccion-solar', 'clororresistente'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page04-0.webp',
   },
   {
     id: 'microprince',
@@ -96,7 +96,7 @@ export const FABRICS = [
     width: '151 +- 2 cm',
     technologies: ['antifluido-repelencia', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page04-0.webp',
   },
   {
     id: 'fastrack',
@@ -108,7 +108,7 @@ export const FABRICS = [
     width: '163 +- 4 cm',
     technologies: ['proteccion-solar', 'termico'],
     printRoutes: ['Unicolor', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page04-0.webp',
   },
   // === Camisetas - Polos ===
   {
@@ -121,7 +121,7 @@ export const FABRICS = [
     width: '176 +- 3 cm',
     technologies: ['control-humedad', 'libertad-de-movimiento', 'algodon'],
     printRoutes: ['Unicolor'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page06-8.webp',
     isNew: true,
   },
   {
@@ -134,7 +134,7 @@ export const FABRICS = [
     width: '183 +- 4 cm',
     technologies: ['control-humedad', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page06-8.webp',
   },
   {
     id: 'zanetti',
@@ -146,7 +146,7 @@ export const FABRICS = [
     width: '173 +- 3 cm',
     technologies: ['control-humedad', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page06-8.webp',
   },
   {
     id: 'tikal-r',
@@ -158,7 +158,7 @@ export const FABRICS = [
     width: '183 +- 4 cm',
     technologies: ['control-humedad', 'sostenible', 'antibacterial', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page06-8.webp',
   },
   {
     id: 'cole-plus',
@@ -170,7 +170,7 @@ export const FABRICS = [
     width: '200 +- 3 cm',
     technologies: ['desempeno', 'control-humedad', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page06-8.webp',
   },
   // === Uniforme Deportivo ===
   {
@@ -183,7 +183,7 @@ export const FABRICS = [
     width: '148 +- 3 cm',
     technologies: ['control-humedad', 'libertad-de-movimiento', 'antibacterial', 'proteccion-solar', 'sostenible'],
     printRoutes: ['Unicolor', 'Davos'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page07-11.webp',
   },
   {
     id: 'montesimone',
@@ -195,7 +195,7 @@ export const FABRICS = [
     width: '151 +- 3 cm',
     technologies: ['control-humedad', 'libertad-de-movimiento', 'antibacterial', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page07-11.webp',
   },
   {
     id: 'hydrotech',
@@ -207,7 +207,7 @@ export const FABRICS = [
     width: '151 +- 3 cm',
     technologies: ['desempeno', 'control-humedad', 'proteccion-solar', 'libertad-de-movimiento'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page07-11.webp',
   },
   {
     id: 'hydrotech-antibacterial',
@@ -219,7 +219,7 @@ export const FABRICS = [
     width: '151 +- 3 cm',
     technologies: ['control-humedad', 'libertad-de-movimiento', 'antibacterial', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page07-11.webp',
   },
   // === Uniforme Diario - Faldas - Blazers ===
   {
@@ -232,7 +232,7 @@ export const FABRICS = [
     width: '151 +- 3 cm',
     technologies: ['desempeno', 'proteccion-solar', 'sostenible'],
     printRoutes: ['Unicolor'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page08-14.webp',
   },
   {
     id: 'dynamic',
@@ -244,7 +244,7 @@ export const FABRICS = [
     width: '151 +- 2 cm',
     technologies: ['control-humedad', 'desempeno', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page08-14.webp',
   },
   {
     id: 'microdrill',
@@ -256,7 +256,7 @@ export const FABRICS = [
     width: '150 +- 2 cm',
     technologies: ['desempeno', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page08-14.webp',
   },
   {
     id: 'alviero-stretch',
@@ -268,7 +268,7 @@ export const FABRICS = [
     width: '152 +- 3 cm',
     technologies: ['libertad-de-movimiento', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page08-14.webp',
   },
   {
     id: 'novastretch-lc',
@@ -280,7 +280,7 @@ export const FABRICS = [
     width: '153 +- 3 cm',
     technologies: ['antimanchas', 'control-humedad', 'proteccion-solar', 'libertad-de-movimiento'],
     printRoutes: ['Unicolor', 'Rotativa', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page08-14.webp',
   },
   {
     id: 'universal-ripstop',
@@ -292,7 +292,7 @@ export const FABRICS = [
     width: '151 +- 2 cm',
     technologies: ['antifluido-repelencia', 'durabilidad', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page08-14.webp',
   },
   // === Buzos - Hoodies - Perchados ===
   {
@@ -305,7 +305,7 @@ export const FABRICS = [
     width: '163 +- 3 cm',
     technologies: ['libertad-de-movimiento', 'proteccion-solar', 'termico'],
     printRoutes: ['Unicolor', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page09-20.webp',
     isNew: true,
   },
   {
@@ -318,7 +318,7 @@ export const FABRICS = [
     width: '157 +- 3 cm',
     technologies: ['control-humedad', 'libertad-de-movimiento', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page09-20.webp',
   },
   {
     id: 'microtitan-plus',
@@ -330,7 +330,7 @@ export const FABRICS = [
     width: '149 +- 3 cm',
     technologies: ['proteccion-solar', 'termico'],
     printRoutes: ['Unicolor'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page09-20.webp',
   },
   // === Blusas - Camisas ===
   {
@@ -343,7 +343,7 @@ export const FABRICS = [
     width: '151 +- 3 cm',
     technologies: ['control-humedad', 'antimanchas', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page11-27.webp',
   },
   {
     id: 'queen',
@@ -355,7 +355,7 @@ export const FABRICS = [
     width: '170 +- 3 cm',
     technologies: ['algodon', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page11-27.webp',
   },
   {
     id: 'andes-r',
@@ -367,7 +367,7 @@ export const FABRICS = [
     width: '150 +- 3 cm',
     technologies: ['control-humedad', 'antimanchas', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page11-27.webp',
   },
   {
     id: 'alessio',
@@ -379,6 +379,6 @@ export const FABRICS = [
     width: '153 +- 3 cm',
     technologies: ['algodon', 'proteccion-solar'],
     printRoutes: ['Unicolor', 'Rotativa', 'Davos', 'Sublimacion'],
-    image: '/images/products/placeholder.webp',
+    image: '/images/products/page11-27.webp',
   },
 ] as const satisfies readonly Fabric[];
