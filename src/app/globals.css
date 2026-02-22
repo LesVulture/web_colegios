@@ -1,26 +1,63 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* --- Marca Lafayette --- */
+  --color-brand-primary: #1B3A5C;
+  --color-brand-accent: #C42034;
+  --color-brand-primary-foreground: #FFFFFF;
+  --color-brand-accent-foreground: #FFFFFF;
+
+  /* --- 8 Colores de Categoria (extraidos del PDF) --- */
+  --color-cat-sudaderas: #1B3A5C;
+  --color-cat-camisetas: #3FA9D5;
+  --color-cat-deportivo: #6CB33F;
+  --color-cat-diario: #E91E8C;
+  --color-cat-buzos: #F7C948;
+  --color-cat-chaquetas-prom: #C42034;
+  --color-cat-blusas: #7B4B94;
+  --color-cat-delantales: #F7941D;
+
+  /* --- Foreground para texto sobre colores de categoria (contraste WCAG AA) --- */
+  --color-cat-sudaderas-fg: #FFFFFF;
+  --color-cat-camisetas-fg: #FFFFFF;
+  --color-cat-deportivo-fg: #FFFFFF;
+  --color-cat-diario-fg: #FFFFFF;
+  --color-cat-buzos-fg: #1a1a1a;
+  --color-cat-chaquetas-prom-fg: #FFFFFF;
+  --color-cat-blusas-fg: #FFFFFF;
+  --color-cat-delantales-fg: #1a1a1a;
+
+  /* --- Superficies y UI --- */
+  --color-background: #FFFFFF;
+  --color-foreground: #1a1a1a;
+  --color-surface: #FAFAFA;
+  --color-border: #E5E5E5;
+  --color-muted: #F5F5F5;
+  --color-muted-foreground: #737373;
+
+  /* --- Border Radius (decision: 12-16px, usando 16px como lg) --- */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
 }
 
+/* --- Fonts (variables inyectadas por next/font en runtime) --- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* --- Base styles --- */
+@layer base {
+  * {
+    @apply border-border;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
 }
