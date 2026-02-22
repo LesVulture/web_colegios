@@ -2,25 +2,11 @@
 
 ## What This Is
 
-Sitio web catálogo para la fuerza de ventas de Lafayette, enfocado en presentar la oferta de soluciones textiles para uniformes escolares ("Uni For Me Colegios"). Es una herramienta interna que los vendedores usan en reuniones presenciales con colegios, mostrándola en laptop/tablet. Actualmente tiene home page con hero de marca, navegación global responsive, 8 páginas de categoría de uso con product cards, y un data layer de 31 telas tipadas.
+Sitio web catálogo completo para la fuerza de ventas de Lafayette, enfocado en soluciones textiles para uniformes escolares ("Uni For Me Colegios"). Herramienta interna que los vendedores usan en reuniones presenciales con colegios en laptop/tablet. Incluye home page con hero de marca, 8 páginas de categoría con filtros/búsqueda, 43 fichas técnicas de telas, secciones de Tecnologías, Personalización y Cuellos, y navegación global responsive.
 
 ## Core Value
 
 El vendedor puede presentar toda la oferta de telas para uniformes escolares de forma visual, organizada y profesional, navegando fluidamente entre categorías de producto durante una reunión comercial.
-
-## Current Milestone: v1.1 Catálogo Completo
-
-**Goal:** Completar el catálogo web con fichas técnicas de tela, secciones faltantes (Tecnologías, Personalización, Cuellos), filtros/búsqueda, deploy a Vercel, y resolver todo el tech debt de v1.0.
-
-**Target features:**
-- Fichas técnicas completas de cada tela (specs, composición, peso, ancho, imagen)
-- Sección de Tecnologías Textiles (12 tecnologías con iconos)
-- Sección de Personalización de Uniformes (4 opciones)
-- Sección de Cuellos (colores, tallas, info comercial)
-- Filtrar telas por tecnología, ordenar por peso/ancho, búsqueda fuzzy
-- Desktop-first responsive completo (lg/md verificados)
-- Deploy funcional en Vercel con SSG < 2s
-- Resolver 13 items de tech debt de v1.0
 
 ## Requirements
 
@@ -42,21 +28,21 @@ El vendedor puede presentar toda la oferta de telas para uniformes escolares de 
 - ✓ Cada card muestra nombre, imagen y chips de tecnologías — v1.0
 - ✓ Header de categoría con color de fondo distintivo — v1.0
 - ✓ Diseño web moderno 2025 con paleta del PDF — v1.0
+- ✓ Ficha técnica completa de cada tela (specs, composición, peso, ancho) — v1.1
+- ✓ Tooltips de tecnología CSS-only en ficha de tela — v1.1
+- ✓ Sección de Tecnologías Textiles con 14 tech cards e iconos — v1.1
+- ✓ Sección de Personalización de Uniformes (4 opciones con imágenes) — v1.1
+- ✓ Sección de Cuellos (colores, tallas, info comercial) — v1.1
+- ✓ Desktop-first responsive verificado en breakpoints lg y md — v1.1
+- ✓ Filtrar telas por tecnología (multi-select chips) — v1.1
+- ✓ Ordenar telas por peso y ancho — v1.1
+- ✓ Búsqueda fuzzy por nombre de tela con fuse.js — v1.1
+- ✓ Tech debt v1.0 resuelto (imágenes, nav, CVA, iconos) — v1.1
 
 ### Active
 
-- [ ] Ficha técnica completa de cada tela (specs, composición, peso, ancho, rutas)
-- [ ] Imagen de tela integrada con next/image en ficha de detalle
-- [ ] Tooltips de tecnología en ficha de tela
-- [ ] Sección de Tecnologías Textiles (12 tecnologías con iconos)
-- [ ] Sección de Personalización de Uniformes (4 opciones)
-- [ ] Sección de Cuellos (colores, tallas, info comercial)
-- [ ] Desktop-first responsive completo a tablet (breakpoints lg y md verificados)
+- [ ] Deploy funcional en Vercel con todas las rutas SSG
 - [ ] SSG con carga inicial < 2s
-- [ ] Deploy funcional en Vercel
-- [ ] Filtrar telas por tecnología (multi-select chips)
-- [ ] Ordenar telas por peso y ancho
-- [ ] Búsqueda fuzzy por nombre de tela
 
 ### Out of Scope
 
@@ -69,49 +55,31 @@ El vendedor puede presentar toda la oferta de telas para uniformes escolares de 
 - Mobile phone optimization — se usa en laptop/tablet exclusivamente
 - CMS / Admin panel — catálogo cambia 1-2 veces al año, datos estáticos en TypeScript es suficiente
 - Multi-idioma — mercado es colegios colombianos, solo español
+- Comparación lado a lado de telas — UI compleja, valor bajo con specs limitados
+- Galería multi-imagen por tela — solo existe 1 imagen por tela
+- PWA / modo offline — no prioritario para v1
 
 ## Context
 
-### Current State (v1.0 shipped)
+### Current State (v1.1 shipped)
 
-- **LOC:** 1,481 TypeScript/CSS en `src/`
-- **Stack:** Next.js 16.1.6, React 19.2.3, Tailwind v4.2.0, lucide-react, clsx/tailwind-merge
-- **Routes:** 51 SSG routes (home + /usos + 8 categorías + 43 fabric detail placeholders + 3 placeholder pages)
-- **Data:** 31 telas, 8 categorías, 14 tecnologías como constantes TypeScript tipadas
-- **Assets:** 14 product images (WebP), 22 content images (WebP), 12 tech logos (PNG), 1 Lafayette logo
+- **LOC:** 2,582 TypeScript/CSS en `src/`
+- **Stack:** Next.js 16.1.6, React 19.2.3, Tailwind v4.2.0, lucide-react, clsx/tailwind-merge, fuse.js 7.1.0
+- **Routes:** 59 SSG pages (home + /usos + 8 categorías + 43 fichas técnicas + /tecnologias + /personalizacion + /cuellos)
+- **Data:** 31 telas, 8 categorías, 14 tecnologías, 4 opciones personalización, datos de cuellos
+- **Assets:** 14 product images (WebP), 22 content images (WebP), 12 tech logos (PNG), 1 Lafayette logo, 1 portada
 
-### Known Tech Debt (from v1.0 audit)
+### Known Tech Debt
 
-- placeholder.webp 404: imágenes de producto no mapeadas a fabrics
-- NavLinks active state: `/usos` no captura `/uso/*`
-- CVA instalada sin uso, SkeletonCard huérfano
-- Ver `.planning/milestones/v1.0-MILESTONE-AUDIT.md`
+- SkeletonCard + .skeleton-shimmer CSS dead code
+- getFabricByBase helper dead code
+- expandedDescription === description (limitación del PDF fuente)
+- CATEGORY_STYLE_MAP no re-exportado por barrel @/lib/content
 
 ### Contenido Base
 
 - PDF "Uniformes_Colegios.pdf" (24 páginas, 37MB) — fuente única de verdad
 - 13 assets de logos de tecnologías en /Assets/
-
-### Estructura del Catálogo (del PDF)
-
-8 categorías de uso, cada una con color distintivo:
-
-| # | Categoría | Color | Telas |
-|---|-----------|-------|-------|
-| 1 | Sudaderas - Chaquetas - Pantalones | #1B3A5C | 9 telas |
-| 2 | Camisetas - Polos | #3FA9D5 | 5 telas |
-| 3 | Uniforme Deportivo | #6CB33F | 4 telas |
-| 4 | Uniforme Diario - Faldas - Blazers | #E91E8C | 6 telas |
-| 5 | Buzos - Hoodies - Perchados | #F7C948 | 4 telas |
-| 6 | Chaquetas Prom | #C42034 | 5 telas |
-| 7 | Blusas - Camisas | #7B4B94 | 4 telas |
-| 8 | Delantales - Batas de Laboratorio | #F7941D | 6 telas |
-
-### Secciones Adicionales
-
-- **Tecnologías Textiles** (pág 14): 12 tecnologías + 5 beneficios
-- **Personalización** (pág 15): 4 opciones (dibujos exclusivos, estampación digital, tipo Davos, desarrollo de color)
-- **Cuellos** (pág 16-17): 4 colores, tallas niños y adolescentes/adultos
 
 ## Constraints
 
@@ -130,12 +98,18 @@ El vendedor puede presentar toda la oferta de telas para uniformes escolares de 
 | Multi-page con rutas por categoría | El vendedor navega directo a la categoría sin scroll largo | ✓ Good — 8 rutas /uso/[slug] funcionan bien |
 | Diseño moderno 2025 (no réplica PDF) | La web debe sentirse como producto digital profesional | ✓ Good — Tailwind v4 + design tokens dan apariencia moderna |
 | Solo informativo (sin CTA/formularios) | El vendedor está presente, no necesita leads | ✓ Good — simplifica desarrollo |
-| Extraer imágenes del PDF | No hay originales disponibles | ⚠️ Revisit — calidad OK pero mapeo placeholder pendiente |
+| Extraer imágenes del PDF | No hay originales disponibles | ✓ Good — mapeo completado en v1.1, calidad aceptable |
 | Raleway headings + Montserrat body | Legibilidad de specs técnicas y estética moderna | ✓ Good |
 | as-const satisfies para data layer | Type safety máxima con inferencia de literales | ✓ Good — 0 errores TypeScript |
 | Sticky header con backdrop blur | Acceso rápido al menú durante presentaciones | ✓ Good |
-| Sidebar slide-in para mobile menu | Patrón familiar y moderno | ✓ Good |
-| SSG con generateStaticParams | 51 rutas pre-renderizadas para velocidad | ✓ Good — build sin errores |
+| SSG con generateStaticParams | 59 rutas pre-renderizadas para velocidad | ✓ Good — build sin errores |
+| TechIcon dual-format (path + Lucide) | Soportar logos PNG y fallbacks Lucide sin condicionales | ✓ Good — usado en 5 consumers |
+| CSS-only tooltips (group-hover) | Zero JS, funciona desktop + tablet | ✓ Good — no requiere state management |
+| FilterableFabricGrid como Client Island | Preservar SSG en páginas de categoría | ✓ Good — 59 páginas estáticas en build |
+| fuse.js para búsqueda fuzzy | Lightweight, no requiere backend | ✓ Good — tolerante a typos |
+| OR logic para filter chips | Más intuitivo para vendedores | ✓ Good — resultados inclusivos |
+| No imagen individual por tela en ficha | User decision — PDF no tiene fotos individuales útiles | ✓ Good — layout centrado funciona bien |
+| Tablas de tallas sin tabs | Vendedor necesita ver ambas tablas simultáneamente en reunión | ✓ Good |
 
 ---
-*Last updated: 2026-02-22 after v1.1 milestone started*
+*Last updated: 2026-02-22 after v1.1 milestone completed*

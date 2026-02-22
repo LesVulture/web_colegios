@@ -31,3 +31,30 @@ Ver: `.planning/milestones/v1.0-MILESTONE-AUDIT.md` para reporte completo.
 
 ---
 
+
+## v1.1 Catálogo Completo (Shipped: 2026-02-22)
+
+**Phases:** 5-8 | **Plans:** 6 | **Files:** 35 changed | **LOC:** 2,582 (TypeScript/CSS)
+**Timeline:** 1 day (2026-02-22)
+**Git range:** `feat(05-01)` → `feat: replace hero with full-width portada`
+
+**Delivered:** Catálogo completo con fichas técnicas de 43 telas, 3 secciones de contenido (Tecnologías, Personalización, Cuellos), búsqueda fuzzy con filtros interactivos, y responsive polish para tablet.
+
+**Key accomplishments:**
+1. Tech debt v1.0 resuelto: 31 fabrics con imágenes reales (zero 404), nav fix, CVA eliminada, Lucide fallbacks
+2. Data foundation: modelos TypeScript para Personalización (4 opciones), Cuellos (colores + tallas), tecnologías expandidas
+3. TechIcon compartido + 43 fichas técnicas con specs table, tooltips CSS-only, badge "Nuevo", cross-navigation
+4. Página /tecnologias con 14 tech cards y navegación cruzada a telas por tecnología
+5. Páginas /personalizacion (4 opciones con imágenes reales) y /cuellos (swatches, tablas de tallas, notas comerciales)
+6. FilterableFabricGrid: fuse.js fuzzy search, tech filter chips multi-select, sort por gramaje/ancho, client island preservando SSG
+
+### Known Gaps
+
+- **DEPLOY-02**: Deploy Vercel pendiente (rate limit del plan free bloqueó upload)
+- **DEPLOY-03**: Verificación de carga < 2s pendiente (requiere deploy)
+- **Tech debt** (9 items non-blocking): SkeletonCard dead code, getFabricByBase dead code, expandedDescription unused, preload→priority en hero, CATEGORY_STYLE_MAP no re-exportado por barrel
+
+Ver: `.planning/milestones/v1.1-MILESTONE-AUDIT.md` para reporte completo.
+
+---
+
