@@ -17,7 +17,7 @@ export function FabricCard({
     >
       <div className="p-4 md:p-5">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-heading font-semibold text-foreground leading-tight">
+          <h3 className="min-w-0 font-heading font-semibold text-foreground leading-tight">
             {fabric.name}
           </h3>
           {fabric.isNew && (

@@ -98,7 +98,7 @@ export function CategorySidebar() {
                   ref={isActive ? activeRef : undefined}
                   href={`/uso/${cat.id}`}
                   className={cn(
-                    'shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors whitespace-nowrap',
+                    'shrink-0 rounded-full px-4 py-2.5 text-sm font-medium transition-colors whitespace-nowrap',
                     isActive
                       ? `${colors.bg} ${colors.fg}`
                       : 'text-foreground/70 bg-muted hover:bg-muted/80'

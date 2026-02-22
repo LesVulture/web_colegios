@@ -27,7 +27,7 @@ export default function PersonalizacionPage() {
         {PERSONALIZATION_OPTIONS.map((option, i) => (
           <div
             key={option.id}
-            className="group overflow-hidden rounded-xl transition-[transform,box-shadow] duration-300 hover:shadow-lg hover:-translate-y-1 animate-fade-in-up"
+            className="overflow-hidden rounded-xl animate-fade-in-up"
             style={{ animationDelay: `${i * 80}ms` }}
           >
             <Image
@@ -35,7 +35,7 @@ export default function PersonalizacionPage() {
               alt={option.name}
               width={271}
               height={255}
-              className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+              className="w-full h-auto"
             />
           </div>
         ))}

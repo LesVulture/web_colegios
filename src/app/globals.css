@@ -79,6 +79,13 @@
     @apply font-heading;
     text-wrap: balance;
   }
+
+  /* --- Focus-visible for keyboard navigation (a11y) --- */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-accent rounded-sm;
+  }
 }
 
 /* --- Shimmer skeleton animation --- */

@@ -157,7 +157,7 @@ export function FilterableFabricGrid({
               key={tech.id}
               onClick={() => toggleTech(tech.id)}
               className={cn(
-                'inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium min-h-[44px] transition-colors',
+                'inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium min-h-[44px] cursor-pointer transition-colors',
                 selectedTechs.has(tech.id)
                   ? 'bg-brand-primary text-brand-primary-foreground'
                   : 'bg-muted text-muted-foreground hover:bg-border'
@@ -179,7 +179,7 @@ export function FilterableFabricGrid({
               key={field}
               onClick={() => toggleSort(field)}
               className={cn(
-                'inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-sm min-h-[44px] transition-colors',
+                'inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-sm min-h-[44px] cursor-pointer transition-colors',
                 sortField === field
                   ? 'bg-brand-primary text-brand-primary-foreground'
                   : 'bg-muted text-muted-foreground hover:bg-border'
@@ -202,7 +202,7 @@ export function FilterableFabricGrid({
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="text-sm text-brand-primary underline hover:text-brand-primary/80 min-h-[44px] px-1"
+              className="text-sm text-brand-primary underline hover:text-brand-primary/80 min-h-[44px] px-1 cursor-pointer"
             >
               Limpiar filtros
             </button>
@@ -228,7 +228,7 @@ export function FilterableFabricGrid({
           </p>
           <button
             onClick={clearFilters}
-            className="mt-3 text-sm text-brand-primary underline hover:text-brand-primary/80 min-h-[44px] px-2"
+            className="mt-3 text-sm text-brand-primary underline hover:text-brand-primary/80 min-h-[44px] px-2 cursor-pointer"
           >
             Limpiar filtros
           </button>

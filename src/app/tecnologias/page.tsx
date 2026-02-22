@@ -66,7 +66,7 @@ export default function TecnologiasPage() {
                         <Link
                           key={fabric.id}
                           href={`/uso/${firstCat.id}/${fabric.id}`}
-                          className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground hover:bg-brand-primary hover:text-white transition-colors"
+                          className="rounded-full bg-muted px-3 py-1.5 text-xs text-muted-foreground hover:bg-brand-primary hover:text-white transition-colors"
                         >
                           {fabric.name}
                         </Link>

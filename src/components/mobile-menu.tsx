@@ -31,7 +31,7 @@ export function MobileMenu() {
     <div className="lg:hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 text-foreground/70 hover:text-foreground transition-colors"
+        className="p-2.5 cursor-pointer text-foreground/70 hover:text-foreground transition-colors"
         aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
         aria-expanded={isOpen}
       >
@@ -66,7 +66,7 @@ export function MobileMenu() {
               />
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-2 text-foreground/70 hover:text-foreground transition-colors"
+                className="p-2.5 cursor-pointer text-foreground/70 hover:text-foreground transition-colors"
                 aria-label="Cerrar menú"
               >
                 <X size={24} />
