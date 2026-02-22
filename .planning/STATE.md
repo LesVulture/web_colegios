@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-22)
 ## Current Position
 
 Phase: 5 of 9 (Tech Debt & Data Foundation)
-Plan: 1 of 2 in current phase
-Status: Executing
-Last activity: 2026-02-22 — Completed 05-01 (Tech Debt Cleanup)
+Plan: 2 of 2 in current phase (PHASE COMPLETE)
+Status: Phase 5 complete
+Last activity: 2026-02-22 — Completed 05-02 (Data Models & Tech Icons)
 
-Progress: [█████████░░░░░░░░░░░] 45% (v1.0 8/8 plans complete; v1.1 1/2 phase 5 plans)
+Progress: [██████████░░░░░░░░░░] 50% (v1.0 8/8 plans complete; v1.1 2/2 phase 5 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9 (v1.0: 8, v1.1: 1)
+- Total plans completed: 10 (v1.0: 8, v1.1: 2)
 - Average duration: 2 min
-- Total execution time: 0.28 hours
+- Total execution time: 0.35 hours
 
 **By Phase:**
 
@@ -31,7 +31,7 @@ Progress: [█████████░░░░░░░░░░░] 45% (v1
 | 2. Data Layer & Assets | 2/2 | 6 min | 3 min |
 | 3. Global Navigation & Home | 3/3 | 3 min | 1 min |
 | 4. Category Pages | 2/2 | 3 min | 1.5 min |
-| 5. Tech Debt & Data Foundation | 1/2 | 2 min | 2 min |
+| 5. Tech Debt & Data Foundation | 2/2 | 6 min | 3 min |
 
 ## Accumulated Context
 
@@ -46,6 +46,9 @@ Recent decisions affecting current work:
 - [05-01]: Multi-category fabrics use first-appearing category image (PDF/CATEGORIES order)
 - [05-01]: activePrefix pattern for nav active state (only Usos needs it)
 - [05-01]: color/foregroundColor retained in categories.ts for Phase 6 inline styles
+- [05-02]: Lucide fallback icons for 3 technologies (PDF extraction produces circle-background icons inconsistent with existing style)
+- [05-02]: expandedDescription equals description (PDF p.14 has no expanded text per technology)
+- [05-02]: Dual icon format in Technology.icon: image path (starts with /) or Lucide icon name string
 
 ### Pending Todos
 
@@ -54,11 +57,11 @@ None.
 ### Blockers/Concerns
 
 - ~~[Phase 5]: Image mapping requires visual inspection of 14 product images against PDF~~ RESOLVED in 05-01
-- [Phase 5]: PDF content extraction needed for personalization, collars, and expanded tech descriptions.
+- ~~[Phase 5]: PDF content extraction needed for personalization, collars, and expanded tech descriptions.~~ RESOLVED in 05-02
 - [Phase 8]: router.back() behavior with FilterableFabricGrid state needs empirical verification.
 
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 05-01-PLAN.md
+Stopped at: Completed 05-02-PLAN.md — Phase 5 complete
 Resume file: None

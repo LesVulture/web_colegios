@@ -14,13 +14,13 @@ Requirements for milestone v1.1 — Catalogo Completo. Each maps to roadmap phas
 - [x] **DEBT-03**: Remover class-variance-authority (dependencia instalada sin uso)
 - [x] **DEBT-04**: Consolidar colores hex duplicados entre globals.css tokens y categories.ts
 - [x] **DEBT-05**: Integrar SkeletonCard como Suspense fallback o remover si no se usa
-- [ ] **DEBT-06**: Proveer iconos fallback (Lucide) para 3 tecnologias sin logo (algodon, antimanchas, solidez-a-la-luz)
+- [x] **DEBT-06**: Proveer iconos fallback (Lucide) para 3 tecnologias sin logo (algodon, antimanchas, solidez-a-la-luz)
 
 ### Data Foundation
 
-- [ ] **DATA-01**: Crear modelo de datos y archivo para Personalizacion (4 opciones del PDF p.15)
-- [ ] **DATA-02**: Crear modelo de datos y archivo para Cuellos (colores, tallas del PDF pp.16-17)
-- [ ] **DATA-03**: Expandir descripciones de tecnologias con contenido detallado del PDF p.14
+- [x] **DATA-01**: Crear modelo de datos y archivo para Personalizacion (4 opciones del PDF p.15)
+- [x] **DATA-02**: Crear modelo de datos y archivo para Cuellos (colores, tallas del PDF pp.16-17)
+- [x] **DATA-03**: Expandir descripciones de tecnologias con contenido detallado del PDF p.14
 
 ### Fichas Tecnicas
 
@@ -89,10 +89,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DEBT-03 | Phase 5 | Complete |
 | DEBT-04 | Phase 5 | Complete |
 | DEBT-05 | Phase 5 | Complete |
-| DEBT-06 | Phase 5 | Pending |
-| DATA-01 | Phase 5 | Pending |
-| DATA-02 | Phase 5 | Pending |
-| DATA-03 | Phase 5 | Pending |
+| DEBT-06 | Phase 5 | Complete |
+| DATA-01 | Phase 5 | Complete |
+| DATA-02 | Phase 5 | Complete |
+| DATA-03 | Phase 5 | Complete |
 | DETAIL-01 | Phase 6 | Pending |
 | DETAIL-02 | Phase 6 | Pending |
 | DETAIL-03 | Phase 6 | Pending |

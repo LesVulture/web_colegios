@@ -25,7 +25,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 ### v1.1 Catalogo Completo
 
-- [ ] **Phase 5: Tech Debt & Data Foundation** - Resolver 404 de imagenes, bugs de nav, dependencias muertas; crear modelos de datos para personalizacion y cuellos
+- [x] **Phase 5: Tech Debt & Data Foundation** - Resolver 404 de imagenes, bugs de nav, dependencias muertas; crear modelos de datos para personalizacion y cuellos
 - [ ] **Phase 6: Fabric Detail Pages** - Fichas tecnicas completas de cada tela con specs, imagen, tooltips, badges y navegacion cruzada
 - [ ] **Phase 7: Content Section Pages** - Paginas de Tecnologias, Personalizacion y Cuellos con contenido real del PDF
 - [ ] **Phase 8: Search, Filter & Sort** - Filtrado por tecnologia, ordenamiento por peso/ancho, busqueda fuzzy con fuse.js
@@ -46,8 +46,8 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 **Plans**: 2 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Tech debt cleanup: image mapping, nav fix, CVA removal, color documentation, SkeletonCard retention
-- [ ] 05-02-PLAN.md — Data foundation: tech icon fallbacks, personalization model, collars model, technology enrichment
+- [x] 05-01-PLAN.md — Tech debt cleanup: image mapping, nav fix, CVA removal, color documentation, SkeletonCard retention
+- [x] 05-02-PLAN.md — Data foundation: tech icon fallbacks, personalization model, collars model, technology enrichment
 
 ### Phase 6: Fabric Detail Pages
 **Goal**: El vendedor puede mostrar al cliente la ficha tecnica completa de cualquier tela con todas sus especificaciones, tecnologias y relaciones con otras categorias
@@ -117,7 +117,7 @@ Note: Phase 7 only depends on Phase 5 (not Phase 6), so could theoretically run 
 | 2. Data Layer & Assets | v1.0 | 2/2 | Complete | 2026-02-22 |
 | 3. Global Navigation & Home | v1.0 | 3/3 | Complete | 2026-02-22 |
 | 4. Category Pages | v1.0 | 2/2 | Complete | 2026-02-22 |
-| 5. Tech Debt & Data Foundation | v1.1 | 0/2 | Planning complete | - |
+| 5. Tech Debt & Data Foundation | v1.1 | 2/2 | Complete | 2026-02-22 |
 | 6. Fabric Detail Pages | v1.1 | 0/? | Not started | - |
 | 7. Content Section Pages | v1.1 | 0/? | Not started | - |
 | 8. Search, Filter & Sort | v1.1 | 0/? | Not started | - |
