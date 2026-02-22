@@ -11,14 +11,18 @@ export function CategoryHeader({
   const colors = CATEGORY_STYLE_MAP[category.id]
 
   return (
-    <div className={`${colors.bg} ${colors.fg} rounded-lg p-6 lg:p-8`}>
-      <h1 className="text-2xl lg:text-3xl font-heading font-bold">
+    <div className={`${colors.bg} ${colors.fg} rounded-xl p-6 md:p-8 lg:p-10`}>
+      <h1 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold">
         {category.name}
       </h1>
-      {'description' in category && (
-        <p className="opacity-80 text-sm mt-1">{category.description as string}</p>
+      {'description' in category && category.description && (
+        <p className="opacity-90 text-sm md:text-base mt-1">
+          {category.description}
+        </p>
       )}
-      <p className="mt-2 text-sm opacity-70">{fabricCount} telas disponibles</p>
+      <p className="mt-2 text-sm opacity-80">
+        {fabricCount} telas disponibles
+      </p>
     </div>
   )
 }

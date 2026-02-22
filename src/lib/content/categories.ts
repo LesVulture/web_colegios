@@ -8,6 +8,7 @@ export const CATEGORIES = [
     name: 'Sudaderas - Chaquetas - Pantalones',
     color: '#1B3A5C',
     foregroundColor: '#FFFFFF',
+    image: '/images/products/page04-0.webp',
     fabricIds: [
       'vendaval-crushed-r',
       'orion-clororresistente',
@@ -25,6 +26,7 @@ export const CATEGORIES = [
     name: 'Camisetas - Polos',
     color: '#3FA9D5',
     foregroundColor: '#FFFFFF',
+    image: '/images/products/page06-8.webp',
     fabricIds: [
       'apolo',
       'polux',
@@ -39,6 +41,7 @@ export const CATEGORIES = [
     color: '#6CB33F',
     foregroundColor: '#FFFFFF',
     description: 'Camisetas y Pantalonetas',
+    image: '/images/products/page07-11.webp',
     fabricIds: [
       'montesimone-r-antibacterial',
       'montesimone',
@@ -52,6 +55,7 @@ export const CATEGORIES = [
     color: '#E91E8C',
     foregroundColor: '#FFFFFF',
     description: 'Faldas, Blazers, Pantalones',
+    image: '/images/products/page08-14.webp',
     fabricIds: [
       'stefano-r',
       'dynamic',
@@ -66,6 +70,7 @@ export const CATEGORIES = [
     name: 'Buzos - Hoodies - Perchados',
     color: '#F7C948',
     foregroundColor: '#1a1a1a',
+    image: '/images/products/page09-20.webp',
     fabricIds: [
       'fastrack',
       'celta',
@@ -78,6 +83,7 @@ export const CATEGORIES = [
     name: 'Chaquetas Prom',
     color: '#C42034',
     foregroundColor: '#FFFFFF',
+    image: '/images/products/page10-24.webp',
     fabricIds: [
       'orion-clororresistente',
       'universal-clororresistente',
@@ -91,6 +97,7 @@ export const CATEGORIES = [
     name: 'Blusas - Camisas',
     color: '#7B4B94',
     foregroundColor: '#FFFFFF',
+    image: '/images/products/page11-29.webp',
     fabricIds: [
       'metro-lc',
       'queen',
@@ -103,6 +110,8 @@ export const CATEGORIES = [
     name: 'Delantales - Batas de Laboratorio',
     color: '#F7941D',
     foregroundColor: '#1a1a1a',
+    image: '/images/products/page12-32.webp',
+    imagePosition: 'center 20%',
     fabricIds: [
       'orion-clororresistente',
       'gorek',

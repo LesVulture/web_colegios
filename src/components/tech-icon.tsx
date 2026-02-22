@@ -1,4 +1,6 @@
-import { icons } from 'lucide-react'
+import { Flower2, ShieldCheck, Sun } from 'lucide-react'
+
+const LUCIDE_MAP: Record<string, typeof Flower2> = { Flower2, ShieldCheck, Sun }
 
 export function TechIcon({ icon, size = 14 }: { icon: string; size?: number }) {
   if (!icon) return null
@@ -15,6 +17,6 @@ export function TechIcon({ icon, size = 14 }: { icon: string; size?: number }) {
     )
   }
 
-  const LucideIcon = icons[icon as keyof typeof icons]
+  const LucideIcon = LUCIDE_MAP[icon]
   return LucideIcon ? <LucideIcon size={size} /> : null
 }

@@ -5,28 +5,28 @@ export const PERSONALIZATION_OPTIONS = [
     id: 'dibujos-exclusivos',
     name: 'Dibujos Nuevos y Exclusivos',
     description:
-      'Creacion de disenos unicos para instituciones que requieren una tela diferente segun sus necesidades particulares.',
+      'Creación de diseños únicos para instituciones que requieren una tela diferente según sus necesidades particulares.',
     image: '/images/content/page15-95.webp',
   },
   {
     id: 'estampacion-digital',
-    name: 'Disenos de Alta Definicion con Estampacion Digital',
+    name: 'Diseños de Alta Definición con Estampación Digital',
     description:
-      'Impresion de alta definicion sobre tela mediante tecnologia de sublimacion digital, ideal para disenos detallados y policromias complejas.',
+      'Impresión de alta definición sobre tela mediante tecnología de sublimación digital, ideal para diseños detallados y policromías complejas.',
     image: '/images/content/page15-94.webp',
   },
   {
     id: 'estampacion-davos',
-    name: 'Estampacion Tipo Davos (Marca de Agua)',
+    name: 'Estampación Tipo Davos (Marca de Agua)',
     description:
-      'Proceso que por temperatura y presion graba un diseno sobre la tela.',
+      'Proceso que por temperatura y presión graba un diseño sobre la tela.',
     image: '/images/content/page15-96.webp',
   },
   {
     id: 'desarrollo-color',
     name: 'Desarrollo de un Nuevo Color',
     description:
-      'Programacion de un color exclusivo que no se encuentre en el portafolio de linea vigente.',
+      'Programación de un color exclusivo que no se encuentre en el portafolio de línea vigente.',
     image: '/images/content/page15-93.webp',
   },
 ] as const satisfies readonly PersonalizationOption[];

@@ -32,7 +32,7 @@ export function MobileMenu() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="p-2 text-foreground/70 hover:text-foreground transition-colors"
-        aria-label={isOpen ? 'Cerrar menu' : 'Abrir menu'}
+        aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
         aria-expanded={isOpen}
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -50,10 +50,10 @@ export function MobileMenu() {
 
           {/* Sidebar panel */}
           <nav
-            className="absolute right-0 top-0 h-full w-72 bg-background p-6 shadow-xl transition-transform duration-300"
+            className="absolute right-0 top-0 h-full w-72 bg-background p-6 shadow-xl transition-transform duration-300 overscroll-contain"
             role="dialog"
             aria-modal="true"
-            aria-label="Menu de navegacion"
+            aria-label="Menú de navegación"
           >
             {/* Close button inside panel */}
             <div className="mb-8 flex items-center justify-between">
@@ -67,7 +67,7 @@ export function MobileMenu() {
               <button
                 onClick={() => setIsOpen(false)}
                 className="p-2 text-foreground/70 hover:text-foreground transition-colors"
-                aria-label="Cerrar menu"
+                aria-label="Cerrar menú"
               >
                 <X size={24} />
               </button>

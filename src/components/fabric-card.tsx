@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { getTechnologyById } from '@/lib/content'
 import { TechIcon } from '@/components/tech-icon'
@@ -14,22 +13,37 @@ export function FabricCard({
   return (
     <Link
       href={`/uso/${categorySlug}/${fabric.id}`}
-      className="group block rounded-lg border border-border bg-background overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
+      className="group block rounded-lg border border-border bg-background overflow-hidden transition-[transform,box-shadow] duration-200 hover:shadow-lg hover:-translate-y-1"
     >
-      <div className="relative aspect-[4/3]">
-        <Image
-          src={fabric.image}
-          alt={fabric.name}
-          fill
-          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 50vw"
-          className="object-cover"
-        />
-      </div>
-      <div className="p-4">
-        <h3 className="font-heading font-semibold text-foreground">
-          {fabric.name}
-        </h3>
-        <div className="mt-2 flex flex-wrap gap-1.5">
+      <div className="p-4 md:p-5">
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="font-heading font-semibold text-foreground leading-tight">
+            {fabric.name}
+          </h3>
+          {fabric.isNew && (
+            <span className="shrink-0 rounded-full bg-brand-accent px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand-accent-foreground">
+              Nuevo
+            </span>
+          )}
+        </div>
+
+        <p className="mt-1.5 text-sm text-muted-foreground">
+          {fabric.composition}
+        </p>
+
+        {/* Technical specs */}
+        <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
+          <span className="inline-flex items-center gap-1">
+            <span className="font-medium text-foreground/70">{fabric.weave}</span>
+          </span>
+          <span className="text-border">|</span>
+          <span>{fabric.weight.replace(/\s*\+.*/, '')}</span>
+          <span className="text-border">|</span>
+          <span>{fabric.width.replace(/\s*\+.*/, '')}</span>
+        </div>
+
+        {/* Technology chips */}
+        <div className="mt-3 flex flex-wrap gap-1.5">
           {fabric.technologies.map((techId) => {
             const tech = getTechnologyById(techId)
             return tech ? (

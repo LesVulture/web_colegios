@@ -54,7 +54,7 @@ export default async function FabricDetailPage({
   )
 
   const specs = [
-    { label: 'Composicion', value: fabric.composition },
+    { label: 'Composición', value: fabric.composition },
     { label: 'Gramaje', value: fabric.weight },
     { label: 'Ancho', value: fabric.width },
     { label: 'Tipo de Tejido', value: fabric.weave },
@@ -100,7 +100,7 @@ export default async function FabricDetailPage({
       {/* Print route chips */}
       <div className="mt-6">
         <h2 className="text-sm font-medium text-muted-foreground mb-3">
-          Rutas de Estampacion
+          Rutas de Estampación
         </h2>
         <div className="flex flex-wrap gap-2">
           {fabric.printRoutes.map((route) => (
@@ -118,7 +118,7 @@ export default async function FabricDetailPage({
       {fabric.technologies.length > 0 && (
         <div className="mt-6">
           <h2 className="text-sm font-medium text-muted-foreground mb-3">
-            Tecnologias
+            Tecnologías
           </h2>
           <div className="flex flex-wrap gap-2">
             {fabric.technologies.map((techId) => {
@@ -129,7 +129,7 @@ export default async function FabricDetailPage({
                 <span key={techId} className="group relative inline-flex items-center">
                   <button
                     type="button"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-3 py-1 text-sm text-muted-foreground focus:outline-none"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-3 py-1 text-sm text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/50"
                     aria-describedby={tooltipId}
                   >
                     <TechIcon icon={tech.icon} size={14} />
@@ -152,21 +152,20 @@ export default async function FabricDetailPage({
         </div>
       )}
 
-      {/* Cross-navigation */}
+      {/* Other uses (informational, not navigational) */}
       {otherCategories.length > 0 && (
         <div className="mt-8 rounded-lg border border-border bg-surface p-4">
           <h2 className="text-sm font-medium text-muted-foreground mb-3">
-            Tambien disponible en
+            También disponible en
           </h2>
           <div className="flex flex-wrap gap-2">
             {otherCategories.map((cat) => (
-              <Link
+              <span
                 key={cat.id}
-                href={`/uso/${cat.id}/${fabricId}`}
-                className="inline-flex items-center rounded-full px-3 py-1.5 text-sm border border-border hover:bg-muted transition-colors min-h-[44px]"
+                className="inline-flex items-center rounded-full px-3 py-1.5 text-sm border border-border bg-muted text-muted-foreground"
               >
                 {cat.name}
-              </Link>
+              </span>
             ))}
           </div>
         </div>

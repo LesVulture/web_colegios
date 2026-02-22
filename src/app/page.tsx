@@ -30,7 +30,7 @@ export default function Home() {
           fill
           sizes="100vw"
           className="object-cover"
-          preload
+          priority
         />
         <div className="absolute inset-0 bg-brand-primary/60" />
         <div className="relative z-10 flex h-full flex-col items-center justify-center">

@@ -126,11 +126,14 @@ export function FilterableFabricGrid({
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
         <input
-          type="text"
+          type="search"
+          name="fabric-search"
+          autoComplete="off"
+          aria-label="Buscar tela"
           value={inputValue}
           onChange={handleSearchChange}
-          placeholder="Buscar tela..."
-          className="w-full rounded-lg border border-border bg-background pl-10 pr-10 py-2.5 text-sm min-h-[44px] placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand-primary/50"
+          placeholder="Buscar tela…"
+          className="w-full rounded-lg border border-border bg-background pl-10 pr-10 py-2.5 text-sm min-h-[44px] placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/50"
         />
         {inputValue && (
           <button
@@ -138,6 +141,7 @@ export function FilterableFabricGrid({
               setInputValue('')
               setSearchQuery('')
             }}
+            aria-label="Limpiar búsqueda"
             className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center justify-center size-10 text-muted-foreground hover:text-foreground"
           >
             <X className="size-4" />

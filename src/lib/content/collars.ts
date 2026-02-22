@@ -1,8 +1,8 @@
 import type { CollarData } from './types';
 
 export const COLLAR_DATA: CollarData = {
-  material: 'Cuellos 100% hilaza poliester Lafayette',
-  guarantee: 'Duracion de color, Resistencia, Calidad',
+  material: 'Cuellos 100% hilaza poliéster Lafayette',
+  guarantee: 'Duración de color, Resistencia, Calidad',
   technologies: ['desempeno', 'proteccion-solar', 'control-humedad'],
   colors: [
     { id: 'negro', name: 'Negro', hex: '#1a1a1a', productCode: '194006' },
@@ -32,8 +32,8 @@ export const COLLAR_DATA: CollarData = {
     ],
   },
   commercialNotes: [
-    'Es imprescindible tener un pedido de tela para acompanar el pedido de cuellos.',
-    'Otros colores diferentes a los que tienen disponibilidad inmediata, se deben solicitar por programacion.',
-    'Ofrecemos el juego de cuellos y punos por programacion.',
+    'Es imprescindible tener un pedido de tela para acompañar el pedido de cuellos.',
+    'Otros colores diferentes a los que tienen disponibilidad inmediata, se deben solicitar por programación.',
+    'Ofrecemos el juego de cuellos y puños por programación.',
   ],
 } as const;

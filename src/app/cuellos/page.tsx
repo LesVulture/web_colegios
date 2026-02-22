@@ -6,7 +6,7 @@ import { Breadcrumb } from '@/components/breadcrumb'
 export const metadata: Metadata = {
   title: 'Cuellos - Lafayette Uni For Me',
   description:
-    'Cuellos y punos para uniformes escolares: colores disponibles, tablas de tallas y notas comerciales.',
+    'Cuellos y puños para uniformes escolares: colores disponibles, tablas de tallas y notas comerciales.',
 }
 
 export default function CuellosPage() {
@@ -22,12 +22,12 @@ export default function CuellosPage() {
 
       {/* Page header */}
       <h1 className="mt-6 text-3xl lg:text-4xl font-heading font-semibold text-foreground">
-        Cuellos y Punos
+        Cuellos y Puños
       </h1>
       <div className="mt-3 space-y-1 text-sm text-muted-foreground">
         <p>{COLLAR_DATA.material}</p>
         <p>
-          <span className="font-medium text-foreground">Garantia:</span>{' '}
+          <span className="font-medium text-foreground">Garantía:</span>{' '}
           {COLLAR_DATA.guarantee}
         </p>
       </div>
@@ -58,7 +58,7 @@ export default function CuellosPage() {
           {COLLAR_DATA.colors.map((color, i) => (
             <div
               key={color.id}
-              className="flex items-center gap-3 rounded-lg border border-border p-4 transition-all duration-200 hover:shadow-md animate-fade-in-up"
+              className="flex items-center gap-3 rounded-lg border border-border p-4 transition-shadow duration-200 hover:shadow-md animate-fade-in-up"
               style={{ animationDelay: `${i * 80}ms` }}
             >
               <span
@@ -87,11 +87,11 @@ export default function CuellosPage() {
           <div className="rounded-lg border border-border overflow-hidden animate-fade-in-up">
             <div className="bg-surface px-4 py-3">
               <h3 className="font-heading font-semibold text-foreground">
-                Ninos
+                Niños
               </h3>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-sm tabular-nums">
                 <thead>
                   <tr className="border-b border-border">
                     <th className="px-4 py-3 text-left font-medium text-muted-foreground">
@@ -101,7 +101,7 @@ export default function CuellosPage() {
                       Cuello
                     </th>
                     <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                      Puno
+                      Puño
                     </th>
                   </tr>
                 </thead>
@@ -135,7 +135,7 @@ export default function CuellosPage() {
               </h3>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-sm tabular-nums">
                 <thead>
                   <tr className="border-b border-border">
                     <th className="px-4 py-3 text-left font-medium text-muted-foreground">
@@ -145,7 +145,7 @@ export default function CuellosPage() {
                       Cuello
                     </th>
                     <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                      Puno
+                      Puño
                     </th>
                   </tr>
                 </thead>
@@ -173,7 +173,7 @@ export default function CuellosPage() {
       {/* Commercial notes section */}
       <section className="mt-10">
         <h2 className="text-2xl font-heading font-semibold text-foreground">
-          Informacion Importante
+          Información Importante
         </h2>
         <div className="mt-4 rounded-lg border-l-4 border-brand-primary bg-surface p-6 animate-fade-in-up">
           <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">

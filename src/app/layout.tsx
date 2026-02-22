@@ -17,7 +17,7 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: 'Lafayette Uni For Me - Colegios',
-  description: 'Catalogo de soluciones textiles para uniformes escolares',
+  description: 'Catálogo de soluciones textiles para uniformes escolares',
   robots: { index: false, follow: false },
 }
 

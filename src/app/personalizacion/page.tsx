@@ -4,9 +4,9 @@ import { PERSONALIZATION_OPTIONS } from '@/lib/content'
 import { Breadcrumb } from '@/components/breadcrumb'
 
 export const metadata: Metadata = {
-  title: 'Personalizacion - Lafayette Uni For Me',
+  title: 'Personalización - Lafayette Uni For Me',
   description:
-    'Opciones de personalizacion de uniformes escolares: disenos exclusivos, estampacion digital, estampacion Davos y desarrollo de color.',
+    'Opciones de personalización de uniformes escolares: diseños exclusivos, estampación digital, estampación Davos y desarrollo de color.',
 }
 
 export default function PersonalizacionPage() {
@@ -15,19 +15,19 @@ export default function PersonalizacionPage() {
       <Breadcrumb
         items={[
           { label: 'Inicio', href: '/' },
-          { label: 'Personalizacion' },
+          { label: 'Personalización' },
         ]}
       />
 
       <h1 className="mt-6 text-3xl lg:text-4xl font-heading font-semibold text-foreground">
-        Personalizacion de Uniformes
+        Personalización de Uniformes
       </h1>
 
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
         {PERSONALIZATION_OPTIONS.map((option, i) => (
           <div
             key={option.id}
-            className="group overflow-hidden rounded-lg border border-border bg-background transition-all duration-300 hover:shadow-lg hover:-translate-y-1 animate-fade-in-up"
+            className="group overflow-hidden rounded-lg border border-border bg-background transition-[transform,box-shadow] duration-300 hover:shadow-lg hover:-translate-y-1 animate-fade-in-up"
             style={{ animationDelay: `${i * 100}ms` }}
           >
             <Image

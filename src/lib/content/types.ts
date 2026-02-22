@@ -4,7 +4,7 @@ export type PrintRoute =
   | 'Unicolor'
   | 'Rotativa'
   | 'Davos'
-  | 'Sublimacion';
+  | 'Sublimación';
 
 export interface Technology {
   readonly id: string;
@@ -67,4 +67,6 @@ export interface Category {
   readonly foregroundColor: string;
   readonly fabricIds: readonly string[];
   readonly description?: string;
+  readonly image: string;
+  readonly imagePosition?: string;
 }
