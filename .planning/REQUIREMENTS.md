@@ -32,7 +32,7 @@ Requirements for milestone v1.1 — Catalogo Completo. Each maps to roadmap phas
 
 ### Secciones de Contenido
 
-- [ ] **SECTION-01**: Pagina de Tecnologias Textiles con cards, logos y descripciones expandidas
+- [x] **SECTION-01**: Pagina de Tecnologias Textiles con cards, logos y descripciones expandidas
 - [ ] **SECTION-02**: Pagina de Personalizacion con 4 opciones, imagenes y texto del PDF
 - [ ] **SECTION-03**: Pagina de Cuellos con grid de colores, tabla de tallas y medidas
 
@@ -98,7 +98,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DETAIL-03 | Phase 6 | Complete |
 | DETAIL-04 | Phase 6 | Complete |
 | DETAIL-05 | Phase 6 | Complete |
-| SECTION-01 | Phase 7 | Pending |
+| SECTION-01 | Phase 7 | Complete |
 | SECTION-02 | Phase 7 | Pending |
 | SECTION-03 | Phase 7 | Pending |
 | FILTER-01 | Phase 8 | Pending |
