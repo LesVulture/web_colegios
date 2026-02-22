@@ -11,6 +11,39 @@ export interface Technology {
   readonly name: string;
   readonly icon: string;
   readonly description: string;
+  readonly expandedDescription?: string;
+}
+
+export interface PersonalizationOption {
+  readonly id: string;
+  readonly name: string;
+  readonly description: string;
+  readonly image: string;
+}
+
+export interface CollarColor {
+  readonly id: string;
+  readonly name: string;
+  readonly hex: string;
+  readonly productCode: string;
+}
+
+export interface CollarSize {
+  readonly size: string;
+  readonly collarMeasure: string;
+  readonly cuffMeasure: string;
+}
+
+export interface CollarData {
+  readonly material: string;
+  readonly guarantee: string;
+  readonly technologies: readonly string[];
+  readonly colors: readonly CollarColor[];
+  readonly sizes: {
+    readonly children: readonly CollarSize[];
+    readonly adolescentsAdults: readonly CollarSize[];
+  };
+  readonly commercialNotes: readonly string[];
 }
 
 export interface Fabric {
