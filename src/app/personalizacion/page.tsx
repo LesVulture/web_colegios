@@ -47,7 +47,7 @@ export default function PersonalizacionPage() {
                 <h2 className="text-sm md:text-base font-heading font-bold text-foreground">
                   {option.name}
                 </h2>
-                <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                <p className="text-xs text-muted-foreground mt-1">
                   {option.description}
                 </p>
               </div>
