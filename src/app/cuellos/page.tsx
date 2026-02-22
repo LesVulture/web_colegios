@@ -15,7 +15,7 @@ export default function CuellosPage() {
     .filter(Boolean)
 
   return (
-    <div className="mx-auto max-w-7xl px-4 lg:px-8 py-6 lg:py-10">
+    <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-6 md:py-8 lg:py-10">
       <Breadcrumb
         items={[{ label: 'Inicio', href: '/' }, { label: 'Cuellos' }]}
       />
@@ -82,7 +82,7 @@ export default function CuellosPage() {
         <h2 className="text-2xl font-heading font-semibold text-foreground">
           Tabla de Tallas
         </h2>
-        <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-6 lg:gap-8">
           {/* Children table */}
           <div className="rounded-lg border border-border overflow-hidden animate-fade-in-up">
             <div className="bg-surface px-4 py-3">
@@ -90,36 +90,38 @@ export default function CuellosPage() {
                 Ninos
               </h3>
             </div>
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border">
-                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                    Talla
-                  </th>
-                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                    Cuello
-                  </th>
-                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                    Puno
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {COLLAR_DATA.sizes.children.map((row) => (
-                  <tr key={row.size} className="border-b border-border">
-                    <td className="px-4 py-3 font-medium text-foreground">
-                      {row.size}
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {row.collarMeasure}
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {row.cuffMeasure}
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                      Talla
+                    </th>
+                    <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                      Cuello
+                    </th>
+                    <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                      Puno
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {COLLAR_DATA.sizes.children.map((row) => (
+                    <tr key={row.size} className="border-b border-border">
+                      <td className="px-4 py-3 font-medium text-foreground">
+                        {row.size}
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground">
+                        {row.collarMeasure}
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground">
+                        {row.cuffMeasure}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {/* Adolescents/Adults table */}
@@ -132,36 +134,38 @@ export default function CuellosPage() {
                 Adolescentes y Adultos
               </h3>
             </div>
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border">
-                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                    Talla
-                  </th>
-                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                    Cuello
-                  </th>
-                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                    Puno
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {COLLAR_DATA.sizes.adolescentsAdults.map((row) => (
-                  <tr key={row.size} className="border-b border-border">
-                    <td className="px-4 py-3 font-medium text-foreground">
-                      {row.size}
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {row.collarMeasure}
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {row.cuffMeasure}
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                      Talla
+                    </th>
+                    <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                      Cuello
+                    </th>
+                    <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                      Puno
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {COLLAR_DATA.sizes.adolescentsAdults.map((row) => (
+                    <tr key={row.size} className="border-b border-border">
+                      <td className="px-4 py-3 font-medium text-foreground">
+                        {row.size}
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground">
+                        {row.collarMeasure}
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground">
+                        {row.cuffMeasure}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>

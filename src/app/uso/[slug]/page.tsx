@@ -39,7 +39,7 @@ export default async function CategoryPage({
   const fabrics = getFabricsByCategory(slug)
 
   return (
-    <div className="mx-auto max-w-7xl px-4 lg:px-8 py-6 lg:py-10">
+    <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-6 md:py-8 lg:py-10">
       <Breadcrumb
         items={[
           { label: 'Usos', href: '/usos' },
@@ -51,7 +51,7 @@ export default async function CategoryPage({
         <CategoryHeader category={category} fabricCount={fabrics.length} />
       </div>
 
-      <div className="mt-8 lg:flex lg:gap-8">
+      <div className="mt-6 md:mt-8 lg:flex lg:gap-8">
         <CategorySidebar />
 
         <div className="flex-1">

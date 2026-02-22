@@ -62,7 +62,7 @@ export default async function FabricDetailPage({
   ]
 
   return (
-    <div className="mx-auto max-w-3xl px-4 lg:px-8 py-6 lg:py-10">
+    <div className="mx-auto max-w-3xl px-4 md:px-6 lg:px-8 py-6 md:py-8 lg:py-10">
       <Breadcrumb
         items={[
           { label: 'Usos', href: '/usos' },
@@ -138,7 +138,7 @@ export default async function FabricDetailPage({
                   <span
                     id={tooltipId}
                     role="tooltip"
-                    className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-xs rounded-md bg-foreground px-3 py-2 text-xs text-background opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 z-10"
+                    className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[min(280px,calc(100vw-3rem))] rounded-md bg-foreground px-3 py-2 text-xs text-background opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 z-10"
                   >
                     <span className="font-semibold">{tech.name}</span>
                     <br />
@@ -163,7 +163,7 @@ export default async function FabricDetailPage({
               <Link
                 key={cat.id}
                 href={`/uso/${cat.id}/${fabricId}`}
-                className="inline-flex items-center rounded-full px-3 py-1.5 text-sm border border-border hover:bg-muted transition-colors"
+                className="inline-flex items-center rounded-full px-3 py-1.5 text-sm border border-border hover:bg-muted transition-colors min-h-[44px]"
               >
                 {cat.name}
               </Link>
@@ -175,7 +175,7 @@ export default async function FabricDetailPage({
       {/* Back button */}
       <Link
         href={`/uso/${slug}`}
-        className="mt-8 inline-flex items-center gap-2 rounded-lg bg-muted px-4 py-2.5 text-sm font-medium text-foreground hover:bg-border transition-colors"
+        className="mt-8 inline-flex items-center gap-2 rounded-lg bg-muted px-4 py-2.5 text-sm font-medium text-foreground hover:bg-border transition-colors min-h-[44px]"
       >
         <ArrowLeft size={16} />
         Volver a {category.name}
