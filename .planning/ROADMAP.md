@@ -31,11 +31,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Los 8 colores de categoría están definidos como tokens Tailwind v4 y se pueden usar en clases utility (ej: `bg-cat-sudaderas` produce el color azul oscuro correcto)
   3. La paleta de marca Lafayette (azul oscuro primario, rojo acento) se aplica a elementos base (tipografía, backgrounds)
   4. El proyecto usa App Router de Next.js con TypeScript estricto y no tiene errores de tipo
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md — Scaffold Next.js 16 + design system completo (tokens de color, tipografia, estilos base)
 
 ### Phase 2: Data Layer & Assets
 **Goal**: Todo el contenido del catálogo está modelado como datos TypeScript tipados y las imágenes del PDF están extraídas y listas para uso con next/image
