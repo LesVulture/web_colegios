@@ -77,11 +77,11 @@ Plans:
   2. Las telas se muestran en un grid responsive: 3 columnas en desktop, 2 columnas en tablet
   3. Cada card de tela muestra el nombre, la imagen del producto y chips con las tecnologías aplicables
   4. El header de cada categoría tiene su color de fondo distintivo (según paleta del PDF) y una imagen hero representativa
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
+- [ ] 04-01-PLAN.md — Componentes reutilizables: FabricCard, CategoryHeader, CategorySidebar, Breadcrumb, SkeletonCard + shimmer CSS
+- [ ] 04-02-PLAN.md — Ruta dinámica /uso/[slug] con composición de componentes + placeholder /uso/[slug]/[fabricId]
 
 ### Phase 5: Fabric Details
 **Goal**: El vendedor puede mostrar al cliente la ficha técnica completa de cualquier tela con todas sus especificaciones y tecnologías
