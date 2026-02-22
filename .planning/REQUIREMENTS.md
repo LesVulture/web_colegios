@@ -38,9 +38,9 @@ Requirements for milestone v1.1 — Catalogo Completo. Each maps to roadmap phas
 
 ### Filtrado y Busqueda
 
-- [ ] **FILTER-01**: Filtrar telas por tecnologia con chips multi-select horizontales
-- [ ] **FILTER-02**: Ordenar telas por gramaje y ancho (sort numerico)
-- [ ] **FILTER-03**: Busqueda fuzzy global por nombre de tela con fuse.js
+- [x] **FILTER-01**: Filtrar telas por tecnologia con chips multi-select horizontales
+- [x] **FILTER-02**: Ordenar telas por gramaje y ancho (sort numerico)
+- [x] **FILTER-03**: Busqueda fuzzy global por nombre de tela con fuse.js
 
 ### Deploy
 
@@ -101,9 +101,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SECTION-01 | Phase 7 | Complete |
 | SECTION-02 | Phase 7 | Complete |
 | SECTION-03 | Phase 7 | Complete |
-| FILTER-01 | Phase 8 | Pending |
-| FILTER-02 | Phase 8 | Pending |
-| FILTER-03 | Phase 8 | Pending |
+| FILTER-01 | Phase 8 | Complete |
+| FILTER-02 | Phase 8 | Complete |
+| FILTER-03 | Phase 8 | Complete |
 | DEPLOY-01 | Phase 9 | Pending |
 | DEPLOY-02 | Phase 9 | Pending |
 | DEPLOY-03 | Phase 9 | Pending |
