@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { TECHNOLOGIES, getFabricsByTechnology, getCategoriesByFabric } from '@/lib/content'
 import { TechIcon } from '@/components/tech-icon'
@@ -28,6 +29,21 @@ export default function TecnologiasPage() {
           escolares.
         </p>
       </header>
+
+      {/* LAFTECH seal */}
+      <div className="mb-10 flex items-center gap-5 rounded-lg border border-border bg-surface p-5 md:p-6">
+        <Image
+          src="/images/content/laftech-sello.webp"
+          alt="LAFTECH — Sello tecnológico Lafayette"
+          width={898}
+          height={222}
+          sizes="(min-width: 768px) 120px, 80px"
+          className="w-20 md:w-[120px] h-auto shrink-0"
+        />
+        <p className="text-sm md:text-base text-muted-foreground">
+          <span className="font-semibold text-foreground">LAFTECH</span> es el sello tecnológico que reúne las tecnologías de Lafayette para todas las bases textiles que las contienen.
+        </p>
+      </div>
 
       <RevealSection>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
