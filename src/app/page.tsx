@@ -22,20 +22,21 @@ const sectionImages: Record<string, string> = {
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12">
-      {/* Hero Section */}
-      <section className="overflow-hidden rounded-lg">
+    <>
+      {/* Hero Section — full-width, flush with header */}
+      <section>
         <Image
-          src="/images/hero-colegios.webp"
+          src="/images/portada-colegios.png"
           alt="Lafayette Uni For Me — Soluciones textiles para uniformes de colegios"
-          width={1147}
-          height={634}
+          width={2880}
+          height={1620}
           sizes="100vw"
-          className="w-full h-auto"
+          className="w-full h-auto block"
           priority
         />
       </section>
 
+    <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12">
       {/* Section intro */}
       <RevealSection className="mt-10 md:mt-12 lg:mt-14 text-center">
         <h2 className="text-2xl md:text-3xl font-heading font-semibold text-foreground">
@@ -81,5 +82,6 @@ export default function Home() {
         </div>
       </RevealSection>
     </div>
+    </>
   )
 }
