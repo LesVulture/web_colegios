@@ -101,10 +101,11 @@ Plans:
   1. Todas las paginas (home, categorias, fichas tecnicas, tecnologias, personalizacion, cuellos) se ven correctamente en breakpoints lg (desktop) y md (tablet) sin overflow horizontal ni elementos rotos
   2. El sitio esta accesible en una URL publica de Vercel con todas las rutas SSG funcionando
   3. La carga inicial de cualquier pagina es menor a 2 segundos (SSG verificado con icono estatico en build log, no lambda)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 09-01: TBD
+- [ ] 09-01-PLAN.md — Responsive polish md breakpoint: home, usos, categorias, fichas, cuellos + touch targets en componentes interactivos
+- [ ] 09-02-PLAN.md — Static export config + deploy Vercel + verificacion performance SSG
 
 ### Phase 10: Tech Debt Cleanup
 **Goal**: Eliminar dead code acumulado, corregir props invalidos y actualizar exports para que el codebase quede limpio antes del cierre del milestone
