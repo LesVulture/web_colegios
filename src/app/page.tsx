@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { LayoutGrid, Cpu, Palette, Shirt } from 'lucide-react'
 import { NAV_ITEMS } from '@/lib/nav'
+import { RevealSection } from '@/components/reveal-section'
 import type { LucideIcon } from 'lucide-react'
 
 const iconMap: Record<string, LucideIcon> = {
@@ -35,8 +36,19 @@ export default function Home() {
         />
       </section>
 
+      {/* Section intro */}
+      <RevealSection className="mt-10 md:mt-12 lg:mt-14 text-center">
+        <h2 className="text-2xl md:text-3xl font-heading font-semibold text-foreground">
+          Explora nuestro catálogo
+        </h2>
+        <p className="mt-2 text-muted-foreground max-w-lg mx-auto">
+          Encuentra las telas ideales para cada tipo de uniforme escolar, con tecnologías que garantizan rendimiento y durabilidad.
+        </p>
+      </RevealSection>
+
       {/* Grid de 4 Secciones */}
-      <div className="mt-8 grid grid-cols-2 gap-4 md:mt-10 md:gap-5 lg:mt-12 lg:grid-cols-4 lg:gap-6">
+      <RevealSection>
+        <div className="mt-8 grid grid-cols-2 gap-4 md:gap-5 lg:grid-cols-4 lg:gap-6">
         {NAV_ITEMS.map((item) => {
           const Icon = iconMap[item.icon]
           const bgImage = sectionImages[item.href]
@@ -45,7 +57,7 @@ export default function Home() {
             <Link
               key={item.href}
               href={item.href}
-              className="group relative h-48 cursor-pointer overflow-hidden rounded-lg transition-transform duration-300 hover:scale-[1.02] md:h-52 lg:h-56"
+              className="group relative h-48 cursor-pointer overflow-hidden rounded-lg transition-[transform,box-shadow] duration-300 hover:scale-[1.02] hover:shadow-lg md:h-52 lg:h-56"
             >
               {bgImage ? (
                 <Image
@@ -66,7 +78,8 @@ export default function Home() {
             </Link>
           )
         })}
-      </div>
+        </div>
+      </RevealSection>
     </div>
   )
 }

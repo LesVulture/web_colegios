@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
@@ -83,23 +84,43 @@ export default async function FabricDetailPage({
         )}
       </div>
 
-      {/* Specs table */}
-      <table className="mt-6 w-full text-sm">
-        <tbody>
-          {specs.map((spec) => (
-            <tr key={spec.label} className="border-b border-border">
-              <td className="py-3 pr-4 font-medium text-muted-foreground w-40">
-                {spec.label}
-              </td>
-              <td className="py-3 text-foreground">{spec.value}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Fabric image */}
+      <div className="mt-6 overflow-hidden rounded-lg">
+        <Image
+          src={fabric.image}
+          alt={`Tela ${fabric.name}`}
+          width={700}
+          height={400}
+          sizes="(min-width: 768px) 700px, 100vw"
+          className="w-full h-auto object-cover"
+        />
+      </div>
+
+      {/* Specs table with alternating rows */}
+      <section className="mt-8 pt-6 section-divider">
+        <h2 className="text-lg font-heading font-semibold text-foreground mb-4">
+          Especificaciones
+        </h2>
+        <table className="w-full text-sm">
+          <tbody>
+            {specs.map((spec, i) => (
+              <tr
+                key={spec.label}
+                className={`border-b border-border ${i % 2 === 0 ? 'bg-surface' : ''}`}
+              >
+                <td className="py-3 px-3 pr-4 font-medium text-muted-foreground w-40">
+                  {spec.label}
+                </td>
+                <td className="py-3 px-3 text-foreground">{spec.value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
 
       {/* Print route chips */}
-      <div className="mt-6">
-        <h2 className="text-sm font-medium text-muted-foreground mb-3">
+      <section className="mt-8 pt-6 section-divider">
+        <h2 className="text-lg font-heading font-semibold text-foreground mb-3">
           Rutas de Estampación
         </h2>
         <div className="flex flex-wrap gap-2">
@@ -112,12 +133,12 @@ export default async function FabricDetailPage({
             </span>
           ))}
         </div>
-      </div>
+      </section>
 
       {/* Technology chips with CSS-only tooltips */}
       {fabric.technologies.length > 0 && (
-        <div className="mt-6">
-          <h2 className="text-sm font-medium text-muted-foreground mb-3">
+        <section className="mt-8 pt-6 section-divider">
+          <h2 className="text-lg font-heading font-semibold text-foreground mb-3">
             Tecnologías
           </h2>
           <div className="flex flex-wrap gap-2">
@@ -129,7 +150,7 @@ export default async function FabricDetailPage({
                 <span key={techId} className="group relative inline-flex items-center">
                   <button
                     type="button"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-3 py-1 text-sm text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/50"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-3 py-1 text-sm text-muted-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/50"
                     aria-describedby={tooltipId}
                   >
                     <TechIcon icon={tech.icon} size={14} />
@@ -149,26 +170,27 @@ export default async function FabricDetailPage({
               )
             })}
           </div>
-        </div>
+        </section>
       )}
 
-      {/* Other uses (informational, not navigational) */}
+      {/* Other uses — navigable links */}
       {otherCategories.length > 0 && (
-        <div className="mt-8 rounded-lg border border-border bg-surface p-4">
+        <section className="mt-8 rounded-lg border border-border bg-surface p-4">
           <h2 className="text-sm font-medium text-muted-foreground mb-3">
             También disponible en
           </h2>
           <div className="flex flex-wrap gap-2">
             {otherCategories.map((cat) => (
-              <span
+              <Link
                 key={cat.id}
-                className="inline-flex items-center rounded-full px-3 py-1.5 text-sm border border-border bg-muted text-muted-foreground"
+                href={`/uso/${cat.id}/${fabricId}`}
+                className="inline-flex items-center rounded-full px-3 py-1.5 text-sm border border-border bg-muted text-muted-foreground hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-colors"
               >
                 {cat.name}
-              </span>
+              </Link>
             ))}
           </div>
-        </div>
+        </section>
       )}
 
       {/* Back button */}

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { CATEGORIES } from '@/lib/content'
 import { CATEGORY_STYLE_MAP } from '@/lib/content/styles'
+import { RevealSection } from '@/components/reveal-section'
 
 export const metadata: Metadata = {
   title: 'Usos - Lafayette Uni For Me',
@@ -12,11 +13,14 @@ export const metadata: Metadata = {
 export default function UsosPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12">
-      <h1 className="text-3xl lg:text-4xl font-heading font-semibold text-foreground">
-        Categorías de Uso
-      </h1>
+      <div className="pt-6 section-divider">
+        <h1 className="text-3xl lg:text-4xl font-heading font-semibold text-foreground">
+          Categorías de Uso
+        </h1>
+      </div>
 
-      <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 lg:gap-6">
+      <RevealSection className="mt-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 lg:gap-6">
         {CATEGORIES.map((category) => {
           const colors = CATEGORY_STYLE_MAP[category.id]
           const fabricCount = category.fabricIds.length
@@ -55,7 +59,8 @@ export default function UsosPage() {
             </Link>
           )
         })}
-      </div>
+        </div>
+      </RevealSection>
     </div>
   )
 }
