@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Project Foundation** - Scaffolding Next.js 16, design system con tokens de 8 colores de categoría, configuración Tailwind v4
 - [ ] **Phase 2: Data Layer & Assets** - Modelos TypeScript del catálogo completo, extracción y optimización de imágenes del PDF
-- [ ] **Phase 3: Global Navigation & Home** - Header con logo Lafayette, menú de 4 items principales, home page con hero y grid de 4 secciones, página intermedia `/usos` con 8 categorías
+- [x] **Phase 3: Global Navigation & Home** - Header con logo Lafayette, menú de 4 items principales, home page con hero y grid de 4 secciones, página intermedia `/usos` con 8 categorías (completed 2026-02-22)
 - [ ] **Phase 4: Category Pages** - 8 páginas de categoría con routing dinámico `/uso/[slug]`, grid de product cards y theming por color
 - [ ] **Phase 5: Fabric Details** - Fichas técnicas completas de cada tela con specs, imagen y badges de tecnología
 - [ ] **Phase 6: Content Sections & Deploy** - Páginas de Tecnologías, Personalización y Cuellos; responsive tablet; SSG; deploy funcional en Vercel
@@ -134,7 +134,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 |-------|----------------|--------|-----------|
 | 1. Project Foundation | 1/1 | Complete    | 2026-02-22 |
 | 2. Data Layer & Assets | 0/2 | Not started | - |
-| 3. Global Navigation & Home | 0/? | Not started | - |
+| 3. Global Navigation & Home | 3/3 | Complete   | 2026-02-22 |
 | 4. Category Pages | 0/? | Not started | - |
 | 5. Fabric Details | 0/? | Not started | - |
 | 6. Content Sections & Deploy | 0/? | Not started | - |
