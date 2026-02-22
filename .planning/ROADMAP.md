@@ -87,10 +87,10 @@ Plans:
   2. El vendedor puede ordenar las telas por gramaje (g/m2) o ancho (cm) en orden ascendente o descendente
   3. Una barra de busqueda permite escribir el nombre de una tela (con tolerancia a typos via fuse.js) y ver resultados instantaneos
   4. El build confirma que todas las paginas de categoria mantienen SSG estatico (no se deoptimiza a CSR por el uso de useState en lugar de useSearchParams)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 08-01: TBD
+- [ ] 08-01-PLAN.md — FilterableFabricGrid: fuse.js fuzzy search, tech chips multi-select filter, sort by gramaje/ancho, client island preservando SSG
 
 ### Phase 9: Responsive Polish & Deploy
 **Goal**: El catalogo completo esta desplegado en produccion, se ve correctamente en laptop y tablet, y carga rapido para uso en reuniones de ventas
