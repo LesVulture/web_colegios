@@ -22,13 +22,13 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Home
 
-- [ ] **HOME-01**: Hero section con branding "Lafayette Uni For Me Colegios" y visual impactante
-- [ ] **HOME-02**: Grid visual de 4 items principales (Usos, Tecnologías, Personalización, Cuellos), cada uno con imagen/icono representativo y enlace a su sección
-- [ ] **HOME-03**: Los 4 items del menú principal son la única navegación de contenido desde la home (no hay secciones "secundarias", todo es igual de prominente)
+- [x] **HOME-01**: Hero section con branding "Lafayette Uni For Me Colegios" y visual impactante
+- [x] **HOME-02**: Grid visual de 4 items principales (Usos, Tecnologías, Personalización, Cuellos), cada uno con imagen/icono representativo y enlace a su sección
+- [x] **HOME-03**: Los 4 items del menú principal son la única navegación de contenido desde la home (no hay secciones "secundarias", todo es igual de prominente)
 
 ### Usos (Intermediate Page)
 
-- [ ] **USOS-01**: Página intermedia `/usos` con grid de 8 cards de categoría de uso, cada una con su color distintivo e imagen representativa, enlace a `/uso/[slug]`
+- [x] **USOS-01**: Página intermedia `/usos` con grid de 8 cards de categoría de uso, cada una con su color distintivo e imagen representativa, enlace a `/uso/[slug]`
 
 ### Category Pages
 
@@ -111,10 +111,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NAV-01 | Phase 3 | Complete |
 | NAV-02 | Phase 3 | Complete |
 | NAV-03 | Phase 3 | Complete |
-| HOME-01 | Phase 3 | Pending |
-| HOME-02 | Phase 3 | Pending |
-| HOME-03 | Phase 3 | Pending |
-| USOS-01 | Phase 3 | Pending |
+| HOME-01 | Phase 3 | Complete |
+| HOME-02 | Phase 3 | Complete |
+| HOME-03 | Phase 3 | Complete |
+| USOS-01 | Phase 3 | Complete |
 | CAT-01 | Phase 4 | Pending |
 | CAT-02 | Phase 4 | Pending |
 | CAT-03 | Phase 4 | Pending |
