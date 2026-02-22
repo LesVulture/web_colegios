@@ -45,11 +45,11 @@ Plans:
   2. Las 8 categorías tienen sus telas asignadas correctamente y se puede consultar qué telas pertenecen a cada categoría
   3. Las imágenes de producto extraídas del PDF existen en `/public/images/`, tienen al menos 400px de ancho, y están en formato optimizado para web
   4. Los 13 assets de logos de tecnología están renombrados a kebab-case sin espacios y referenciados correctamente en los datos
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md — Extraer imagenes de producto del PDF y renombrar logos de tecnologia a kebab-case
+- [ ] 02-02-PLAN.md — Modelo de datos TypeScript: 31 telas, 8 categorias, 14 tecnologias con helpers y barrel export
 
 ### Phase 3: Global Navigation & Home
 **Goal**: El vendedor puede abrir el sitio y navegar a las 4 secciones principales (Usos, Tecnologías, Personalización, Cuellos), y al entrar en Usos ve las 8 categorías disponibles
@@ -132,7 +132,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Project Foundation | 1/1 | Complete    | 2026-02-22 |
-| 2. Data Layer & Assets | 0/? | Not started | - |
+| 2. Data Layer & Assets | 0/2 | Not started | - |
 | 3. Global Navigation & Home | 0/? | Not started | - |
 | 4. Category Pages | 0/? | Not started | - |
 | 5. Fabric Details | 0/? | Not started | - |
