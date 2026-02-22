@@ -117,7 +117,7 @@ Note: Phase 7 only depends on Phase 5 (not Phase 6), so could theoretically run 
 | 3. Global Navigation & Home | v1.0 | 3/3 | Complete | 2026-02-22 |
 | 4. Category Pages | v1.0 | 2/2 | Complete | 2026-02-22 |
 | 5. Tech Debt & Data Foundation | v1.1 | 2/2 | Complete | 2026-02-22 |
-| 6. Fabric Detail Pages | v1.1 | 0/1 | Not started | - |
+| 6. Fabric Detail Pages | v1.1 | Complete    | 2026-02-22 | - |
 | 7. Content Section Pages | v1.1 | 0/? | Not started | - |
 | 8. Search, Filter & Sort | v1.1 | 0/? | Not started | - |
 | 9. Responsive Polish & Deploy | v1.1 | 0/? | Not started | - |
