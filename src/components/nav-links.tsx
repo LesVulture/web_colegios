@@ -32,7 +32,7 @@ export function NavLinks({
     >
       {NAV_ITEMS.map((item) => {
         const Icon = iconMap[item.icon]
-        const isActive = pathname.startsWith(item.href)
+        const isActive = pathname.startsWith(item.activePrefix ?? item.href)
 
         return (
           <Link
