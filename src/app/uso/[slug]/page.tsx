@@ -4,7 +4,7 @@ import { CATEGORIES, getCategoryBySlug, getFabricsByCategory } from '@/lib/conte
 import { Breadcrumb } from '@/components/breadcrumb'
 import { CategoryHeader } from '@/components/category-header'
 import { CategorySidebar } from '@/components/category-sidebar'
-import { FabricCard } from '@/components/fabric-card'
+import { FilterableFabricGrid } from '@/components/filterable-fabric-grid'
 
 export const dynamicParams = false
 
@@ -55,15 +55,7 @@ export default async function CategoryPage({
         <CategorySidebar />
 
         <div className="flex-1">
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-            {fabrics.map((fabric) => (
-              <FabricCard
-                key={fabric.id}
-                fabric={fabric}
-                categorySlug={slug}
-              />
-            ))}
-          </div>
+          <FilterableFabricGrid fabrics={fabrics} categorySlug={slug} />
         </div>
       </div>
     </div>
