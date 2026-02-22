@@ -25,38 +25,32 @@ export default function UsosPage() {
             <Link
               key={category.id}
               href={`/uso/${category.id}`}
-              className="group relative block rounded-xl overflow-hidden transition-[transform,box-shadow] duration-200 hover:scale-[1.02] hover:shadow-lg cursor-pointer"
+              className={`group block rounded-2xl overflow-hidden transition-[transform,box-shadow] duration-200 hover:scale-[1.02] hover:shadow-lg ${colors.bgLight}`}
             >
-              {/* Background image */}
-              <div className="relative aspect-[3/4] md:aspect-[4/5]">
+              {/* Image area — clean, no overlay */}
+              <div className="relative aspect-[4/5]">
                 <Image
                   src={category.image}
                   alt={category.name}
                   fill
                   sizes="(min-width: 1024px) 25vw, 50vw"
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  style={{ objectPosition: (category as import('@/lib/content/types').Category).imagePosition ?? 'center' }}
+                  style={{ objectPosition: (category as unknown as { imagePosition?: string }).imagePosition ?? 'center' }}
                 />
-                {/* Color overlay */}
-                <div
-                  className={`absolute inset-0 ${colors.bg} opacity-60 transition-opacity duration-200 group-hover:opacity-50`}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
               </div>
 
-              {/* Text content */}
-              <div className={`absolute inset-0 flex flex-col justify-end p-4 md:p-5 lg:p-6 ${colors.fg}`}>
-                <h2 className="text-base md:text-lg lg:text-xl font-heading font-semibold leading-tight">
+              {/* Category name bar */}
+              <div className={`${colors.bg} px-3 py-2 md:px-4 md:py-2.5`}>
+                <h2 className={`text-xs md:text-sm lg:text-base font-heading font-bold uppercase leading-tight tracking-wide ${colors.fg}`}>
                   {category.name}
                 </h2>
-                <p className="text-sm opacity-80 mt-1">
+              </div>
+
+              {/* Fabric count */}
+              <div className="px-3 py-2 md:px-4 md:py-3 text-center">
+                <p className="text-sm md:text-base font-semibold text-foreground">
                   {fabricCount} telas
                 </p>
-                {'description' in category && (
-                  <p className="text-xs opacity-70 mt-0.5 hidden md:block">
-                    {category.description as string}
-                  </p>
-                )}
               </div>
             </Link>
           )

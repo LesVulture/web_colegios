@@ -27,6 +27,16 @@
   --color-cat-blusas-fg: #FFFFFF;
   --color-cat-delantales-fg: #1a1a1a;
 
+  /* --- Colores pastel de categoria (fondo claro para cards) --- */
+  --color-cat-sudaderas-light: #D6E4F0;
+  --color-cat-camisetas-light: #D4EDF8;
+  --color-cat-deportivo-light: #DEF0D4;
+  --color-cat-diario-light: #FADCEE;
+  --color-cat-buzos-light: #FDF0C8;
+  --color-cat-chaquetas-prom-light: #F4D0D5;
+  --color-cat-blusas-light: #E4D5ED;
+  --color-cat-delantales-light: #FDE4C4;
+
   /* --- Superficies y UI --- */
   --color-background: #FFFFFF;
   --color-foreground: #1a1a1a;

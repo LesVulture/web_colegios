@@ -23,27 +23,16 @@ export default function Home() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12">
       {/* Hero Section */}
-      <section className="relative h-[320px] overflow-hidden rounded-lg md:h-[400px] lg:h-[500px]">
+      <section className="overflow-hidden rounded-lg">
         <Image
-          src="/images/content/page17-105.webp"
-          alt="Uniformes escolares Lafayette"
-          fill
+          src="/images/hero-colegios.webp"
+          alt="Lafayette Uni For Me — Soluciones textiles para uniformes de colegios"
+          width={1147}
+          height={634}
           sizes="100vw"
-          className="object-cover"
+          className="w-full h-auto"
           priority
         />
-        <div className="absolute inset-0 bg-brand-primary/60" />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center">
-          <h1 className="text-center font-heading text-4xl font-bold text-white md:text-5xl lg:text-6xl">
-            Lafayette Uni For Me
-          </h1>
-          <p className="mt-2 text-center font-heading text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-            Colegios
-          </p>
-          <p className="mt-4 text-center text-lg text-white/80">
-            Soluciones textiles para uniformes escolares
-          </p>
-        </div>
       </section>
 
       {/* Grid de 4 Secciones */}

@@ -6,7 +6,7 @@ import { Breadcrumb } from '@/components/breadcrumb'
 export const metadata: Metadata = {
   title: 'Personalización - Lafayette Uni For Me',
   description:
-    'Opciones de personalización de uniformes escolares: diseños exclusivos, estampación digital, estampación Davos y desarrollo de color.',
+    'Opciones de personalización de uniformes escolares: Davos, Rotativa, Sublimación y Desarrollo de color.',
 }
 
 export default function PersonalizacionPage() {
@@ -23,28 +23,20 @@ export default function PersonalizacionPage() {
         Personalización de Uniformes
       </h1>
 
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      <div className="mt-8 grid grid-cols-2 gap-3 md:gap-4 lg:gap-5 max-w-3xl mx-auto">
         {PERSONALIZATION_OPTIONS.map((option, i) => (
           <div
             key={option.id}
-            className="group overflow-hidden rounded-lg border border-border bg-background transition-[transform,box-shadow] duration-300 hover:shadow-lg hover:-translate-y-1 animate-fade-in-up"
-            style={{ animationDelay: `${i * 100}ms` }}
+            className="group overflow-hidden rounded-xl transition-[transform,box-shadow] duration-300 hover:shadow-lg hover:-translate-y-1 animate-fade-in-up"
+            style={{ animationDelay: `${i * 80}ms` }}
           >
             <Image
               src={option.image}
               alt={option.name}
-              width={600}
-              height={400}
-              className="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
+              width={271}
+              height={255}
+              className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
             />
-            <div className="p-6">
-              <h3 className="font-heading font-semibold text-lg text-foreground">
-                {option.name}
-              </h3>
-              <p className="text-sm text-muted-foreground mt-2">
-                {option.description}
-              </p>
-            </div>
           </div>
         ))}
       </div>
