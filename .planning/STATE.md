@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** El vendedor puede presentar toda la oferta de telas para uniformes escolares de forma visual, organizada y profesional, navegando fluidamente entre categorías de producto durante una reunión comercial.
-**Current focus:** Phase 3 - Global Navigation & Home
+**Current focus:** Phase 4 - Category Pages
 
 ## Current Position
 
-Phase: 3 of 7 (Global Navigation & Home)
-Plan: 3 of 3 in current phase (COMPLETE)
-Status: Phase 3 complete - all 3 plans done, ready for Phase 4
-Last activity: 2026-02-22 — Phase 3 Plan 3 executed: /usos category grid + 3 placeholder pages
+Phase: 4 of 7 (Category Pages)
+Plan: 1 of 2 in current phase
+Status: Plan 04-01 complete - 5 category page components created, ready for Plan 02
+Last activity: 2026-02-22 — Phase 4 Plan 1 executed: FabricCard, CategoryHeader, CategorySidebar, Breadcrumb, SkeletonCard components
 
-Progress: [######░░░░] 57%
+Progress: [######░░░░] 60%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
+- Total plans completed: 6
 - Average duration: 2 min
-- Total execution time: 0.20 hours
+- Total execution time: 0.23 hours
 
 **By Phase:**
 
@@ -30,13 +30,14 @@ Progress: [######░░░░] 57%
 | 1. Project Foundation | 1/1 | 3 min | 3 min |
 | 2. Data Layer & Assets | 2/2 | 6 min | 3 min |
 | 3. Global Navigation & Home | 3/3 | 3 min | 1 min |
+| 4. Category Pages | 1/2 | 2 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3 min), 02-01 (3 min), 02-02 (3 min), 03-01 (2 min), 03-03 (1 min)
+- Last 5 plans: 02-01 (3 min), 02-02 (3 min), 03-01 (2 min), 03-03 (1 min), 04-01 (2 min)
 - Trend: accelerating
 
 *Updated after each plan completion*
-| Phase 03 P03 | 1min | 2 tasks | 4 files |
+| Phase 04 P01 | 2min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -67,6 +68,8 @@ Recent decisions affecting current work:
 - [03-02]: Used preload prop (not deprecated priority) on hero Image for LCP optimization per Next.js 16
 - [03-03]: Used 'description' in category operator for as-const-satisfies narrowing (TS loses optional props on literal-typed entries)
 - [Phase 03]: Used 'description' in category operator for as-const-satisfies narrowing (TS loses optional props on literal-typed entries)
+- [04-01]: CategorySidebar dual layout: desktop vertical sidebar (lg:block) + tablet horizontal scrollable pill bar (lg:hidden)
+- [04-01]: ChevronRight icon with shrink-0 class to prevent separator collapse on narrow screens
 
 ### Pending Todos
 
@@ -80,5 +83,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 03-03-PLAN.md (Phase 3 complete)
+Stopped at: Completed 04-01-PLAN.md
 Resume file: None
