@@ -41,7 +41,7 @@ export default function UsosPage() {
 
               {/* Category name bar */}
               <div className={`${colors.bg} px-3 py-2 md:px-4 md:py-2.5`}>
-                <h2 className={`text-xs md:text-sm lg:text-base font-heading font-bold uppercase leading-tight tracking-wide ${colors.fg}`}>
+                <h2 className={`text-xs md:text-sm lg:text-base font-heading font-bold uppercase leading-tight tracking-wide text-center ${colors.fg}`}>
                   {category.name}
                 </h2>
               </div>
