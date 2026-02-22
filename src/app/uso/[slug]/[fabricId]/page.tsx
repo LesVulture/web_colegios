@@ -1,8 +1,16 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { CATEGORIES, getCategoryBySlug, getFabricBySlug } from '@/lib/content'
+import { ArrowLeft } from 'lucide-react'
+import {
+  CATEGORIES,
+  getCategoryBySlug,
+  getFabricBySlug,
+  getCategoriesByFabric,
+  getTechnologyById,
+} from '@/lib/content'
 import { Breadcrumb } from '@/components/breadcrumb'
+import { TechIcon } from '@/components/tech-icon'
 
 export const dynamicParams = false
 
@@ -41,8 +49,20 @@ export default async function FabricDetailPage({
   const fabric = getFabricBySlug(fabricId)
   if (!category || !fabric) notFound()
 
+  const otherCategories = getCategoriesByFabric(fabricId).filter(
+    (c) => c.id !== slug
+  )
+
+  const specs = [
+    { label: 'Composicion', value: fabric.composition },
+    { label: 'Gramaje', value: fabric.weight },
+    { label: 'Ancho', value: fabric.width },
+    { label: 'Tipo de Tejido', value: fabric.weave },
+    { label: 'Base', value: fabric.base },
+  ]
+
   return (
-    <div className="mx-auto max-w-7xl px-4 lg:px-8 py-6 lg:py-10">
+    <div className="mx-auto max-w-3xl px-4 lg:px-8 py-6 lg:py-10">
       <Breadcrumb
         items={[
           { label: 'Usos', href: '/usos' },
@@ -51,20 +71,115 @@ export default async function FabricDetailPage({
         ]}
       />
 
-      <div className="mt-8">
-        <h1 className="text-2xl lg:text-3xl font-heading font-semibold text-foreground">
+      {/* Header: name + badge */}
+      <div className="mt-6 flex items-center gap-3 flex-wrap">
+        <h1 className="text-2xl lg:text-3xl font-heading font-bold text-foreground">
           {fabric.name}
         </h1>
-        <p className="text-muted-foreground mt-4">
-          Ficha técnica en construcción. Disponible próximamente en Fase 5.
-        </p>
-        <Link
-          href={`/uso/${slug}`}
-          className="inline-block mt-6 text-sm font-medium text-brand-primary hover:underline"
-        >
-          ← Volver a {category.name}
-        </Link>
+        {'isNew' in fabric && fabric.isNew && (
+          <span className="rounded-full bg-brand-accent text-brand-accent-foreground px-2.5 py-0.5 text-xs font-semibold">
+            Nuevo
+          </span>
+        )}
       </div>
+
+      {/* Specs table */}
+      <table className="mt-6 w-full text-sm">
+        <tbody>
+          {specs.map((spec) => (
+            <tr key={spec.label} className="border-b border-border">
+              <td className="py-3 pr-4 font-medium text-muted-foreground w-40">
+                {spec.label}
+              </td>
+              <td className="py-3 text-foreground">{spec.value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Print route chips */}
+      <div className="mt-6">
+        <h2 className="text-sm font-medium text-muted-foreground mb-3">
+          Rutas de Estampacion
+        </h2>
+        <div className="flex flex-wrap gap-2">
+          {fabric.printRoutes.map((route) => (
+            <span
+              key={route}
+              className="rounded-full border border-border bg-surface px-3 py-1 text-xs text-muted-foreground"
+            >
+              {route}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Technology chips with CSS-only tooltips */}
+      {fabric.technologies.length > 0 && (
+        <div className="mt-6">
+          <h2 className="text-sm font-medium text-muted-foreground mb-3">
+            Tecnologias
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {fabric.technologies.map((techId) => {
+              const tech = getTechnologyById(techId)
+              if (!tech) return null
+              const tooltipId = `tooltip-${tech.id}`
+              return (
+                <span key={techId} className="group relative inline-flex items-center">
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-3 py-1 text-sm text-muted-foreground focus:outline-none"
+                    aria-describedby={tooltipId}
+                  >
+                    <TechIcon icon={tech.icon} size={14} />
+                    {tech.name}
+                  </button>
+                  <span
+                    id={tooltipId}
+                    role="tooltip"
+                    className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-xs rounded-md bg-foreground px-3 py-2 text-xs text-background opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 z-10"
+                  >
+                    <span className="font-semibold">{tech.name}</span>
+                    <br />
+                    {tech.description}
+                    <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-foreground" />
+                  </span>
+                </span>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Cross-navigation */}
+      {otherCategories.length > 0 && (
+        <div className="mt-8 rounded-lg border border-border bg-surface p-4">
+          <h2 className="text-sm font-medium text-muted-foreground mb-3">
+            Tambien disponible en
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {otherCategories.map((cat) => (
+              <Link
+                key={cat.id}
+                href={`/uso/${cat.id}/${fabricId}`}
+                className="inline-flex items-center rounded-full px-3 py-1.5 text-sm border border-border hover:bg-muted transition-colors"
+              >
+                {cat.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Back button */}
+      <Link
+        href={`/uso/${slug}`}
+        className="mt-8 inline-flex items-center gap-2 rounded-lg bg-muted px-4 py-2.5 text-sm font-medium text-foreground hover:bg-border transition-colors"
+      >
+        <ArrowLeft size={16} />
+        Volver a {category.name}
+      </Link>
     </div>
   )
 }
