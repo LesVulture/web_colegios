@@ -11,7 +11,8 @@ export const PERSONALIZATION_OPTIONS = [
   {
     id: 'estampacion-digital',
     name: 'Disenos de Alta Definicion con Estampacion Digital',
-    description: '',
+    description:
+      'Impresion de alta definicion sobre tela mediante tecnologia de sublimacion digital, ideal para disenos detallados y policromias complejas.',
     image: '/images/content/page15-94.webp',
   },
   {
