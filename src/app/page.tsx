@@ -23,17 +23,24 @@ const sectionImages: Record<string, string> = {
 export default function Home() {
   return (
     <>
-      {/* Hero Section — full-width, flush with header */}
+      {/* Hero — imagen completa, sin recorte, responsiva por peso */}
       <section>
-        <Image
-          src="/images/portada-colegios.png"
-          alt="Lafayette Uni For Me — Soluciones textiles para uniformes de colegios"
-          width={2880}
-          height={1620}
-          sizes="100vw"
-          className="w-full h-auto block"
-          priority
-        />
+        <picture>
+          <source
+            type="image/webp"
+            srcSet="/images/portada-colegios-640.webp 640w, /images/portada-colegios-1024.webp 1024w, /images/portada-colegios-1440.webp 1440w, /images/portada-colegios-1920.webp 1920w, /images/portada-colegios-2880.webp 2880w"
+            sizes="100vw"
+          />
+          <img
+            src="/images/portada-colegios.png"
+            alt="Lafayette Uni For Me — Soluciones textiles para uniformes de colegios"
+            width={2880}
+            height={1620}
+            fetchPriority="high"
+            decoding="async"
+            className="block w-full h-auto"
+          />
+        </picture>
       </section>
 
     <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12">
