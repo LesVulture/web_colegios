@@ -41,14 +41,14 @@ export default function TecnologiasPage() {
                 style={{ animationDelay: `${Math.min(i * 60, 400)}ms` }}
               >
                 {/* Navy hero — logo as protagonist */}
-                <div className="bg-brand-primary px-6 pt-10 pb-8 flex flex-col items-center">
-                  <div className="size-40 rounded-full bg-white shadow-lg flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-105">
-                    <TechIcon icon={tech.icon} size={96} className="inline-block" />
+                <div className="bg-brand-primary px-5 pt-6 pb-5 flex flex-col items-center">
+                  <div className="size-28 rounded-full bg-white shadow-lg flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-105">
+                    <TechIcon icon={tech.icon} size={80} className="inline-block" />
                   </div>
-                  <h2 className="font-heading font-bold text-white text-lg text-center leading-tight">
+                  <h2 className="font-heading font-bold text-white text-base text-center leading-tight">
                     {tech.name}
                   </h2>
-                  <p className="text-sm text-white/65 mt-1.5 text-center">
+                  <p className="text-xs text-white/65 mt-1 text-center">
                     {tech.description}
                   </p>
                 </div>
