@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
@@ -82,18 +81,6 @@ export default async function FabricDetailPage({
             Nuevo
           </span>
         )}
-      </div>
-
-      {/* Fabric image */}
-      <div className="mt-6 overflow-hidden rounded-lg">
-        <Image
-          src={fabric.image}
-          alt={`Tela ${fabric.name}`}
-          width={700}
-          height={400}
-          sizes="(min-width: 768px) 700px, 100vw"
-          className="w-full h-auto object-cover"
-        />
       </div>
 
       {/* Specs table with alternating rows */}

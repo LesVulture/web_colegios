@@ -36,14 +36,7 @@ export const TECHNOLOGIES = [
     description: 'Elasticidad y comodidad de movimiento',
     expandedDescription: 'Elasticidad y comodidad de movimiento',
   },
-  {
-    id: 'algodon',
-    name: 'Algodón',
-    icon: 'Flower2',
-    description: 'Mezcla con algodón natural',
-    expandedDescription: 'Mezcla con algodón natural',
-  },
-  {
+{
     id: 'desempeno',
     name: 'Desempeño',
     icon: '/images/tech/desempeno.png',
